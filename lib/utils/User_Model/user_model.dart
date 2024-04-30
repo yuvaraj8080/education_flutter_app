@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../formatters/formatter.dart';
-
 class UserModel{
   //KEEP THOSE VALUES FINAL WHICH TOU DO NOT WENT TO UPDATE
   final String id;
