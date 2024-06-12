@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../../constants/colors.dart';
-import '../../features/authentication/screens/Login/login_controller.dart';
+import '../../features/authentication/controllers/login/login_controller.dart';
 
 class TSocialButtons extends StatelessWidget {
   const TSocialButtons({

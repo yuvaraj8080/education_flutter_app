@@ -4,7 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../../../../utils/validators/validator.dart';
 import '../../password_configuration/forget_password.dart';
 import '../../signup.widgets/signup.dart';
-import '../login_controller.dart';
+import '../../../controllers/login/login_controller.dart';
 
 
 class TLoginForm extends StatelessWidget {
