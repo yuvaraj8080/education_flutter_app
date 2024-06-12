@@ -5,10 +5,9 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 import '../../../features/authentication/screens/Login/login.dart';
 import '../../../features/authentication/screens/onBoarding/onboarding.dart';
-import '../../../features/authentication/screens/signup.widgets/verify_email.dart';
+import '../../../features/authentication/screens/signup/verify_email.dart';
 import '../../../navigation_menu.dart';
 import '../../../utils/exception_handling/handle_exception_file.dart';
 import '../user/user_repository.dart';

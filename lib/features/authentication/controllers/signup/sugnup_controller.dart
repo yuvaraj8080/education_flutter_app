@@ -6,7 +6,7 @@ import '../../../../data/repositories/user/user_repository.dart';
 import '../../../../utils/User_Model/user_model.dart';
 import '../../../../utils/loaders/snackbar_loader.dart';
 import '../../../../utils/popups/full_screen_loader.dart';
-import '../../screens/signup.widgets/verify_email.dart';
+import '../../screens/signup/verify_email.dart';
 
 class SignupController extends GetxController{
   static SignupController get instance => Get.find();
