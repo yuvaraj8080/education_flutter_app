@@ -24,7 +24,6 @@ dependencies:
   shimmer:
   get_storage:
   iconsax:
-  google_sign_in:
   firebase_app_check:
   lottie:
   flutter_native_splash:

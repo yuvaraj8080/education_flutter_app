@@ -75,36 +75,4 @@ import '../../../personalization/controllers/user_controller.dart';
 
 
 
-    ///GOOGLE SIGN IN AUTHENTICATION
-    Future<void> googleSignIn() async{
-      try{
-        // START LOADING
-        TFullScreenLoader.openLoadingDialog("Logging you in...","assets/images/animations/doneEmail.webp");
-
-        //CHECK INTERNET CONNECTIVITY
-        final isConnected = await NetworkManager.instance.isConnected();
-        if(!isConnected){
-          TFullScreenLoader.stopLoading();
-          return;
-        }
-
-        // GOOGLE AUTHENTICATION
-        final userCredentials = await AuthenticationRepository.instance.signInWithGoogle();
-
-        //SAVE USER RECORD
-        await userController.saveUserRecord(userCredentials);
-
-        // REMOVE LOADER
-        TFullScreenLoader.stopLoading();
-
-        // REDIRECT
-        AuthenticationRepository.instance.screenRedirect();
-
-      }
-      catch(e){
-        TFullScreenLoader.stopLoading();
-        TLoaders.errorSnackBar(title:"Oh Snap", message:e.toString());
-      }
-    }
-
   }

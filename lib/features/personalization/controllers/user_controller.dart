@@ -114,13 +114,13 @@ Future<void> saveUserRecord(UserCredential? userCredential) async{
       final provider = auth.authUser!.providerData.map((e) => e.providerId).first;
       if(provider.isNotEmpty){
         /// Re-Verify AUTH EMAIL
-        if(provider == "google.com"){
-          await auth.signInWithGoogle();
-          await auth.deleteAccount();
-          TFullScreenLoader.stopLoading();
-          Get.offAll(()=> const LoginScreen());
-        }
-        else if(provider == "password"){
+        // if(provider == "google.com"){
+        //   await auth.signInWithGoogle();
+        //   await auth.deleteAccount();
+        //   TFullScreenLoader.stopLoading();
+        //   Get.offAll(()=> const LoginScreen());
+        // }
+       if(provider == "password"){
           TFullScreenLoader.stopLoading();
           Get.to(()=>const ReAuthLoginForm());
         }

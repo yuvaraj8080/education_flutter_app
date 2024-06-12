@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../common/widgets_login/form_divider.dart';
-import '../../../../common/widgets_login/social_buttons.dart';
 import '../../../../utils/halpers/helper_function.dart';
 import 'signup_form.dart';
 class SignupScreen extends StatelessWidget {
@@ -27,7 +26,6 @@ class SignupScreen extends StatelessWidget {
                 /// Divider
                 TFormDivider(dark: dark),
                 const SizedBox(height:10),
-                const TSocialButtons(),
               ]
             )
           )

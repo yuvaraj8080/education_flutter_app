@@ -17,18 +17,7 @@ class TFormDivider extends StatelessWidget {
       children: [
         Flexible(
             child: Divider(
-                color: dark ? TColors.darkGrey : TColors.grey,
-                thickness:3,
-                indent: 60,
-                endIndent: 5)),
-        Text("Or sign in with",
-            style: Theme.of(context).textTheme.labelMedium),
-        Flexible(
-            child: Divider(
-                color: dark ? TColors.darkGrey : TColors.grey,
-                thickness:3,
-                indent: 5,
-                endIndent: 60)),
+                color: dark ? TColors.darkGrey : TColors.grey, thickness:2,)),
       ],
     );
   }

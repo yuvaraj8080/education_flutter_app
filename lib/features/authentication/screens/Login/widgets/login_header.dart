@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job_app/constants/image_string.dart';
+import 'package:flutter_job_app/constants/sizes.dart';
 
 class TLoginHeader extends StatelessWidget {
   const TLoginHeader({
@@ -10,21 +12,27 @@ class TLoginHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Image(
-        height: 180,
-        image: AssetImage(dark
-            ? "assets/logos/ELightLogo.png"
-            : "assets/logos/backElogo.png"),
-      ),
-      const SizedBox(height: 5),
-      Text(
-        "Welcome back",
-        style: Theme.of(context).textTheme.headlineMedium,
-      ),
-      const SizedBox(height: 5),
-      Text("Discover Limitless Choices and UnMatched Convenience.",
-          style: Theme.of(context).textTheme.bodyMedium),
-    ]);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        /// Row to position image and its corresponding text at the start
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(TImages.Chemisphere, width: 150),
+          ],
+        ),
+
+        const SizedBox(height:5),
+        Text("Chemistry made easy!", style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.grey),),
+        const SizedBox(height: TSizes.size32),
+        Text("Hey there!👋", style: Theme.of(context).textTheme.headlineMedium),
+        Text("Welcome to Chemisphere",
+            style: Theme.of(context).textTheme.headlineSmall),
+        Text("Before continuing, please sign in first.",
+            style: Theme.of(context).textTheme.bodyMedium),
+        const SizedBox(height: TSizes.iconsize12),
+      ],
+    );
   }
 }

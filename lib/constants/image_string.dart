@@ -10,4 +10,7 @@ class TImages {
  static const String onBoarding2 = "assets/onboarding/onboarding2.gif";
  static const String onBoarding3 = "assets/onboarding/onboarding3.gif";
 
+ /// IMAGES
+// static const String google  = "assets/images/google.png";
+
 }
