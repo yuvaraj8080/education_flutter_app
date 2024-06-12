@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
-import '../../../../common/widgets.Login_Signup/form_divider.dart';
-import '../../../../common/widgets.Login_Signup/social_buttons.dart';
+import '../../../../common/widgets_login/form_divider.dart';
+import '../../../../common/widgets_login/social_buttons.dart';
 import '../../../../utils/halpers/helper_function.dart';
 import 'signup_form.dart';
 class SignupScreen extends StatelessWidget {

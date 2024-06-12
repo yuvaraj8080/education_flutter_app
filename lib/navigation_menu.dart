@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job_app/profile/sceens/profile_page.dart';
 import 'package:get/get.dart';
+
+import 'features/profile/sceens/profile_page.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});

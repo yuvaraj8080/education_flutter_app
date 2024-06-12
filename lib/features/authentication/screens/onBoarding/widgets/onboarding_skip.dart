@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../controllers/onboarding/onboardingcontroller.dart';
+import 'package:flutter_job_app/utils/halpers/helper_function.dart';
+
+import '../../../controllers/onboarding/onboardingcontroller.dart';
 
 class onBoardingSkip extends StatelessWidget {
 
@@ -11,6 +13,6 @@ class onBoardingSkip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(top:kToolbarHeight,right:8,child:TextButton(
       onPressed:()=> onBordingController.instance.skipPage(),
-      child:const Text("Skip"),));
+      child: Text("Skip",style:Theme.of(context).textTheme.titleLarge),));
   }
 }

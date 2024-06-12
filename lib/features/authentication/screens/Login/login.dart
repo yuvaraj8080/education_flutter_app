@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
-
-import '../../../../common/widgets.Login_Signup/form_divider.dart';
-import '../../../../common/widgets.Login_Signup/social_buttons.dart';
+import '../../../../common/widgets_login/form_divider.dart';
+import '../../../../common/widgets_login/social_buttons.dart';
 import '../../../../utils/halpers/helper_function.dart';
 import 'widgets/login_form.dart';
 import 'widgets/login_header.dart';

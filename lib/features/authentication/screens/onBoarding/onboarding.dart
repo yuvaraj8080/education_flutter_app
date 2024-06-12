@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controllers/onboarding/onboardingcontroller.dart';
-import '../widgets/onBoarding_dot_navigation.dart';
-import '../widgets/onboarding_next.dart';
-import '../widgets/onboarding_page.dart';
-import '../widgets/onboarding_skip.dart';
+import 'widgets/onBoarding_dot_navigation.dart';
+import 'widgets/onboarding_next.dart';
+import 'widgets/onboarding_page.dart';
+import 'widgets/onboarding_skip.dart';
 
 
 class OnBoardingScreen extends StatelessWidget {
@@ -23,15 +23,16 @@ class OnBoardingScreen extends StatelessWidget {
         controller: controller.pageCotroller,
           onPageChanged: controller.updatePageIndicator,
           children: const [
-        onBordingPage(image:"assets/images/on_boarding_images/firstgiftCard.jpg",
-          title: "Choose your Product",subtitle:"Welcome to a world of Limitless Choice your Perfect Product Awaits"),
+
+        onBordingPage(image:"assets/onboarding/onboarding1.gif",
+          title: "WELCOME TO CHEMISPHERE",subtitle:"Get the best student experience with tons of new added features."),
 
 
-        onBordingPage(image:"assets/images/on_boarding_images/secondgiftCard.png",
-            title: "Select Payment Method",subtitle:"For Seamless Transaction Choose Your Payyment Path Your Convenience Our Priority!"),
+        onBordingPage(image:"assets/onboarding/onboarding2.gif",
+            title: "SECURE YOUR PAYMENTS",subtitle:"With our robust payment portal, keep and easy track of your fee."),
 
-        onBordingPage(image:"assets/images/on_boarding_images/thirdgiftCard.jpeg",
-            title: "Delivern at your door step",subtitle:"From our Doorstep to Your Swipt Secure, and Contacties Delivery"),
+        onBordingPage(image:"assets/onboarding/onboarding3.gif",
+            title: "STUDENT DASHBOARD",subtitle:"Launching an interactive dashboard for student"),
       ]),
 
           /// Skip Button

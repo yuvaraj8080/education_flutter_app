@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import '../../../../common/widgets.Login_Signup/success_Screee/sucess_screen.dart';
+import '../../../../common/widgets_login/success_Screee/sucess_screen.dart';
 import '../../../../data/repositories/authentication/authentication-repository.dart';
 
 class VerifyEmailController extends GetxController {
