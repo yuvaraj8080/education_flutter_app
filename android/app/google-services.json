@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "229725611532",
-    "project_id": "flutter-job-app-3aa75",
-    "storage_bucket": "flutter-job-app-3aa75.appspot.com"
+    "project_number": "397252163249",
+    "project_id": "education-flutter-app-acd97",
+    "storage_bucket": "education-flutter-app-acd97.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:229725611532:android:0910683a02c2d57908b029",
+        "mobilesdk_app_id": "1:397252163249:android:96f658e3d26796242cd490",
         "android_client_info": {
           "package_name": "com.example.flutter_job_app"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCzhguwUtrhKRYs0mpq7ZAnmsc8XpvbNtM"
+          "current_key": "AIzaSyAQ0klxIzhM-Ww09M9HUm-WZ_hT_isXRiM"
         }
       ],
       "services": {

@@ -1,10 +1,1 @@
-{
-  "hosting": {
-    "public": "build/web",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ]
-  }
-}
+{"hosting":{"public":"build/web","ignore":["firebase.json","**/.*","**/node_modules/**"]},"flutter":{"platforms":{"android":{"default":{"projectId":"education-flutter-app-acd97","appId":"1:397252163249:android:96f658e3d26796242cd490","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"education-flutter-app-acd97","configurations":{"android":"1:397252163249:android:96f658e3d26796242cd490","ios":"1:397252163249:ios:76258e7c15d619532cd490","macos":"1:397252163249:ios:76258e7c15d619532cd490","web":"1:397252163249:web:f17c7a39707ff61f2cd490","windows":"1:397252163249:web:682f1184e558c1742cd490"}}}}}}

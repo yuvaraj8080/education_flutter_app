@@ -2,11 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/profile/sceens/profile_page.dart';
 import 'package:get/get.dart';
-import 'features/JobFeed/screens/jobs_screen.dart';
-import 'features/JobPost/screens/search_companies.dart';
-import 'features/JobPost/screens/upload_job.dart';
-import 'features/personalization/screens/profile.dart';
-import 'features/personalization/screens/setting.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
@@ -48,9 +43,9 @@ class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
   final screens = [
 
-    const JobScreen(),
-    const SearchCompany(),
-    const UploadJob(),
+    // const JobScreen(),
+    // const SearchCompany(),
+    // const UploadJob(),
     const ProfileScreen(userId: '')
     // const SettingScreen(userId:'')
   ];
