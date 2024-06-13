@@ -17,12 +17,12 @@ class onBoardingNavigation extends StatelessWidget {
 
     return Positioned(
         bottom:kToolbarHeight+20,
-        left:15,
+        left:30,
         child:SmoothPageIndicator(
           controller:controller.pageCotroller,
           onDotClicked: controller.dotNavigationClick,
           count:3,
-          effect:ExpandingDotsEffect(activeDotColor: dark? TColors.light : Colors.red,dotHeight:5),
+          effect:ExpandingDotsEffect(activeDotColor: dark? TColors.light : TColors.primaryColor,dotHeight:5),
         ));
   }
 }

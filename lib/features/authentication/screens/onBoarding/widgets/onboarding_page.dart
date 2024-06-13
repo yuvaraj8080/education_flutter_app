@@ -17,14 +17,16 @@ class onBordingPage extends StatelessWidget {
         children: [
 
           /// CHAMISPHERE PNG IMAGE
-          const SizedBox(height:100),
-         SizedBox(width:160,child: Image.asset(TImages.Chemisphere,)),
+         Padding(
+           padding: const EdgeInsets.only(top:100,left:10),
+           child: SizedBox(width:170,child: Image.asset(TImages.Chemisphere,)),
+         ),
 
           ///  ONBOARDING IMAGE HARE
           Center(
             child: Image(
-              width: MediaQuery.of(context).size.width * .6,
-              height: MediaQuery.of(context).size.height * .4,
+              width: MediaQuery.of(context).size.width * .7,
+              height: MediaQuery.of(context).size.height * .5,
               image: AssetImage(image),
             ),
           ),
@@ -33,7 +35,7 @@ class onBordingPage extends StatelessWidget {
 
           Center(
             child: Text(title,
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).textTheme.headlineSmall,
                 textAlign: TextAlign.center),
           ),
           const SizedBox(height:10),

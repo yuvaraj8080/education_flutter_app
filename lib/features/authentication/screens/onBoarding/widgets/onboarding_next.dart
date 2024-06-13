@@ -15,11 +15,11 @@ class onBoardingNextButton extends StatelessWidget {
     final dark = THelperFunction.isDarkMode(context);
 
     return Positioned(
-        right:25,
+        right:30,
         bottom:kToolbarHeight,
         child:ElevatedButton(style: ElevatedButton.styleFrom(
-            shape:const CircleBorder(),shadowColor:Colors.white,elevation:2 ,
-            backgroundColor: dark? TColors.primaryColor : Colors.black),
+            shape:const CircleBorder(),shadowColor:dark? Colors.white:Colors.black,elevation:3,
+            backgroundColor:TColors.primaryColor),
             onPressed:() => onBordingController.instance.nextPage(),
             child:const Icon(Iconsax.arrow_right_3)));
   }
