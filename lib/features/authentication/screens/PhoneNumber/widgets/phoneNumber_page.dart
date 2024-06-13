@@ -11,7 +11,7 @@ class PhoneNumberPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Padding(
-        padding: const EdgeInsets.only(top:100,left:10),
+        padding: const EdgeInsets.only(left:10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -20,7 +20,7 @@ class PhoneNumberPage extends StatelessWidget {
             SizedBox(width:170,child: Image.asset(TImages.Chemisphere,)),
 
             /// PHONE PAGE TITLE HARE
-            const SizedBox(height:100),
+            const SizedBox(height:50),
             Text("Login through your",
                 style: Theme.of(context).textTheme.headlineSmall,
                 textAlign: TextAlign.center),
@@ -33,7 +33,7 @@ class PhoneNumberPage extends StatelessWidget {
 
             ///  ONBOARDING IMAGE HARE
             const SizedBox(height:10),
-            Center(child: SvgPicture.asset("assets/images/phoneNumber.svg",width:220,height:220)),
+            Center(child: SvgPicture.asset("assets/images/phoneNumber.svg",width:220,height:200)),
 
           ],
         ),
