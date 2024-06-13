@@ -33,6 +33,7 @@ dependencies:
   connectivity_plus:
   image_cropper:
   url_launcher:
+  flutter_svg:
   permission_handler:
   uuid:
   dart_format: ^1.1.17

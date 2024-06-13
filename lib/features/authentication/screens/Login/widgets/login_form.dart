@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/constants/colors.dart';
 import 'package:flutter_job_app/constants/sizes.dart';
+import 'package:flutter_job_app/features/authentication/screens/PhoneNumber/phoneNumber_Screen.dart';
 import 'package:flutter_job_app/utils/halpers/helper_function.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -54,25 +55,37 @@ class TLoginForm extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Obx(() => Checkbox(
-                      value: controller.rememberMe.value,
-                      onChanged: (value) =>
-                      controller.rememberMe.value = !controller.rememberMe.value,
-                    )),
-                    const Text("Remember Me"),
-                  ],
-                ),
+                /// LOGIN WITH PHONE NUMBER
+                TextButton(
+                  onPressed: () {
+                    Get.to(()=> const PhoneNumberScreen());
+                  },
+                  child:Text("Login via OTP",style: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight:FontWeight.bold))),
+
+                /// FORGET PASSWORD TO CREATE NEW PASSWORD
                 TextButton(
                   onPressed: () {
                     // Navigate to ForgetPassword screen
                     Get.to(() => const ForgetPassword());
                   },
-                  child:const Text("Forget Password",style:TextStyle(color:TColors.black,fontWeight: FontWeight.bold,fontSize:14)),
+                  child:Text("Forget Password?",style: Theme.of(context).textTheme.titleSmall!.copyWith(fontWeight:FontWeight.bold)),
                 ),
               ],
             ),
+
+            /// TERM AND PRIVACY AND POLICY
+            Row(
+              children: [
+                Obx(() => Checkbox(
+                  value: controller.rememberMe.value,
+                  onChanged: (value) =>
+                  controller.rememberMe.value = !controller.rememberMe.value,
+                )),
+                const Text("Remember Me"),
+              ],
+            ),
+
+            /// SIGN IN BUTTON
             const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
