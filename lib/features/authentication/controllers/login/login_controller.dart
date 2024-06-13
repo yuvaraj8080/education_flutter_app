@@ -3,7 +3,6 @@
 import 'package:flutter_job_app/constants/image_string.dart';
   import 'package:get/get.dart';
   import 'package:get_storage/get_storage.dart';
-
   import '../../../../common/NetworkManager/network_manager.dart';
 import '../../../../data/repositories/authentication/authentication-repository.dart';
 import '../../../../utils/loaders/snackbar_loader.dart';
@@ -33,7 +32,7 @@ import '../../../personalization/controllers/user_controller.dart';
     Future<void> emailAndPasswordSignIn () async{
       try{
         //  START LOADING
-        TFullScreenLoader.openLoadingDialog("Loading for you",TImages.loadingAnimation);
+        TFullScreenLoader.openLoadingDialog("Wait for login",TImages.loadingAnimation);
 
         // CHECK INTERNET CONNECTIVITY
         final isConnected = await NetworkManager.instance.isConnected();
@@ -45,14 +44,13 @@ import '../../../personalization/controllers/user_controller.dart';
         //PRIVACY POLICY CHECk
         if (!rememberMe.value) {
           TLoaders.warningSnackBar(title: "Accept Privacy Policy",
-              message: "In order to create account, you must have to read and accept the Privacy Policy & term of use"
-          );
+              message: "In order to create account, you must have to read and accept the Privacy Policy & term of use");
+          TFullScreenLoader.stopLoading();
           return;
         }
 
 
         //  FORM VALIDATION
-
         if(!loginFormKey.currentState!.validate()){
           TFullScreenLoader.stopLoading();
         }
@@ -76,8 +74,10 @@ import '../../../personalization/controllers/user_controller.dart';
         // REDIRECT
         AuthenticationRepository.instance.screenRedirect();
       }catch(e){
+
         TFullScreenLoader.stopLoading();
         TLoaders.errorSnackBar(title:"Oh Snap",message:e.toString());
+
       }
     }
 

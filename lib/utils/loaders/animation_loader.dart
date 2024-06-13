@@ -24,8 +24,10 @@ class TAnimationLoaderWidget  extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child:Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment:MainAxisAlignment.center,
         children:[
+          const SizedBox(height:200),
           Lottie.asset(animation,width:MediaQuery.of(context).size.width*0.8),
           const SizedBox(height:8),
           Text(text,style:Theme.of(context).textTheme.bodyMedium,

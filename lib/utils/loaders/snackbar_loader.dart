@@ -52,7 +52,7 @@ class TLoaders {
       backgroundColor:Colors.red.shade600,
       colorText:Colors.white,
       snackPosition: SnackPosition.TOP,
-      duration:const Duration(seconds:3),
+      duration:const Duration(seconds:1),
       margin:const EdgeInsets.all(20),
       icon:const Icon(Iconsax.warning_2,color:TColors.white),
     );

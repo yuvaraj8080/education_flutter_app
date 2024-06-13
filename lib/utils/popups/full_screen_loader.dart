@@ -19,6 +19,7 @@ class TFullScreenLoader {
           height: double.infinity,
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TAnimationLoaderWidget(text: text, animation: animation),
