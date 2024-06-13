@@ -1,14 +1,15 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_job_app/features/profile/sceens/profile_page.dart';
+import 'package:flutter_job_app/features/Home/screens/Home_Screen.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../features/authentication/screens/Login/login.dart';
 import '../../../features/authentication/screens/onBoarding/onboarding.dart';
-import '../../../navigation_menu.dart';
-import '../../../utils/exception_handling/handle_exception_file.dart';
+import '../../../utils/exceptions/firebase_auth_exceptions.dart';
+import '../../../utils/exceptions/firebase_exceptions.dart';
+import '../../../utils/exceptions/format_exceptions.dart';
+import '../../../utils/exceptions/platform_exceptions.dart';
 import '../user/user_repository.dart';
 
 class AuthenticationRepository extends GetxController{
@@ -38,9 +39,7 @@ class AuthenticationRepository extends GetxController{
     if (user != null) {
 
       /// CURRENT USER IS AUTHORIZED THEN PASS TO THE BOTTOM NEVIGATION SCREEN
-
-      // Get.offAll(() => const NavigationMenu());
-      Get.offAll(() => const ProfileScreen(userId:""));
+      Get.offAll(() => const HomeScreen());
 
        // User is signed in
       // if (user.emailVerified) {
@@ -77,7 +76,7 @@ class AuthenticationRepository extends GetxController{
        throw TFirebaseException(e.code).message;
      }
      on FormatException catch (_){
-       throw TFormException();
+       throw const TFormException();
      }
      on PlatformException catch (e){
        throw TPlatformException(e.code).message;
@@ -100,7 +99,7 @@ class AuthenticationRepository extends GetxController{
        throw TFirebaseException(e.code).message;
      }
      on FormatException catch (_){
-       throw TFormException();
+       throw const TFormException();
      }
      on PlatformException catch (e){
        throw TPlatformException(e.code).message;
@@ -122,7 +121,7 @@ class AuthenticationRepository extends GetxController{
       throw TFirebaseException(e.code).message;
     }
     on FormatException catch (_){
-      throw TFormException();
+      throw const TFormException();
     }
     on PlatformException catch (e){
       throw TPlatformException(e.code).message;
@@ -145,7 +144,7 @@ class AuthenticationRepository extends GetxController{
       throw TFirebaseException(e.code).message;
     }
     on FormatException catch (_){
-      throw TFormException();
+      throw const TFormException();
     }
     on PlatformException catch (e){
       throw TPlatformException(e.code).message;
@@ -172,7 +171,7 @@ class AuthenticationRepository extends GetxController{
        throw TFirebaseException(e.code).message;
      }
      on FormatException catch (_){
-       throw TFormException();
+       throw const TFormException();
      }
      on PlatformException catch (e){
        throw TPlatformException(e.code).message;
@@ -203,7 +202,7 @@ class AuthenticationRepository extends GetxController{
        throw TFirebaseException(e.code).message;
      }
      on FormatException catch (_){
-       throw TFormException();
+       throw const TFormException();
      }
      on PlatformException catch (e){
        throw TPlatformException(e.code).message;
@@ -227,7 +226,7 @@ class AuthenticationRepository extends GetxController{
        throw TFirebaseException(e.code).message;
      }
      on FormatException catch (_){
-       throw TFormException();
+       throw const TFormException();
      }
      on PlatformException catch (e){
        throw TPlatformException(e.code).message;
