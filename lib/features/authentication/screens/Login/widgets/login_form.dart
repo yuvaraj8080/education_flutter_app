@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job_app/constants/colors.dart';
+import 'package:flutter_job_app/constants/sizes.dart';
+import 'package:flutter_job_app/utils/halpers/helper_function.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../../../utils/validators/validator.dart';
@@ -13,11 +16,12 @@ class TLoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(LoginController());
+    final dark = THelperFunction.isDarkMode(context);
 
     return Form(
       key: controller.loginFormKey,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.symmetric(vertical: 30),
         child: Column(
           children: [
             TextFormField(
@@ -25,7 +29,7 @@ class TLoginForm extends StatelessWidget {
               validator: (value) => TValidator.validateEmail(value),
               decoration: const InputDecoration(
                 prefixIcon: Icon(Iconsax.direct_right),
-                labelText: "Enter E-Mail",
+                labelText: "Enter your E-Mail ID",labelStyle:TextStyle(color:Colors.grey),
               ),
             ),
             const SizedBox(height: 16),
@@ -35,8 +39,8 @@ class TLoginForm extends StatelessWidget {
               validator: (value) =>
                   TValidator.validateEmptyText("password", value),
               decoration: InputDecoration(
-                prefixIcon: Icon(Iconsax.password_check),
-                labelText: "Enter Password",
+                prefixIcon: const Icon(Iconsax.password_check),
+                labelText: "Enter Password",labelStyle:const TextStyle(color:Colors.grey),
                 suffixIcon: IconButton(
                   onPressed: () => controller.hidePassword.value =
                   !controller.hidePassword.value,
@@ -46,7 +50,7 @@ class TLoginForm extends StatelessWidget {
                 ),
               ),
             )),
-            const SizedBox(height: 10),
+            const SizedBox(height:TSizes.size16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -65,7 +69,7 @@ class TLoginForm extends StatelessWidget {
                     // Navigate to ForgetPassword screen
                     Get.to(() => const ForgetPassword());
                   },
-                  child: const Text("Forget Password"),
+                  child:const Text("Forget Password",style:TextStyle(color:TColors.black,fontWeight: FontWeight.bold,fontSize:14)),
                 ),
               ],
             ),
@@ -73,23 +77,12 @@ class TLoginForm extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                style:ButtonStyle(backgroundColor:WidgetStateProperty.all<Color>(TColors.darkGrey) ),
                 onPressed: () {
                   // Perform email and password sign in
                   controller.emailAndPasswordSignIn();
                 },
                 child: const Text("Sign In"),
-              ),
-            ),
-            const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: OutlinedButton(
-                onPressed: () {
-                  // Navigate to SignupScreen
-                  Get.to(const SignupScreen());
-                },
-                child: const Text("Create New Account"),
               ),
             ),
           ],

@@ -11,6 +11,6 @@ class TImages {
  static const String onBoarding3 = "assets/onboarding/onboarding3.gif";
 
  /// IMAGES
-// static const String google  = "assets/images/google.png";
+static const String loadingAnimation  = "assets/animation/loading.json";
 
 }

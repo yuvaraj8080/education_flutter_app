@@ -19,16 +19,16 @@ class TLoginHeader extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(TImages.Chemisphere, width: 150),
+            Image.asset(TImages.Chemisphere, width: 180),
           ],
         ),
 
-        const SizedBox(height:5),
-        Text("Chemistry made easy!", style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.grey),),
+        const SizedBox(height:TSizes.size4),
+        Text("Chemistry made easy!", style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.grey.shade400)),
         const SizedBox(height: TSizes.size32),
         Text("Hey there!👋", style: Theme.of(context).textTheme.headlineMedium),
         Text("Welcome to Chemisphere",
-            style: Theme.of(context).textTheme.headlineSmall),
+            style: Theme.of(context).textTheme.headlineMedium),
         Text("Before continuing, please sign in first.",
             style: Theme.of(context).textTheme.bodyMedium),
         const SizedBox(height: TSizes.iconsize12),

@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../features/authentication/screens/Login/login.dart';
 import '../../../features/authentication/screens/onBoarding/onboarding.dart';
-import '../../../features/authentication/screens/signup/verify_email.dart';
 import '../../../navigation_menu.dart';
 import '../../../utils/exception_handling/handle_exception_file.dart';
 import '../user/user_repository.dart';
@@ -36,14 +35,19 @@ class AuthenticationRepository extends GetxController{
   screenRedirect() async {
     final user = _auth.currentUser;
     if (user != null) {
-      // User is signed in
-      if (user.emailVerified) {
-        // Email is verified, navigate to the main screens
-        Get.offAll(() => const NavigationMenu());
-      } else {
-        // Email is not verified, navigate to the VerifyEmailScreen
-        Get.offAll(() => VerifyEmailScreen(email:_auth.currentUser?.email));
-      }
+
+      /// CURRENT USER IS AUTHORIZED THEN PASS TO THE BOTTOM NEVIGATION SCREEN
+      Get.offAll(() => const NavigationMenu());
+
+       // User is signed in
+      // if (user.emailVerified) {
+      //   // Email is verified, navigate to the main screens
+      //   Get.offAll(() => const NavigationMenu());
+      // } else {
+      //   // Email is not verified, navigate to the VerifyEmailScreen
+      //   Get.offAll(() => VerifyEmailScreen(email:_auth.currentUser?.email));
+      // }
+
     } else {
       // No user is signed in
       deviceStorage.writeIfNull("IsFirstTime", true);
