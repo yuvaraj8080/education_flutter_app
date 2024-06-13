@@ -19,9 +19,9 @@ class NavigationMenu extends StatelessWidget {
               onDestinationSelected: (index) =>
                   controller.selectedIndex.value = index,
               destinations: const [
-                NavigationDestination(icon: Icon(Icons.home_repair_service_sharp), label: "Jobs"),
-                NavigationDestination(icon: Icon(Icons.search_rounded), label: "Search"),
-                NavigationDestination(icon: Icon(Icons.add_a_photo_sharp), label: "Post"),
+                // NavigationDestination(icon: Icon(Icons.home_repair_service_sharp), label: "Jobs"),
+                // NavigationDestination(icon: Icon(Icons.search_rounded), label: "Search"),
+                // NavigationDestination(icon: Icon(Icons.add_a_photo_sharp), label: "Post"),
                 NavigationDestination(icon: Icon(Icons.person), label: "Profile"),
               ]),
         ),
@@ -47,7 +47,7 @@ class NavigationController extends GetxController {
     // const JobScreen(),
     // const SearchCompany(),
     // const UploadJob(),
-    const ProfileScreen(userId: '')
+    ProfileScreen(userId:uid)
     // const SettingScreen(userId:'')
   ];
 }

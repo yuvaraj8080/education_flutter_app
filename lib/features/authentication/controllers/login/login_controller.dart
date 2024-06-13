@@ -1,5 +1,6 @@
 
   import 'package:flutter/cupertino.dart';
+import 'package:flutter_job_app/constants/image_string.dart';
   import 'package:get/get.dart';
   import 'package:get_storage/get_storage.dart';
 
@@ -12,7 +13,6 @@ import '../../../personalization/controllers/user_controller.dart';
   class LoginController extends GetxController{
 
     /// VARIABLES
-
     final rememberMe  = false.obs;
     final hidePassword  = true.obs;
     final localStorage = GetStorage();
@@ -33,12 +33,20 @@ import '../../../personalization/controllers/user_controller.dart';
     Future<void> emailAndPasswordSignIn () async{
       try{
         //  START LOADING
-        TFullScreenLoader.openLoadingDialog("Loading you in..","assets/images/animations/emailVerification.jpg");
+        TFullScreenLoader.openLoadingDialog("Loading for you",TImages.loadingAnimation);
 
         // CHECK INTERNET CONNECTIVITY
         final isConnected = await NetworkManager.instance.isConnected();
         if(!isConnected){
           TFullScreenLoader.stopLoading();
+          return;
+        }
+
+        //PRIVACY POLICY CHECk
+        if (!rememberMe.value) {
+          TLoaders.warningSnackBar(title: "Accept Privacy Policy",
+              message: "In order to create account, you must have to read and accept the Privacy Policy & term of use"
+          );
           return;
         }
 

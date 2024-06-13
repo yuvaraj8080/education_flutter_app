@@ -1,6 +1,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_job_app/features/profile/sceens/profile_page.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -37,7 +38,9 @@ class AuthenticationRepository extends GetxController{
     if (user != null) {
 
       /// CURRENT USER IS AUTHORIZED THEN PASS TO THE BOTTOM NEVIGATION SCREEN
-      Get.offAll(() => const NavigationMenu());
+
+      // Get.offAll(() => const NavigationMenu());
+      Get.offAll(() => const ProfileScreen(userId:""));
 
        // User is signed in
       // if (user.emailVerified) {
