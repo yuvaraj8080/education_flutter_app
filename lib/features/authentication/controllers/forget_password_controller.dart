@@ -1,9 +1,6 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-
 import '../../../common/NetworkManager/network_manager.dart';
-
 import '../../../data/repositories/authentication/authentication-repository.dart';
 import '../../../utils/loaders/snackbar_loader.dart';
 import '../../../utils/popups/full_screen_loader.dart';
