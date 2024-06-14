@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_job_app/features/Home/screens/Home_Screen.dart';
 import 'package:get/get.dart';
+import '../../../../../common/NetworkManager/network_manager.dart';
 import '../../../../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../../../../utils/exceptions/firebase_exceptions.dart';
 import '../../../../../utils/exceptions/format_exceptions.dart';
@@ -15,51 +16,55 @@ class PhoneNumberController extends GetxController{
   static PhoneNumberController get instance => Get.find();
 
 
+   GlobalKey<FormState> phoneNumberFormKey = GlobalKey<FormState>();
   TextEditingController phoneNumber = TextEditingController();
   var code = '';
 
 
   /// SENT OTP CODE ON MOBILE NUMBER
-  sendCode() async{
-    try{
+ sendCode() async {
+  try {
 
-      await FirebaseAuth.instance.verifyPhoneNumber(
+     // START LOADING
+     TFullScreenLoader.openLoadingDialog("Processing your request...","assets/images/animations/emailVerificatation1.png");
 
-        phoneNumber:"+91${phoneNumber.text}",
-
-          verificationCompleted:(PhoneAuthCredential credential){},
-
-          /// FIREBASE EXCEPTION HANDLING
-          verificationFailed:(FirebaseAuthException e){
-            TLoaders.errorSnackBar(title:"Oh Snap",message:e.toString());
-          },
-
-          /// SENT OTP ON THE USER MOBILE NUMBER
-          codeSent:(String vid, int? token){
-            Get.to(VerifyNumberScreen(vid:vid,));
-          },
-
-          /// CODE EXPIRE AFTER LOGIN
-          codeAutoRetrievalTimeout:(vid){}
-      );
+     // CHECK INTERNET CONNECTIVITY
+     final isConnected = await NetworkManager.instance.isConnected();
+     if(!isConnected){
+       TFullScreenLoader.stopLoading();
+       return;
      }
-    on FirebaseAuthException catch (e){
-      throw TFirebaseAuthException(e.code).message;
-    }
-    on FirebaseException catch (e){
-      throw TFirebaseException(e.code).message;
-    }
-    on FormatException catch (_){
-      throw const TFormException();
-    }
-    on PlatformException catch (e){
-      throw TPlatformException(e.code).message;
-    }
-    catch(e){
-      TFullScreenLoader.stopLoading();
-      TLoaders.errorSnackBar(title:"Oh Snap",message:e.toString());
-    }
+
+        // FORM VALIDATION
+     if(!phoneNumberFormKey.currentState!.validate()){
+       TFullScreenLoader.stopLoading();
+       return;
+     }
+
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: "+91${phoneNumber.text}",
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {
+        // Convert stack trace to string
+        TFullScreenLoader.stopLoading();
+        String errorMessage = e.stackTrace?.toString() ?? 'Unknown error';
+        TLoaders.errorSnackBar(title: "Oh Snap", message: errorMessage);
+      },
+      codeSent: (String vid, int? token) {
+        TFullScreenLoader.stopLoading();
+        Get.to(VerifyNumberScreen(vid: vid));
+        
+
+      },
+      codeAutoRetrievalTimeout: (vid) {},
+    );
+  } catch (e) {
+    TFullScreenLoader.stopLoading();
+    TLoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
   }
+}
+
+  
 
 
   /// SIGN IN WITH PHONE NUMBER FUNCTION

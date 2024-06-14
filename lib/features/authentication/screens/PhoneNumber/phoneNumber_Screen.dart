@@ -27,14 +27,17 @@ class PhoneNumberScreen extends StatelessWidget {
             const SizedBox(height: TSizes.size24),
             Padding(
               padding: const EdgeInsets.only(left: 40, right: 40),
-              child: TextFormField(
-                controller:controller.phoneNumber,
-                validator: (value) => TValidator.validatePhoneNumber(value),
-                decoration: const InputDecoration(
-                  prefixIcon:
-                      Icon(Iconsax.mobile4, color: TColors.primaryColor),
-                  labelText: "Enter your phone number",
-                  labelStyle: TextStyle(color: Colors.grey),
+              child: Form(
+               key:controller.phoneNumberFormKey,
+                child: TextFormField(
+                  controller:controller.phoneNumber,
+                  validator: (value) => TValidator.validatePhoneNumber(value),
+                  decoration: const InputDecoration(
+                    prefixIcon:
+                        Icon(Iconsax.mobile4, color: TColors.primaryColor),
+                    labelText: "Enter your phone number",
+                    labelStyle: TextStyle(color: Colors.grey),
+                  ),
                 ),
               ),
             ),
