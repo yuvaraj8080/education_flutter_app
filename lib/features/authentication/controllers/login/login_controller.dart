@@ -9,6 +9,7 @@ import '../../../../utils/loaders/snackbar_loader.dart';
 import '../../../../utils/popups/full_screen_loader.dart';
 import '../../../personalization/controllers/user_controller.dart';
 
+
   class LoginController extends GetxController{
 
     /// VARIABLES
