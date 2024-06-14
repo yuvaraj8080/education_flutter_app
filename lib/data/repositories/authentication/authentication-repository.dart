@@ -210,6 +210,7 @@ class AuthenticationRepository extends GetxController{
      catch(e){
        throw "Something went wrong, Please try again";
      }
+
   }
 
 
