@@ -16,7 +16,6 @@ class PhoneAuthenticationController extends GetxController {
 
 
   GlobalKey<FormState> phoneNumberFormKey = GlobalKey<FormState>();
-  GlobalKey<FormState> otpKey = GlobalKey<FormState>();
   TextEditingController phoneNo = TextEditingController();
 
 
@@ -61,36 +60,25 @@ class PhoneAuthenticationController extends GetxController {
 
 
   /// SENT OTP FUNCTION HARE
-  void verifyOTP(String? otp) async{
-    try{
+  void verifyOTP(String otp) async{
 
       /// START LOADING
-      TFullScreenLoader.openLoadingDialog("Wait for OTP",TImages.OTPAnimation);
+      // TFullScreenLoader.openLoadingDialog("Wait for OTP",TImages.OTPAnimation);
 
       // CHECK INTERNET CONNECTIVITY
       final isConnected = await NetworkManager.instance.isConnected();
       if(!isConnected){
-        TFullScreenLoader.stopLoading();
+        // TFullScreenLoader.stopLoading();/
         return;
       }
 
-      // FORM VALIDATION
-      if(!otpKey.currentState!.validate()){
-        TFullScreenLoader.stopLoading();
-        return;
-      }
 
-      var isVerified = await AuthenticationRepository.instance.verifyOTP(otp!);
+      var isVerified = await AuthenticationRepository.instance.verifyOTP(otp);
 
       //  REMOVE LOADER
-      TFullScreenLoader.stopLoading();
+      // TFullScreenLoader.stopLoading();
 
       isVerified ? Get.offAll(const HomeScreen()) : Get.back();
-
-    }catch(e){
-      TLoaders.errorSnackBar(title:"Oh Snap",message:e.toString());
-      TFullScreenLoader.stopLoading();
-    }
   }
 }
 

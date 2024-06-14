@@ -67,7 +67,6 @@ class AuthenticationRepository extends GetxController{
   /// PHONE AUTHENTICATION FUNCTION
   Future<void> phoneAuthentication(String phoneNo) async{
      try {
-
        await _auth.verifyPhoneNumber(
            phoneNumber: '91$phoneNo',
            verificationCompleted: (credential) async {
