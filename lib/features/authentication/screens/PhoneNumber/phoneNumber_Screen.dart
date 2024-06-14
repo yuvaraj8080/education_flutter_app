@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../utils/validators/validator.dart';
+import 'controller/phone_Number_Controller.dart';
 import 'widgets/verificationNumber.dart';
 
 class PhoneNumberScreen extends StatelessWidget {
@@ -14,6 +15,7 @@ class PhoneNumberScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = PhoneNumberController.instance;
     return Scaffold(
       appBar:const TAppBar(showBackArrow: true,),
       body: SingleChildScrollView(
@@ -27,6 +29,7 @@ class PhoneNumberScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 40, right: 40),
               child: TextFormField(
+                controller:controller.phoneNumber,
                 validator: (value) => TValidator.validatePhoneNumber(value),
                 decoration: const InputDecoration(
                   prefixIcon:
@@ -47,7 +50,7 @@ class PhoneNumberScreen extends StatelessWidget {
                   style: ButtonStyle(
                       backgroundColor:
                           WidgetStateProperty.all<Color>(TColors.darkGrey)),
-                  onPressed: ()=> Get.to(()=> const VerifyNumberScreen()),
+                  onPressed:()=> controller.sendCode(),
                   child: const Text("GET OTP"),
                 ),
               ),

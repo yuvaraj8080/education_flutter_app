@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
+import 'package:flutter_job_app/features/authentication/screens/PhoneNumber/controller/phone_Number_Controller.dart';
 import 'package:get/get.dart';
+import 'package:pinput/pinput.dart';
 
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/image_string.dart';
 
 class VerifyNumberScreen extends StatelessWidget {
-  const VerifyNumberScreen({super.key});
+  const VerifyNumberScreen({super.key,required this.vid});
+
+  final String vid;
 
   @override
   Widget build(BuildContext context) {
+
+    final controller = PhoneNumberController.instance;
+
     return  Scaffold(
+
         appBar: const TAppBar(showBackArrow: true),
         body: Padding(
           padding: const EdgeInsets.only(left:20,right:20),
@@ -33,6 +41,15 @@ class VerifyNumberScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.center),
 
+            /// PIN PUT BOXES FOR CODE
+                Center(
+                    child:Pinput(
+                      length:6,
+                      onChanged:(value){
+                        controller.code = value;
+                      }
+                    )
+                ),
 
             ///  VERIFY TEXT BUTTON
                 Padding(
@@ -44,8 +61,8 @@ class VerifyNumberScreen extends StatelessWidget {
                       style: ButtonStyle(
                           backgroundColor:
                           WidgetStateProperty.all<Color>(TColors.darkGrey)),
-                      onPressed: ()=> Get.to(()=> const VerifyNumberScreen()),
-                      child: const Text("GET OTP"),
+                      onPressed:()=> controller.signInWithPhoneNumber(vid),
+                      child: const Text("VERIFY"),
                     ),
                   ),
                 )

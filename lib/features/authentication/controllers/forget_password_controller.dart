@@ -19,7 +19,7 @@ class ForgetPasswordController extends GetxController{
 
   ///SEND RESET PASSWORD EMAIL
  sendPasswordResetEmail() async{
-   try{
+   try{ 
      // START LOADING
      TFullScreenLoader.openLoadingDialog("Processing your request...","assets/images/animations/emailVerificatation1.png");
 
