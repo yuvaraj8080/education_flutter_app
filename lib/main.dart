@@ -29,12 +29,9 @@ void main() async{
 
 
   runApp(const App());
-<<<<<<< HEAD
   //yuvraj dekhne  
 
   // niraj chalke
   // niraj yuvaraj dekhane
-=======
->>>>>>> 6af420604f3df7bbe26a2314da736c09fb793544
 }
 
