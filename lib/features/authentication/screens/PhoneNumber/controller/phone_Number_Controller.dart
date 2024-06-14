@@ -42,6 +42,18 @@ class PhoneNumberController extends GetxController{
           /// CODE EXPIRE AFTER LOGIN
           codeAutoRetrievalTimeout:(vid){}
       );
+     }
+    on FirebaseAuthException catch (e){
+      throw TFirebaseAuthException(e.code).message;
+    }
+    on FirebaseException catch (e){
+      throw TFirebaseException(e.code).message;
+    }
+    on FormatException catch (_){
+      throw const TFormException();
+    }
+    on PlatformException catch (e){
+      throw TPlatformException(e.code).message;
     }
     catch(e){
       TFullScreenLoader.stopLoading();
