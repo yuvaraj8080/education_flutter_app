@@ -4,20 +4,17 @@ import 'package:flutter_job_app/constants/colors.dart';
 import 'package:flutter_job_app/constants/sizes.dart';
 import 'package:flutter_job_app/features/authentication/screens/PhoneNumber/widgets/phoneNumber_page.dart';
 import 'package:get/get.dart';
-
 import 'package:iconsax/iconsax.dart';
-
 import '../../../../utils/validators/validator.dart';
 import 'controller/phone_Number_Controller.dart';
-
 
 class PhoneNumberScreen extends StatelessWidget {
   const PhoneNumberScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(PhoneNumberController());
-    final controller = PhoneNumberController.instance;
+    final controller = Get.put(PhoneNumberController());
+
     return Scaffold(
       appBar:const TAppBar(showBackArrow: true,),
       body: SingleChildScrollView(
@@ -30,14 +27,17 @@ class PhoneNumberScreen extends StatelessWidget {
             const SizedBox(height: TSizes.size24),
             Padding(
               padding: const EdgeInsets.only(left: 40, right: 40),
-              child: TextFormField(
-                controller:controller.phoneNumber,
-                validator: (value) => TValidator.validatePhoneNumber(value),
-                decoration: const InputDecoration(
-                  prefixIcon:
-                      Icon(Iconsax.mobile4, color: TColors.primaryColor),
-                  labelText: "Enter your phone number",
-                  labelStyle: TextStyle(color: Colors.grey),
+              child: Form(
+               key:controller.phoneNumberFormKey,
+                child: TextFormField(
+                  controller:controller.phoneNumber,
+                  validator: (value) => TValidator.validatePhoneNumber(value),
+                  decoration: const InputDecoration(
+                    prefixIcon:
+                        Icon(Iconsax.mobile4, color: TColors.primaryColor),
+                    labelText: "Enter your phone number",
+                    labelStyle: TextStyle(color: Colors.grey),
+                  ),
                 ),
               ),
             ),
@@ -52,7 +52,7 @@ class PhoneNumberScreen extends StatelessWidget {
                   style: ButtonStyle(
                       backgroundColor:
                           WidgetStateProperty.all<Color>(TColors.darkGrey)),
-                  onPressed:()=> controller.sendCode(),
+                  onPressed:() => controller.sendCode(),
                   child: const Text("GET OTP"),
                 ),
               ),
