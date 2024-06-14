@@ -50,9 +50,8 @@ class PhoneNumberScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all<Color>(TColors.darkGrey)),
-                  onPressed:() => controller.sendCode(),
+                      backgroundColor: WidgetStateProperty.all<Color>(TColors.darkGrey)),
+                  onPressed: () => controller.sendCode(),
                   child: const Text("GET OTP"),
                 ),
               ),

@@ -29,7 +29,7 @@ class VerifyNumberScreen extends StatelessWidget {
             SizedBox(width:170,child: Image.asset(TImages.Chemisphere,)),
 
             /// VERIFICATION PAGE TITLE HARE
-            const SizedBox(height:50),
+            const SizedBox(height:80),
             Text("Type the verification code",
                 style: Theme.of(context).textTheme.headlineSmall,
                 textAlign: TextAlign.center),
@@ -41,6 +41,7 @@ class VerifyNumberScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.center),
 
+              const SizedBox(height:50),
             /// PIN PUT BOXES FOR CODE
                 Center(
                     child:Pinput(
@@ -52,18 +53,16 @@ class VerifyNumberScreen extends StatelessWidget {
                 ),
 
             ///  VERIFY TEXT BUTTON
-                Padding(
-                  padding: const EdgeInsets.only(top:50,left:40,right:40),
-                  child: SizedBox(
-                    height: 55,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                          WidgetStateProperty.all<Color>(TColors.darkGrey)),
-                      onPressed:()=> controller.signInWithPhoneNumber(vid),
-                      child: const Text("VERIFY"),
-                    ),
+            const SizedBox(height:50),
+                SizedBox(
+                  height: 55,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                        WidgetStateProperty.all<Color>(TColors.darkGrey)),
+                    onPressed:()=> controller.signInWithPhoneNumber(vid),
+                    child: const Text("VERIFY"),
                   ),
                 )
 

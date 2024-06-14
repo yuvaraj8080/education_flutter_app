@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_job_app/constants/image_string.dart';
 import 'package:flutter_job_app/features/Home/screens/Home_Screen.dart';
 import 'package:get/get.dart';
 import '../../../../../common/NetworkManager/network_manager.dart';
@@ -26,7 +27,7 @@ class PhoneNumberController extends GetxController{
   try {
 
      // START LOADING
-     TFullScreenLoader.openLoadingDialog("Processing your request...","assets/images/animations/emailVerificatation1.png");
+     TFullScreenLoader.openLoadingDialog("Wait for OTP",TImages.codeLoadingAnimation);
 
      // CHECK INTERNET CONNECTIVITY
      final isConnected = await NetworkManager.instance.isConnected();
@@ -44,14 +45,17 @@ class PhoneNumberController extends GetxController{
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: "+91${phoneNumber.text}",
       verificationCompleted: (PhoneAuthCredential credential) {},
+
       verificationFailed: (FirebaseAuthException e) {
         // Convert stack trace to string
         TFullScreenLoader.stopLoading();
         String errorMessage = e.stackTrace?.toString() ?? 'Unknown error';
         TLoaders.errorSnackBar(title: "Oh Snap", message: errorMessage);
       },
+
       codeSent: (String vid, int? token) {
         TFullScreenLoader.stopLoading();
+        TLoaders.customToast(message:"OTP Sent sucessfully");
         Get.to(VerifyNumberScreen(vid: vid));
         
 
