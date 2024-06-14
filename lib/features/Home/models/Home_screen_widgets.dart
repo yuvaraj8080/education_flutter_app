@@ -94,7 +94,8 @@ Widget whatsnewSection() {
       children: [
         Text(
           "What's new ? ",
-          style: TextStyle(
+          style:
+          TextStyle(
               fontSize: 24.sp,
               color: TColors.black,
               fontFamily: 'CircularStd',
@@ -189,7 +190,7 @@ Widget reusableblocks(String text) {
   return Padding(
     padding: EdgeInsets.only(left: 20.w,top: 20,right: 20),
     child: Container(
-      height: 50.h,
+      height: 60.h,
       width: 120.h,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.sp), color: TColors.dark),
