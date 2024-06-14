@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_job_app/features/Home/screens/Home_Screen.dart';
 import 'package:get/get.dart';
-
 import '../../../../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../../../../utils/exceptions/firebase_exceptions.dart';
 import '../../../../../utils/exceptions/format_exceptions.dart';
@@ -12,7 +11,6 @@ import '../../../../../utils/exceptions/platform_exceptions.dart';
 import '../../../../../utils/loaders/snackbar_loader.dart';
 import '../../../../../utils/popups/full_screen_loader.dart';
 import '../widgets/verificationNumber.dart';
-
 class PhoneNumberController extends GetxController{
   static PhoneNumberController get instance => Get.find();
 
