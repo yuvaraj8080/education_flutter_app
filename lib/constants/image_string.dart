@@ -12,6 +12,6 @@ class TImages {
 
  /// IMAGES
 static const String loadingAnimation  = "assets/animation/loading.json";
-static const String codeLoadingAnimation = "assets/animation/codeLoading.json";
+static const String  OTPAnimation = "assets/animation/codeLoading.json";
 
 }

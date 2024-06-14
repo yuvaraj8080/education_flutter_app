@@ -13,7 +13,7 @@ class PhoneNumberScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(PhoneNumberController());
+    final controller = Get.put(PhoneAuthenticationController());
 
     return Scaffold(
       appBar:const TAppBar(showBackArrow: true,),
@@ -30,7 +30,7 @@ class PhoneNumberScreen extends StatelessWidget {
               child: Form(
                key:controller.phoneNumberFormKey,
                 child: TextFormField(
-                  controller:controller.phoneNumber,
+                  controller:controller.phoneNo,
                   validator: (value) => TValidator.validatePhoneNumber(value),
                   decoration: const InputDecoration(
                     prefixIcon:
@@ -51,7 +51,7 @@ class PhoneNumberScreen extends StatelessWidget {
                 child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all<Color>(TColors.darkGrey)),
-                  onPressed: () => controller.sendCode(),
+                  onPressed: () => controller.phoneAuthentication(controller.phoneNo.text.trim()),
                   child: const Text("GET OTP"),
                 ),
               ),
