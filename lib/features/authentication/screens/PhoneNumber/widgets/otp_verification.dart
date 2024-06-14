@@ -6,6 +6,7 @@ import 'package:pinput/pinput.dart';
 
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/image_string.dart';
+import '../../../../../utils/validators/validator.dart';
 
 class OtpVerificationScreen extends StatelessWidget {
   const OtpVerificationScreen({super.key});
@@ -45,8 +46,10 @@ class OtpVerificationScreen extends StatelessWidget {
 
             /// PIN PUT BOXES FOR CODE
             Pinput(
+              key:controller.otpKey,
                 mainAxisAlignment: MainAxisAlignment.center,
                 length: 6,
+                validator:(value) => TValidator.validatorOTP(value),
                 onChanged: (code) {
                   otp = code;
                   controller.verifyOTP(otp);

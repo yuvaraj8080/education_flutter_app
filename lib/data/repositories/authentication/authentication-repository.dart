@@ -69,7 +69,7 @@ class AuthenticationRepository extends GetxController{
      try {
 
        await _auth.verifyPhoneNumber(
-           phoneNumber: phoneNo,
+           phoneNumber: '91$phoneNo',
            verificationCompleted: (credential) async {
              await _auth.signInWithCredential(credential);
            },

@@ -71,4 +71,20 @@ class TValidator{
     }
      return null;
   }
+
+
+  static String? validatorOTP(String? value){
+    if(value == null || value.isEmpty){
+      return"OTP is required.";
+    }
+
+    //REGULAR EXPRESSION FOR THE PHONE NUMBER VALIDATION
+    final phoneRegEXp = RegExp(r'^\d{6}$');
+
+
+    if(!phoneRegEXp.hasMatch(value)){
+      return "Enter Correct OTP(10 digit)";
+    }
+    return null;
+  }
 }
