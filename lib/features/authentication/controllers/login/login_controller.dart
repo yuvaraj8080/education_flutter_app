@@ -1,9 +1,9 @@
 
-  import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_job_app/constants/image_string.dart';
-  import 'package:get/get.dart';
-  import 'package:get_storage/get_storage.dart';
-  import '../../../../common/NetworkManager/network_manager.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import '../../../../common/NetworkManager/network_manager.dart';
 import '../../../../data/repositories/authentication/authentication-repository.dart';
 import '../../../../utils/loaders/snackbar_loader.dart';
 import '../../../../utils/popups/full_screen_loader.dart';
