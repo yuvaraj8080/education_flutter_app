@@ -31,6 +31,6 @@ void main() async{
   runApp(const App());
   //yuvraj dekhne
 
-  // niraj chalke
+  // niraj 
 }
 
