@@ -123,7 +123,7 @@ class AuthenticationRepository extends GetxController{
     on FormatException catch (_){
       throw const TFormException();
     }
-    on PlatformException catch (e){
+    on PlatformException catch (e){ 
       throw TPlatformException(e.code).message;
     }
     catch(e){

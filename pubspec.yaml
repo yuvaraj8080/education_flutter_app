@@ -26,6 +26,7 @@ dependencies:
   get_storage:
   iconsax:
   firebase_app_check:
+  flutter_plugin_android_lifecycle: ^2.0.20
   lottie:
   flutter_native_splash:
   cached_network_image:
@@ -54,7 +55,7 @@ dev_dependencies:
     sdk: flutter
 
 
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
