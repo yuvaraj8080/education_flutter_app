@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../constants/colors.dart';
 import '../../constants/image_string.dart';
 
-Widget TOnlineLactureSection(BuildContext context) {
+Widget TOnlineLectureSection(BuildContext context) {
   final dark = THelperFunction.isDarkMode(context);
   return Padding(
     padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20),
@@ -27,7 +27,7 @@ Widget TOnlineLactureSection(BuildContext context) {
             child: Text(
               "Join on going lecture",
               style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w700,
-                  fontFamily: 'CircularStd',color: TColors.redtext),
+                  fontFamily: 'CircularStd',color: dark?TColors.primaryBackground:TColors.redtext),
             ),
           ),
           Padding(

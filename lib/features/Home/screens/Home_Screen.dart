@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../common/Drawer_AppBar/Drawer_Widgets.dart';
 import '../../../common/Drawer_AppBar/Home_Banner.dart';
 import '../../../common/Login_Widgets/Past_OnlineTest.dart';
-import '../../../common/Login_Widgets/TOnlineLactureSection.dart';
+import '../../../common/Login_Widgets/TOnlineLectureSection.dart';
 import '../../../common/Login_Widgets/TSection_Heading.dart';
 import '../../../data/repositories/authentication/authentication-repository.dart';
 
@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
               ),
 
               /// ONLINE LACTURE SECTION
-              TOnlineLactureSection(context),
+              TOnlineLectureSection(context),
 
               /// PAST ONLINE TEST
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
