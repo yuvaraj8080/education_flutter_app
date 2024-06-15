@@ -1,9 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_job_app/constants/colors.dart';
-import 'package:flutter_job_app/constants/image_string.dart';
-import 'package:flutter_job_app/utils/halpers/helper_function.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget drawer() {
