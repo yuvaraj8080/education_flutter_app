@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_job_app/features/Home/screens/Home_Screen.dart';
+import 'package:flutter_job_app/utils/loaders/snackbar_loader.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -16,6 +17,7 @@ class AuthenticationRepository extends GetxController{
   static AuthenticationRepository get instance => Get.find();
 
   ///---VARIABLES----
+  var verificationId = "".obs;
   final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
 
@@ -62,8 +64,40 @@ class AuthenticationRepository extends GetxController{
   }
 
 
-  ///-------------EMAIL & PASSWORD SIGN-IN--------------------
+  /// PHONE AUTHENTICATION FUNCTION
+  Future<void> phoneAuthentication(String phoneNo) async{
+     try {
+       await _auth.verifyPhoneNumber(
+           phoneNumber: '91$phoneNo',
+           verificationCompleted: (credential) async {
+             await _auth.signInWithCredential(credential);
+           },
+           codeSent: (verificationId, resendToken) {
+             this.verificationId.value = verificationId;
+           },
+           codeAutoRetrievalTimeout: (verificationId) {
+             this.verificationId.value = verificationId;
+           },
+           verificationFailed: (e) {
+             TLoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
+           });
+     }
+     catch(e){
+       TLoaders.errorSnackBar(title:"Oh Snap",message:e.toString());
+     }
+  }
 
+
+  /// VERIFICATION MOBILE NUMBER OTP
+  Future<bool> verifyOTP(String otp) async{
+     var credentials = await _auth.signInWithCredential(PhoneAuthProvider.credential(verificationId:verificationId.value, smsCode:otp));
+     return credentials.user != null ? true :  false;
+  }
+
+
+
+
+  ///-------------EMAIL & PASSWORD SIGN-IN--------------------
   /// [EMAIL AUTHENTICATION ] - LOGIN
    Future<UserCredential> loginWithEmailAndPassword(String email, String password)async{
      try{

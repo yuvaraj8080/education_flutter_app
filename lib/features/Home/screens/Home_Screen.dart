@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-
-
 import 'package:flutter_job_app/features/Home/models/Home_screen_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import '../../../common/Drawer_AppBar/Drawer_Widgets.dart';
+import '../../../common/Drawer_AppBar/Home_Banner.dart';
+import '../../../common/Login_Widgets/Past_OnlineTest.dart';
+import '../../../common/Login_Widgets/TOnlineLactureSection.dart';
+import '../../../common/Login_Widgets/TSection_Heading.dart';
+import '../../../data/repositories/authentication/authentication-repository.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -10,63 +15,47 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final controller = Get.put(AuthenticationRepository());
+    final controller = Get.put(AuthenticationRepository());
     return Scaffold(
-        // appBar:TAppBar(title:const Text("Chemisphere"),actions: [
-        //   IconButton(onPressed:controller.logout, icon:const Icon(Icons.logout))
-        // ],),
-        // appBar: AppBar(
-        //   automaticallyImplyLeading: false,
-        // ),
         drawer: drawer(),
-        body: Column(
-          children: [
-            SizedBox(
-              height: 79.h,
-            ),
-            //drawer and profile component
-            Padding(
-              padding: EdgeInsets.only(left: 20.w, right: 20.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Builder(
-                    builder: (context) => IconButton(
-                      onPressed: () => Scaffold.of(context).openDrawer(),
-                      icon: const Icon(Icons.menu),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 32.w,
-                    height: 32.h,
-                    child: const Icon(
-                      Icons.person,
-                      color: Colors.black,
-                    ),
-                    //Image.asset("assets/images/"),
-                  ),
-                ],
+        body: Padding(
+          padding: const EdgeInsets.only(left:20,right:20),
+          child: Column(
+            crossAxisAlignment:CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 50.h),
+
+              ///DRAWER AND PROFILE COMPONENTS
+              const Drawer_AppBar(),
+
+              SizedBox(height: 36.h),
+              /// SECTION HEADING
+              TSectionHeading(context,"Whats new? 👀"),
+
+              /// HOME SCREEN BANNER
+              SizedBox(height: 10.h),
+              TSectionBanner(),
+
+              /// HOME SCREEN HEADING
+              Padding(
+                padding: const EdgeInsets.only(left:10,top: 20),
+                child: TSectionHeading(context,"What are you looking for?",size:18),
               ),
-            ),
 
+              /// ONLINE LACTURE SECTION
+              TOnlineLactureSection(context),
 
-            SizedBox(
-              height: 36.h,
-            ),
-            //What's new section
-            whatsnewSection(),
-            banner(),
-            reuseableText("What are you looking for?"),
-            ongoinglecture(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                reusableblocks("Past test"),
-                reusableblocks("Past test"),
-              ],
-            )
+              /// PAST ONLINE TEST
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TOnlinePastTest("Past tests",context,),
+                  TOnlinePastTest("Past tests",context),
+                ],
+              )
 
-          ],
+            ],
+          ),
         ));
   }
 }
+
