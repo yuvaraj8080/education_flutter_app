@@ -10,7 +10,7 @@ Widget TOnlinePastTest(String text, BuildContext context) {
   return Padding(
     padding: EdgeInsets.only(left:5.w,top: 25.h,right:5.w),
     child: Container(height: 60.h, width: 130.h,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.sp), color:dark? TColors.darkGrey:Colors.grey.shade200),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.sp), color:dark? TColors.dark:Colors.grey.shade200),
       child: Row(
         children: [
           Column(

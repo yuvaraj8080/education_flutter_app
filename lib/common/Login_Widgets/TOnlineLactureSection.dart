@@ -12,11 +12,11 @@ Widget TOnlineLactureSection(BuildContext context) {
     child: Container(
       height: 55.h,width: 320.w,
       decoration: BoxDecoration(
-          color: dark? TColors.darkGrey : Colors.grey.shade200,
+          color: dark? TColors.dark : Colors.grey.shade200,
           borderRadius: BorderRadius.circular(20),
           boxShadow:  [
             BoxShadow(
-              offset: Offset(0, 4), blurRadius:2,spreadRadius: 0,color: dark ? TColors.darkGrey : TColors.grey
+              offset: Offset(0,2), blurRadius:2,color: dark ? TColors.darkGrey : TColors.grey
             )
           ]),
       child: Row(
