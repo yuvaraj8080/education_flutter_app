@@ -66,8 +66,6 @@ Widget drawer() {
           padding: const EdgeInsets.only(bottom: 25),
           child: GestureDetector(
             onTap: () {
-             // FirebaseAuth.instance.signOut();
-            
             },
             child:  ListTile(
 
