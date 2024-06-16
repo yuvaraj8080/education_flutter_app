@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/features/Home/models/Home_screen_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import '../../../common/Drawer_AppBar/Drawer_Widgets.dart';
-import '../../../common/Drawer_AppBar/Home_Banner.dart';
+import '../../../common/Login_Widgets/Home_Banner.dart';
 import '../../../common/Login_Widgets/Past_OnlineTest.dart';
 import '../../../common/Login_Widgets/TOnlineLectureSection.dart';
 import '../../../common/Login_Widgets/TSection_Heading.dart';
-import '../../../data/repositories/authentication/authentication-repository.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -15,7 +13,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(AuthenticationRepository());
     return Scaffold(
         drawer: drawer(),
         body: Padding(

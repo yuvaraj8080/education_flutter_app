@@ -48,7 +48,7 @@ class OtpVerificationScreen extends StatelessWidget {
                 length: 6,
                 onChanged: (code) {
                   otp = code;
-                  // controller.verifyOTP(otp);
+                  controller.verifyOTP(otp);
                 }),
 
             ///  VERIFY TEXT BUTTON

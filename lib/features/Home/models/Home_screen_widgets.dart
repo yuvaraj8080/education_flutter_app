@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/constants/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import '../../../data/repositories/authentication/authentication-repository.dart';
 
 Widget drawer() {
+  final controller = Get.put(AuthenticationRepository());
   return Drawer(
     backgroundColor: TColors.primaryBackground,
     child: Column(
@@ -65,8 +69,9 @@ Widget drawer() {
              // FirebaseAuth.instance.signOut();
             
             },
-            child: const ListTile(
-              title: Text(
+            child:  ListTile(
+
+              title: const Text(
                 "L O G O U T",
                 style: TextStyle(
                     fontSize: 15,
@@ -74,10 +79,7 @@ Widget drawer() {
                     fontFamily: 'CircularStd',
                     color: TColors.black),
               ),
-              leading: Icon(
-                Icons.logout,
-                color: TColors.black,
-              ),
+              leading: IconButton(onPressed:()=> controller.logout, icon:const Icon(Icons.logout))
             ),
           ),
         ),

@@ -65,27 +65,35 @@ class AuthenticationRepository extends GetxController{
 
 
   /// PHONE AUTHENTICATION FUNCTION
-  Future<void> phoneAuthentication(String phoneNo) async{
-     try {
-       await _auth.verifyPhoneNumber(
-           phoneNumber: '91$phoneNo',
-           verificationCompleted: (credential) async {
-             await _auth.signInWithCredential(credential);
-           },
-           codeSent: (verificationId, resendToken) {
-             this.verificationId.value = verificationId;
-           },
-           codeAutoRetrievalTimeout: (verificationId) {
-             this.verificationId.value = verificationId;
-           },
-           verificationFailed: (e) {
-             TLoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
-           });
-     }
-     catch(e){
-       TLoaders.errorSnackBar(title:"Oh Snap",message:e.toString());
-     }
+  Future<void> phoneAuthentication(String phoneNo) async {
+    try {
+
+      String phoneNumber = '+91$phoneNo'; // Replace '91' with your country code
+
+      await _auth.verifyPhoneNumber(
+          phoneNumber: phoneNumber,
+          verificationCompleted: (credential) async {
+            await _auth.signInWithCredential(credential);
+          },
+          codeSent: (verificationId, resendToken) {
+            this.verificationId.value = verificationId;
+          },
+          codeAutoRetrievalTimeout: (verificationId) {
+            this.verificationId.value = verificationId;
+          },
+          verificationFailed: (FirebaseAuthException e) {
+            if (e.code == 'invalid-verification-id') {
+              TLoaders.errorSnackBar(title: "Oh Snap", message: "Invalid phone number format.");
+            } else {
+              TLoaders.errorSnackBar(title: "Oh Snap", message: e.message ?? "Verification failed.");
+            }
+          }
+      );
+    } catch (e) {
+      TLoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
+    }
   }
+
 
 
   /// VERIFICATION MOBILE NUMBER OTP
