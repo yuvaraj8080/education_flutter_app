@@ -97,9 +97,17 @@ class AuthenticationRepository extends GetxController{
 
 
   /// VERIFICATION MOBILE NUMBER OTP
-  Future<bool> verifyOTP(String otp) async{
-     var credentials = await _auth.signInWithCredential(PhoneAuthProvider.credential(verificationId:verificationId.value, smsCode:otp));
-     return credentials.user != null ? true :  false;
+  Future<bool> verifyOTP(String otp) async {
+    if (verificationId.value == null) {
+      throw Exception("Verification ID is null");
+    }
+    var credentials = await _auth.signInWithCredential(
+        PhoneAuthProvider.credential(
+            verificationId: verificationId.value!,
+            smsCode: otp
+        )
+    );
+    return credentials.user != null ? true : false;
   }
 
 
