@@ -21,42 +21,50 @@ class PhoneAuthenticationController extends GetxController {
 
 
   /// PHONE AUTHENTICATION
-  void phoneAuthentication(String phoneNo)async {
-
-    try{
-      /// START LOADING
-      TFullScreenLoader.openLoadingDialog("Wait for OTP",TImages.OTPAnimation);
+  void phoneAuthentication(String phoneNo) async {
+    try {
+      // START LOADING
+      TFullScreenLoader.openLoadingDialog("Wait for OTP", TImages.OTPAnimation);
 
       // CHECK INTERNET CONNECTIVITY
       final isConnected = await NetworkManager.instance.isConnected();
-      if(!isConnected){
+      if (!isConnected) {
         TFullScreenLoader.stopLoading();
+        TLoaders.customToast(message: "No internet connection");
         return;
       }
 
       // FORM VALIDATION
-      if(!phoneNumberFormKey.currentState!.validate()){
+      if (!phoneNumberFormKey.currentState!.validate()) {
         TFullScreenLoader.stopLoading();
+        TLoaders.customToast(message: "Invalid phone number");
         return;
       }
 
-      AuthenticationRepository.instance.phoneAuthentication(phoneNo);
+      // PHONE AUTHENTICATION
+      await AuthenticationRepository.instance.phoneAuthentication(phoneNo);
 
-      //  REMOVE LOADER
+      // REMOVE LOADER
       TFullScreenLoader.stopLoading();
 
       // SHOW SUCCESS SCREEN
-      TLoaders.customToast(message: "OTP SuccessFully sent");
+      TLoaders.customToast(message: "OTP successfully sent");
 
-      /// NAVIGATE TO THE OTP SCREEN
-      Get.to(()=> const OtpVerificationScreen());
-    }
-    catch(e){
-      TLoaders.errorSnackBar(title:"Oh snap",message:e.toString());
+      // NAVIGATE TO THE OTP SCREEN
+      Get.to(() => const OtpVerificationScreen());
+    } catch (e, stackTrace) {
+      // LOG ERROR WITH STACK TRACE
+      debugPrint('Error during phone authentication: $e');
+      debugPrintStack(stackTrace: stackTrace);
+
+      // SHOW ERROR MESSAGE
+      TLoaders.errorSnackBar(title: "Oh snap", message: e.toString());
+
+      // REMOVE LOADER
       TFullScreenLoader.stopLoading();
     }
-
   }
+
 
 
   /// SENT OTP FUNCTION HARE
@@ -71,7 +79,6 @@ class PhoneAuthenticationController extends GetxController {
         // TFullScreenLoader.stopLoading();/
         return;
       }
-
 
       var isVerified = await AuthenticationRepository.instance.verifyOTP(otp);
 
