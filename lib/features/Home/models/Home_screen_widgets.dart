@@ -79,7 +79,7 @@ Widget drawer() {
                     fontFamily: 'CircularStd',
                     color: TColors.black),
               ),
-              leading: IconButton(onPressed:()=> controller.logout, icon:const Icon(Icons.logout))
+              leading: IconButton(onPressed:()=> controller.logout(), icon:const Icon(Icons.logout))
             ),
           ),
         ),

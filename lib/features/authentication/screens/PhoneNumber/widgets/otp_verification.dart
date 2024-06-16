@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
 import 'package:flutter_job_app/features/authentication/screens/PhoneNumber/controller/phone_Number_Controller.dart';
 import 'package:pinput/pinput.dart';
-
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/image_string.dart';
 
@@ -11,6 +10,7 @@ class OtpVerificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     var otp;
     final controller = PhoneAuthenticationController.instance;
 
