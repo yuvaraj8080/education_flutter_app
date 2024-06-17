@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_job_app/features/Batches/Batches_Screen.dart';
+import 'package:flutter_job_app/features/Home/screens/Home_Screen.dart';
+import 'package:flutter_job_app/features/Tests/Test_Screen.dart';
 import 'package:get/get.dart';
-
-import 'features/profile/sceens/profile_page.dart';
+import 'features/personalization/screens/setting.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
@@ -19,9 +21,9 @@ class NavigationMenu extends StatelessWidget {
               onDestinationSelected: (index) =>
                   controller.selectedIndex.value = index,
               destinations: const [
-                // NavigationDestination(icon: Icon(Icons.home_repair_service_sharp), label: "Jobs"),
-                // NavigationDestination(icon: Icon(Icons.search_rounded), label: "Search"),
-                // NavigationDestination(icon: Icon(Icons.add_a_photo_sharp), label: "Post"),
+                NavigationDestination(icon: Icon(Icons.home), label: "Home"),
+                NavigationDestination(icon: Icon(Icons. people), label: "Batches"),
+                NavigationDestination(icon: Icon(Icons.telegram), label: "Tests"),
                 NavigationDestination(icon: Icon(Icons.person), label: "Profile"),
               ]),
         ),
@@ -36,18 +38,13 @@ final String uid = userId!.uid;
 
 class NavigationController extends GetxController {
 
-  //
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
-  // final User? userId = _auth.currentUser;
-  // final String uid = userId!.uid;
-
   final Rx<int> selectedIndex = 0.obs;
   final screens = [
 
-    // const JobScreen(),
-    // const SearchCompany(),
-    // const UploadJob(),
-    ProfileScreen(userId:uid)
-    // const SettingScreen(userId:'')
+    const HomeScreen(),
+    const BatchesScreen(),
+    const TestScreen(),
+     SettingScreen(userId:uid)
+
   ];
 }
