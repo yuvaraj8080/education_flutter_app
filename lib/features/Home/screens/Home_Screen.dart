@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../common/Login_Widgets/Home_Banner.dart';
 import '../../../common/Login_Widgets/Past_OnlineTest.dart';
 import '../../../common/Login_Widgets/TOnlineLectureSection.dart';
 import '../../../common/Login_Widgets/TSection_Heading.dart';
+import '../models/Section_Banner.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
 
               /// HOME SCREEN BANNER
               SizedBox(height: 10.h),
-              TSectionBanner(),
+              TSectionBanners(),
 
               /// HOME SCREEN HEADING
               Padding(

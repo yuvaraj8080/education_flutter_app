@@ -10,8 +10,8 @@ import '../../../constants/colors.dart';
 import '../../../utils/shimmer_circular_Indicator/shimmer.dart';
 import '../controller/Banner_Controller.dart';
 
-class TPromoSlider extends StatelessWidget {
-  const TPromoSlider({
+class TSectionBanners extends StatelessWidget {
+  const TSectionBanners({
     super.key,
   });
 
