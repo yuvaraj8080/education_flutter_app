@@ -1,8 +1,5 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../../common/NetworkManager/network_manager.dart';
 import '../../../../../constants/image_string.dart';
 import '../../../../../data/repositories/authentication/authentication-repository.dart';
@@ -42,24 +39,17 @@ class PhoneAuthenticationController extends GetxController {
       }
 
       // PHONE AUTHENTICATION
-      await AuthenticationRepository.instance.phoneAuthentication(phoneNo);
+      await AuthenticationRepository.instance.sentOTPVerification(phoneNo);
 
       // REMOVE LOADER
       TFullScreenLoader.stopLoading();
 
-      // SHOW SUCCESS SCREEN
-      TLoaders.customToast(message: "OTP successfully sent");
-
       // NAVIGATE TO THE OTP SCREEN
       Get.to(() => const OtpVerificationScreen());
-    } catch (e, stackTrace) {
-      // LOG ERROR WITH STACK TRACE
-      debugPrint('Error during phone authentication: $e');
-      debugPrintStack(stackTrace: stackTrace);
 
+    } catch (e) {
       // SHOW ERROR MESSAGE
       TLoaders.errorSnackBar(title: "Oh snap", message: e.toString());
-
       // REMOVE LOADER
       TFullScreenLoader.stopLoading();
     }
@@ -69,23 +59,28 @@ class PhoneAuthenticationController extends GetxController {
 
   /// SENT OTP FUNCTION HARE
   void verifyOTP(String otp) async{
-
+    try{
       /// START LOADING
-      // TFullScreenLoader.openLoadingDialog("Wait for OTP",TImages.OTPAnimation);
+      TFullScreenLoader.openLoadingDialog("Wait for Login",TImages.OTPAnimation);
 
       // CHECK INTERNET CONNECTIVITY
       final isConnected = await NetworkManager.instance.isConnected();
       if(!isConnected){
-        // TFullScreenLoader.stopLoading();/
+        TFullScreenLoader.stopLoading();
         return;
       }
 
+      /// VERIFY THE OTP
       var isVerified = await AuthenticationRepository.instance.verifyOTP(otp);
 
       //  REMOVE LOADER
-      // TFullScreenLoader.stopLoading();
 
       isVerified ? Get.offAll(const HomeScreen()) : Get.back();
+    }
+    catch(e){
+      TLoaders.errorSnackBar(title:"Oh",message:e.toString());
+      TFullScreenLoader.stopLoading();
+    }
   }
 }
 

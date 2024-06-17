@@ -65,10 +65,11 @@ class AuthenticationRepository extends GetxController{
 
 
   /// PHONE AUTHENTICATION FUNCTION
-  Future<void> phoneAuthentication(String phoneNo) async {
+  Future<void> sentOTPVerification(String phoneNo) async {
     try {
 
-      String phoneNumber = '+91$phoneNo'; // Replace '91' with your country code
+      String phoneNumber = '+91$phoneNo';
+      TLoaders.customToast(message: "OTP successfully sent");
 
       await _auth.verifyPhoneNumber(
           phoneNumber: phoneNumber,

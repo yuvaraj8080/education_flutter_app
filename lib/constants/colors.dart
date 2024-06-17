@@ -5,6 +5,8 @@ class TColors {
 
   //  App basic Colors//
   static const Color primaryColor = Colors.red;
+  // static const Color blackBackground = Color();
+  // static const Color whiteBackground = Color();
 
   static const Gradient linearGradient = LinearGradient(
       begin: Alignment(0.0, 0.0),
@@ -27,7 +29,7 @@ class TColors {
   static const Color white = Colors.white;
 
 // buttons Colors
-  static const Color buttonPrimary = Color(0xFF4b68ff);
+  static const Color buttonPrimary = Colors.red;
   static const Color buttonSecondary = Color(0xFF6c7570);
   static const Color buttonDisabled = Color(0xFFC4C4C4);
 
