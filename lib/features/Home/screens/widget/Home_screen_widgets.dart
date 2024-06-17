@@ -3,7 +3,7 @@ import 'package:flutter_job_app/constants/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../data/repositories/authentication/authentication-repository.dart';
+import '../../../../data/repositories/authentication/authentication-repository.dart';
 
 Widget drawer() {
   final controller = Get.put(AuthenticationRepository());

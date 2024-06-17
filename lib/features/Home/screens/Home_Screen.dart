@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../common/Login_Widgets/Past_OnlineTest.dart';
 import '../../../common/Login_Widgets/TOnlineLectureSection.dart';
 import '../../../common/Login_Widgets/TSection_Heading.dart';
-import '../models/Section_Banner.dart';
+import 'widget/Section_Banner.dart';
 
 
 class HomeScreen extends StatelessWidget {

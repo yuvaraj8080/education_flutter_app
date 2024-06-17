@@ -4,11 +4,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../common/widgets_login/images/circular_container.dart';
-import '../../../common/widgets_login/images/t_Rounded_image.dart';
-import '../../../constants/colors.dart';
-import '../../../utils/shimmer_circular_Indicator/shimmer.dart';
-import '../controller/Banner_Controller.dart';
+import '../../../../common/widgets_login/images/circular_container.dart';
+import '../../../../common/widgets_login/images/t_Rounded_image.dart';
+import '../../../../constants/colors.dart';
+import '../../../../utils/shimmer_circular_Indicator/shimmer.dart';
+import '../../controller/Banner_Controller.dart';
 
 class TSectionBanners extends StatelessWidget {
   const TSectionBanners({
