@@ -32,6 +32,7 @@ dependencies:
   flutter_native_splash:
   cached_network_image:
   smooth_page_indicator:
+  carousel_slider:
   image_picker:
   connectivity_plus:
   image_cropper:

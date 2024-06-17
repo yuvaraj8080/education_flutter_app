@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job_app/features/Home/models/Home_screen_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../common/Drawer_AppBar/Drawer_Widgets.dart';
 import '../../../common/Login_Widgets/Home_Banner.dart';
 import '../../../common/Login_Widgets/Past_OnlineTest.dart';
 import '../../../common/Login_Widgets/TOnlineLectureSection.dart';
@@ -14,7 +12,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: drawer(),
+
+      /// DRAWER HARE
+        // drawer: drawer(),
+
         body: Padding(
           padding: const EdgeInsets.only(left:20,right:20),
           child: Column(
@@ -23,7 +24,7 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 50.h),
 
               ///DRAWER AND PROFILE COMPONENTS
-              const Drawer_AppBar(),
+              // const Drawer_AppBar(),
 
               SizedBox(height: 36.h),
               /// SECTION HEADING

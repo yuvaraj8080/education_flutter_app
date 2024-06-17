@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../features/authentication/screens/Login/login.dart';
 import '../../../features/authentication/screens/onBoarding/onboarding.dart';
+import '../../../navigation_menu.dart';
 import '../../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../../utils/exceptions/firebase_exceptions.dart';
 import '../../../utils/exceptions/format_exceptions.dart';
@@ -41,16 +42,7 @@ class AuthenticationRepository extends GetxController{
     if (user != null) {
 
       /// CURRENT USER IS AUTHORIZED THEN PASS TO THE BOTTOM NEVIGATION SCREEN
-      Get.offAll(() => const HomeScreen());
-
-       // User is signed in
-      // if (user.emailVerified) {
-      //   // Email is verified, navigate to the main screens
-      //   Get.offAll(() => const NavigationMenu());
-      // } else {
-      //   // Email is not verified, navigate to the VerifyEmailScreen
-      //   Get.offAll(() => VerifyEmailScreen(email:_auth.currentUser?.email));
-      // }
+      Get.offAll(() => NavigationMenu());
 
     } else {
       // No user is signed in
