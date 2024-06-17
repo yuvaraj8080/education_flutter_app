@@ -16,8 +16,7 @@ class TFormDivider extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Flexible(
-            child: Divider(
-                color: dark ? TColors.darkGrey : TColors.grey, thickness:2,)),
+            child: Divider(color: dark ? TColors.darkGrey : TColors.grey, thickness:2,)),
       ],
     );
   }
