@@ -5,13 +5,14 @@ import '../../constants/colors.dart';
 import '../../constants/image_string.dart';
 import '../../utils/halpers/helper_function.dart';
 
-Widget TOnlinePastTest(String text, BuildContext context) {
+Widget CommonCard(String text, BuildContext context) {
   final dark = THelperFunction.isDarkMode(context);
   return Padding(
-    padding: EdgeInsets.only(left:5.w,top: 20.h),
+    padding: EdgeInsets.only(left:5.w,top: 15.h),
     child: Container(height: 60.h, width: 130.h,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.sp), color:dark? TColors.dark:Colors.grey.shade200),
       child: Row(
+        mainAxisAlignment:MainAxisAlignment.spaceAround ,
         children: [
           Column(
             children: [
@@ -26,10 +27,7 @@ Widget TOnlinePastTest(String text, BuildContext context) {
             ],
           ),
 
-          Padding(
-            padding: EdgeInsets.only(left:8.w),
-            child: Image.asset(TImages.pastTestImage,height:40,width:40),
-          )
+          Image.asset(TImages.pastTestImage,height:40,width:40)
           //Image.asset("")
         ],
       ),

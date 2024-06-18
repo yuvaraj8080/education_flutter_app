@@ -33,8 +33,9 @@ class TSectionBanners extends StatelessWidget {
             CarouselSlider(
               items: controller.banners
                   .map((banner) => TRoundedImage(
+                width:250,
                 fit:BoxFit.contain,
-                padding:EdgeInsets.only(left:15.w),
+                padding:EdgeInsets.only(left:10.w),
                 imageUlr: banner.imageUrl,
                 isNetworkImage:true,
                 onPressed:()=> Get.toNamed(banner.targetScreen),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../common/Login_Widgets/Past_OnlineTest.dart';
+import '../../../common/Login_Widgets/Online_Test_Section.dart';
 import '../../../common/Login_Widgets/TOnlineLectureSection.dart';
 import '../../../common/Login_Widgets/TSection_Heading.dart';
 import 'widget/Section_Banner.dart';
@@ -31,7 +31,6 @@ class HomeScreen extends StatelessWidget {
               TSectionHeading(context,"Whats new? 👀"),
 
               /// HOME SCREEN BANNER
-              SizedBox(height: 10.h),
               TSectionBanners(),
 
               /// HOME SCREEN HEADING
@@ -43,17 +42,18 @@ class HomeScreen extends StatelessWidget {
               /// ONLINE LACTURE SECTION
               TOnlineLectureSection(context),
 
-              /// PAST ONLINE TEST
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  TOnlinePastTest("Past tests",context,),
-                  TOnlinePastTest("Past tests",context),
-                ],
-              )
+              /// PAST TEST AND NOTES HARE
+              SizedBox(height: 10.h),
+              TOnlineTestSection(firstName: 'Past tests', lastName: 'Notes'),
+
+              /// PYQ AND MY SCORES HARE
+              TOnlineTestSection(firstName: 'PYQS', lastName: 'My Scores'),
 
             ],
           ),
         ));
   }
 }
+
+
 
