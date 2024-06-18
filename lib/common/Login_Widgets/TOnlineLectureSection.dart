@@ -16,7 +16,7 @@ Widget TOnlineLectureSection(BuildContext context) {
           borderRadius: BorderRadius.circular(20),
           boxShadow:  [
             BoxShadow(
-              offset: Offset(0,2), blurRadius:2,color: dark ? TColors.darkGrey : TColors.grey
+              offset: Offset(0,1), blurRadius:0,color: dark ? TColors.white : TColors.grey
             )
           ]),
       child: Row(
