@@ -2,6 +2,7 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/widgets_login/images/circular_container.dart';
@@ -32,17 +33,20 @@ class TSectionBanners extends StatelessWidget {
             CarouselSlider(
               items: controller.banners
                   .map((banner) => TRoundedImage(
+                fit:BoxFit.contain,
+                padding:EdgeInsets.only(left:15.w),
                 imageUlr: banner.imageUrl,
                 isNetworkImage:true,
                 onPressed:()=> Get.toNamed(banner.targetScreen),
               ))
                   .toList(),
               options: CarouselOptions(
-                viewportFraction: 1,
+                autoPlay:true,
+                viewportFraction:0.8,
                 onPageChanged: (index, _) => controller.updatePageIndicator(index),
               ),
             ),
-            const SizedBox(height: 16),
+            // const SizedBox(height: 16),
             Center(
               child: Obx(() => Row(
                 mainAxisSize: MainAxisSize.min,

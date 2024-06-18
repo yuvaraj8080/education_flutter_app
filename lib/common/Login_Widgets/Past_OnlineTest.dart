@@ -8,7 +8,7 @@ import '../../utils/halpers/helper_function.dart';
 Widget TOnlinePastTest(String text, BuildContext context) {
   final dark = THelperFunction.isDarkMode(context);
   return Padding(
-    padding: EdgeInsets.only(left:5.w,top: 25.h),
+    padding: EdgeInsets.only(left:5.w,top: 20.h),
     child: Container(height: 60.h, width: 130.h,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.sp), color:dark? TColors.dark:Colors.grey.shade200),
       child: Row(
