@@ -5,8 +5,6 @@ class TColors {
 
   //  App basic Colors//
   static const Color primaryColor = Colors.red;
-  // static const Color blackBackground = Color();
-  // static const Color whiteBackground = Color();
 
   static const Gradient linearGradient = LinearGradient(
       begin: Alignment(0.0, 0.0),
