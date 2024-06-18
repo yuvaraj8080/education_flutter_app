@@ -1,7 +1,5 @@
 
-
 import 'package:get/get.dart';
-
 import '../../../data/repositories/Banners/banner_repository.dart';
 import '../../../utils/loaders/snackbar_loader.dart';
 import '../models/banner_model.dart';
