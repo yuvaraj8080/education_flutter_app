@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_job_app/features/Home/controller/Url_Launcher_Controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -16,10 +17,11 @@ class TSectionBanners extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(BannerController()); // Initialize your controller properly
+    final controller = Get.put(BannerController());
+    final urlController = Get.put(UrlController());
     return Obx((){
       /// LOADER
-      if(controller.isLoading.value) return const TShimmerEffect(width: double.infinity, height:190);
+      if(controller.isLoading.value) return const TShimmerEffect(width: double.infinity, height:150);
 
       if(controller.banners.isEmpty){
         return const TShimmerEffect(width: double.infinity, height: double.infinity);
@@ -36,7 +38,7 @@ class TSectionBanners extends StatelessWidget {
                 padding:EdgeInsets.only(left:10.w),
                 imageUlr: banner.imageUrl,
                 isNetworkImage:true,
-                onPressed:()=> Get.toNamed(banner.targetScreen),
+                onPressed:()=>urlController.launchLink(Uri.parse(banner.targetScreen)),
               ))
                   .toList(),
               options: CarouselOptions(

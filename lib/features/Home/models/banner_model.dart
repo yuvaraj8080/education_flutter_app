@@ -8,7 +8,6 @@ class BannerModel{
 
    BannerModel({required this.imageUrl, required this.targetScreen, required this.active});
 
-
    Map<String, dynamic> toJson(){
      return{
        "ImageUrl":imageUrl,

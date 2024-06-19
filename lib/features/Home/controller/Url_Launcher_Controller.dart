@@ -6,11 +6,12 @@ class UrlController extends GetxController {
   static UrlController  get instance => Get.find();
 
   ///  URL LINK LAUNCHER
-  Future<void> launchUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      TLoaders.errorSnackBar(title:'Could not launch $url');
+  Future<void> launchLink(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
     }
   }
 }
