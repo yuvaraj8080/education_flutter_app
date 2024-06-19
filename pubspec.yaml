@@ -41,6 +41,7 @@ dependencies:
   dart_format: ^1.1.17
   fluttertoast:
   flutter_screenutil: ^5.9.3
+ 
 
 #  FIREBASE DATABASE PLUGIN
   firebase_auth:
