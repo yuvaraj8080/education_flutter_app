@@ -34,6 +34,7 @@ class TSectionBanners extends StatelessWidget {
               items: controller.banners
                   .map((banner) => TRoundedImage(
                 width:250,
+                applyImageRadius: true,
                 fit:BoxFit.contain,
                 padding:EdgeInsets.only(left:10.w),
                 imageUlr: banner.imageUrl,

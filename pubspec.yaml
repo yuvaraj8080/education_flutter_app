@@ -43,6 +43,7 @@ dependencies:
   rename_app:
   fluttertoast:
   flutter_screenutil: ^5.9.3
+ 
 
 #  FIREBASE DATABASE PLUGIN
   firebase_auth:
