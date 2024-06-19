@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/features/Batches/Batches_Screen.dart';
 import 'package:flutter_job_app/features/Home/screens/Home_Screen.dart';
-import 'package:flutter_job_app/features/Tests/screen/Test_Screen.dart';
+
+import 'package:flutter_job_app/features/Tests/screen/category_page.dart';
 import 'package:flutter_job_app/utils/halpers/helper_function.dart';
 import 'package:get/get.dart';
 import 'constants/colors.dart';
@@ -46,7 +47,7 @@ class NavigationController extends GetxController {
 
     const HomeScreen(),
     const BatchesScreen(),
-    const TestScreen(),
+    const category_page(),
      SettingScreen(userId:uid)
 
   ];
