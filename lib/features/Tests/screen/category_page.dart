@@ -4,8 +4,8 @@ import 'package:flutter_job_app/features/Tests/models/category_widgets.dart';
 import 'package:flutter_job_app/features/Tests/screen/testpage.dart';
 
 // ignore: camel_case_types
-class category_page extends StatelessWidget {
-  const category_page({super.key});
+class Test_Screen extends StatelessWidget {
+  const Test_Screen({super.key});
 
   @override
   Widget build(BuildContext context) {

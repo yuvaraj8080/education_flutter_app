@@ -26,8 +26,7 @@ class _TestpageState extends State<Testpage> {
   int totalMarksScored = 0; // Store total marks
 
   Stream<QuerySnapshot>? questionStream;
-  final databaseService DatabaseService =
-      databaseService(); // Assuming you created the instance
+  final databaseService DatabaseService = databaseService(); // Assuming you created the instance
 
   @override
   void initState() {
