@@ -47,7 +47,7 @@ class NavigationController extends GetxController {
     const HomeScreen(),
     const BatchesScreen(),
     const TestScreen(),
-     SettingScreen(userId:uid)
+    SettingScreen(userId:uid)
 
   ];
 }
