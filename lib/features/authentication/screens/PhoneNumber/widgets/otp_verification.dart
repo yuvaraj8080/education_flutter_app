@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
+import 'package:flutter_job_app/constants/sizes.dart';
+import 'package:flutter_job_app/data/repositories/authentication/authentication-repository.dart';
 import 'package:flutter_job_app/features/authentication/screens/PhoneNumber/controller/phone_Number_Controller.dart';
+import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
-
 import '../../../../../constants/colors.dart';
 import '../../../../../constants/image_string.dart';
 
@@ -11,11 +13,15 @@ class OtpVerificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     var otp;
-    final controller = PhoneAuthenticationController.instance;
+    final controller = Get.put(PhoneAuthenticationController());
+    final resendOTP = Get.put(AuthenticationRepository());
 
     return Scaffold(
-        appBar: const TAppBar(showBackArrow: true),
+        appBar:TAppBar(showBackArrow:false,actions:[
+          IconButton(onPressed:()=>Get.back(), icon:const Icon(Icons.clear,size:25))
+        ],),
         body: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child:
@@ -48,8 +54,19 @@ class OtpVerificationScreen extends StatelessWidget {
                 length: 6,
                 onChanged: (code) {
                   otp = code;
-                  // controller.verifyOTP(otp);
+                  controller.verifyOTP(otp);
                 }),
+
+
+            /// EXPIRE AND RESEND OTP
+                const SizedBox(height:TSizes.size12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                     Text("Expires in 1:30",style:Theme.of(context).textTheme.bodyLarge),
+                    OutlinedButton(onPressed:()=> resendOTP.sentOTPVerification(controller.phoneNo.text.trim()),
+                        child:const Text("Resend OTP"))
+                ]),
 
             ///  VERIFY TEXT BUTTON
             const SizedBox(height: 50),

@@ -11,11 +11,12 @@ class TLoaders {
   static customToast({required message}){
     ScaffoldMessenger.of(Get.context!).showSnackBar(
       SnackBar(elevation:0,
-          duration:const Duration(seconds:3),
+
+          duration:const Duration(seconds:1),
           backgroundColor: Colors.transparent,
           content:Container(
-            padding: const EdgeInsets.all(12.0),
-            margin: const EdgeInsets.symmetric(horizontal:30),
+            padding: const EdgeInsets.all(10.0),
+            margin: const EdgeInsets.symmetric(horizontal:8),
             decoration:BoxDecoration(
               borderRadius:BorderRadius.circular(30),
               color: THelperFunction.isDarkMode(Get.context!)

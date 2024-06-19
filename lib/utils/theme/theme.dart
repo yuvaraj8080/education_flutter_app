@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../../constants/colors.dart';
 import 'custom_theme/TChechboxTheme.dart';
 import 'custom_theme/appbar_theme.dart';
 import 'custom_theme/bottomSheetTheme.dart';
@@ -11,13 +12,12 @@ import 'custom_theme/text_field_Theme.dart';
 import 'custom_theme/text_theme.dart';
 class TAppTheme{
   TAppTheme._();
-
   static ThemeData lightTheme = ThemeData(
     useMaterial3:true,
-        fontFamily: "Poppins",
+        fontFamily: "CircularStd",
     brightness: Brightness.light,
     primaryColor:Colors.blue,
-    scaffoldBackgroundColor:Colors.white,
+    scaffoldBackgroundColor:TColors.white,
     textTheme:TTextTheme.lightTextTheme,
     chipTheme:TChipTheme.lightChipTheme,
     appBarTheme:TAppbarTheme.lightAppBarTheme,
@@ -30,7 +30,7 @@ class TAppTheme{
   );
   static ThemeData darkTheme = ThemeData(
     useMaterial3:true,
-    fontFamily: "Poppins",
+    fontFamily: "CircularStd",
     brightness: Brightness.dark,
     primaryColor:Colors.blue,
     textTheme:TTextTheme.darkTextTheme,

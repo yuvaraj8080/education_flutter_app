@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job_app/features/Home/models/Home_screen_widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../common/Drawer_AppBar/Drawer_Widgets.dart';
-import '../../../common/Drawer_AppBar/Home_Banner.dart';
-import '../../../common/Login_Widgets/Past_OnlineTest.dart';
+import '../../../common/Login_Widgets/Online_Test_Section.dart';
 import '../../../common/Login_Widgets/TOnlineLectureSection.dart';
 import '../../../common/Login_Widgets/TSection_Heading.dart';
-import '../../../data/repositories/authentication/authentication-repository.dart';
+import '../controller/Url_Launcher_Controller.dart';
+import 'widget/Section_Banner.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -15,9 +13,13 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(AuthenticationRepository());
+
+
     return Scaffold(
-        drawer: drawer(),
+
+      /// DRAWER HARE
+        // drawer: drawer(),
+
         body: Padding(
           padding: const EdgeInsets.only(left:20,right:20),
           child: Column(
@@ -26,15 +28,14 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 50.h),
 
               ///DRAWER AND PROFILE COMPONENTS
-              const Drawer_AppBar(),
+              // const Drawer_AppBar(),
 
               SizedBox(height: 36.h),
               /// SECTION HEADING
               TSectionHeading(context,"Whats new? 👀"),
 
               /// HOME SCREEN BANNER
-              SizedBox(height: 10.h),
-              TSectionBanner(),
+              TSectionBanners(),
 
               /// HOME SCREEN HEADING
               Padding(
@@ -45,17 +46,18 @@ class HomeScreen extends StatelessWidget {
               /// ONLINE LACTURE SECTION
               TOnlineLectureSection(context),
 
-              /// PAST ONLINE TEST
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  TOnlinePastTest("Past tests",context,),
-                  TOnlinePastTest("Past tests",context),
-                ],
-              )
+              /// PAST TEST AND NOTES HARE
+              SizedBox(height: 10.h),
+              TOnlineTestSection(firstName: 'Past tests', lastName: 'Notes'),
+
+              /// PYQ AND MY SCORES HARE
+              TOnlineTestSection(firstName: 'PYQS', lastName: 'My Scores'),
 
             ],
           ),
         ));
   }
 }
+
+
 

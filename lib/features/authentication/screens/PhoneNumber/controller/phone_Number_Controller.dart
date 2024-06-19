@@ -1,8 +1,5 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../../common/NetworkManager/network_manager.dart';
 import '../../../../../constants/image_string.dart';
 import '../../../../../data/repositories/authentication/authentication-repository.dart';
@@ -21,64 +18,69 @@ class PhoneAuthenticationController extends GetxController {
 
 
   /// PHONE AUTHENTICATION
-  void phoneAuthentication(String phoneNo)async {
-
-    try{
-      /// START LOADING
-      TFullScreenLoader.openLoadingDialog("Wait for OTP",TImages.OTPAnimation);
+  void phoneAuthentication(String phoneNo) async {
+    try {
+      // START LOADING
+      TFullScreenLoader.openLoadingDialog("Wait for OTP", TImages.OTPAnimation);
 
       // CHECK INTERNET CONNECTIVITY
       final isConnected = await NetworkManager.instance.isConnected();
-      if(!isConnected){
+      if (!isConnected) {
         TFullScreenLoader.stopLoading();
+        TLoaders.customToast(message: "No internet connection");
         return;
       }
 
       // FORM VALIDATION
-      if(!phoneNumberFormKey.currentState!.validate()){
+      if (!phoneNumberFormKey.currentState!.validate()) {
         TFullScreenLoader.stopLoading();
+        TLoaders.customToast(message: "Invalid phone number");
         return;
       }
 
-      AuthenticationRepository.instance.phoneAuthentication(phoneNo);
+      // PHONE AUTHENTICATION
+      await AuthenticationRepository.instance.sentOTPVerification(phoneNo);
 
-      //  REMOVE LOADER
+      // REMOVE LOADER
       TFullScreenLoader.stopLoading();
 
-      // SHOW SUCCESS SCREEN
-      TLoaders.customToast(message: "OTP SuccessFully sent");
+      // NAVIGATE TO THE OTP SCREEN
+      Get.to(() => const OtpVerificationScreen());
 
-      /// NAVIGATE TO THE OTP SCREEN
-      Get.to(()=> const OtpVerificationScreen());
-    }
-    catch(e){
-      TLoaders.errorSnackBar(title:"Oh snap",message:e.toString());
+    } catch (e) {
+      // SHOW ERROR MESSAGE
+      TLoaders.errorSnackBar(title: "Oh snap", message: e.toString());
+      // REMOVE LOADER
       TFullScreenLoader.stopLoading();
     }
-
   }
+
 
 
   /// SENT OTP FUNCTION HARE
   void verifyOTP(String otp) async{
-
+    try{
       /// START LOADING
-      // TFullScreenLoader.openLoadingDialog("Wait for OTP",TImages.OTPAnimation);
+      TFullScreenLoader.openLoadingDialog("Wait for Login",TImages.OTPAnimation);
 
       // CHECK INTERNET CONNECTIVITY
       final isConnected = await NetworkManager.instance.isConnected();
       if(!isConnected){
-        // TFullScreenLoader.stopLoading();/
+        TFullScreenLoader.stopLoading();
         return;
       }
 
-
+      /// VERIFY THE OTP
       var isVerified = await AuthenticationRepository.instance.verifyOTP(otp);
 
       //  REMOVE LOADER
-      // TFullScreenLoader.stopLoading();
 
       isVerified ? Get.offAll(const HomeScreen()) : Get.back();
+    }
+    catch(e){
+      TLoaders.errorSnackBar(title:"Oh",message:e.toString());
+      TFullScreenLoader.stopLoading();
+    }
   }
 }
 

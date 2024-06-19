@@ -27,7 +27,6 @@ void main() async{
     androidProvider: AndroidProvider.debug,
   );
 
-
   runApp(const App());
 }
 

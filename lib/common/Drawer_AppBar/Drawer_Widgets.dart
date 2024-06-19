@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import '../../data/repositories/authentication/authentication-repository.dart';
 
 class Drawer_AppBar extends StatelessWidget {
   const Drawer_AppBar({

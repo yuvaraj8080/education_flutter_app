@@ -16,7 +16,7 @@ class PhoneNumberScreen extends StatelessWidget {
     final controller = Get.put(PhoneAuthenticationController());
 
     return Scaffold(
-      appBar:const TAppBar(showBackArrow: true,),
+      appBar:const TAppBar(showBackArrow: true),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -51,7 +51,8 @@ class PhoneNumberScreen extends StatelessWidget {
                 child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all<Color>(TColors.darkGrey)),
-                  onPressed: () => controller.phoneAuthentication(controller.phoneNo.text.trim()),
+                  onPressed: () =>
+                      controller.phoneAuthentication(controller.phoneNo.text.trim()),
                   child: const Text("GET OTP"),
                 ),
               ),

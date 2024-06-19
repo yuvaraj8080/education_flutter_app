@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../../features/authentication/screens/Login/login.dart';
 import '../../../features/authentication/screens/onBoarding/onboarding.dart';
+import '../../../navigation_menu.dart';
 import '../../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../../utils/exceptions/firebase_exceptions.dart';
 import '../../../utils/exceptions/format_exceptions.dart';
@@ -41,16 +42,7 @@ class AuthenticationRepository extends GetxController{
     if (user != null) {
 
       /// CURRENT USER IS AUTHORIZED THEN PASS TO THE BOTTOM NEVIGATION SCREEN
-      Get.offAll(() => const HomeScreen());
-
-       // User is signed in
-      // if (user.emailVerified) {
-      //   // Email is verified, navigate to the main screens
-      //   Get.offAll(() => const NavigationMenu());
-      // } else {
-      //   // Email is not verified, navigate to the VerifyEmailScreen
-      //   Get.offAll(() => VerifyEmailScreen(email:_auth.currentUser?.email));
-      // }
+      Get.offAll(() => NavigationMenu());
 
     } else {
       // No user is signed in
@@ -65,33 +57,50 @@ class AuthenticationRepository extends GetxController{
 
 
   /// PHONE AUTHENTICATION FUNCTION
-  Future<void> phoneAuthentication(String phoneNo) async{
-     try {
-       await _auth.verifyPhoneNumber(
-           phoneNumber: '91$phoneNo',
-           verificationCompleted: (credential) async {
-             await _auth.signInWithCredential(credential);
-           },
-           codeSent: (verificationId, resendToken) {
-             this.verificationId.value = verificationId;
-           },
-           codeAutoRetrievalTimeout: (verificationId) {
-             this.verificationId.value = verificationId;
-           },
-           verificationFailed: (e) {
-             TLoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
-           });
-     }
-     catch(e){
-       TLoaders.errorSnackBar(title:"Oh Snap",message:e.toString());
-     }
+  Future<void> sentOTPVerification(String phoneNo) async {
+    try {
+
+      String phoneNumber = '+91$phoneNo';
+      TLoaders.customToast(message: "OTP successfully sent");
+
+      await _auth.verifyPhoneNumber(
+          phoneNumber: phoneNumber,
+          verificationCompleted: (credential) async {
+            await _auth.signInWithCredential(credential);
+          },
+          codeSent: (verificationId, resendToken) {
+            this.verificationId.value = verificationId;
+          },
+          codeAutoRetrievalTimeout: (verificationId) {
+            this.verificationId.value = verificationId;
+          },
+          verificationFailed: (FirebaseAuthException e) {
+            if (e.code == 'invalid-verification-id') {
+              TLoaders.errorSnackBar(title: "Oh Snap", message: "Invalid phone number format.");
+            } else {
+              TLoaders.errorSnackBar(title: "Oh Snap", message: e.message ?? "Verification failed.");
+            }
+          }
+      );
+    } catch (e) {
+      TLoaders.errorSnackBar(title: "Oh Snap", message: e.toString());
+    }
   }
 
 
+
   /// VERIFICATION MOBILE NUMBER OTP
-  Future<bool> verifyOTP(String otp) async{
-     var credentials = await _auth.signInWithCredential(PhoneAuthProvider.credential(verificationId:verificationId.value, smsCode:otp));
-     return credentials.user != null ? true :  false;
+  Future<bool> verifyOTP(String otp) async {
+    if (verificationId.value == null) {
+      throw Exception("Verification ID is null");
+    }
+    var credentials = await _auth.signInWithCredential(
+        PhoneAuthProvider.credential(
+            verificationId: verificationId.value!,
+            smsCode: otp
+        )
+    );
+    return credentials.user != null ? true : false;
   }
 
 
