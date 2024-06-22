@@ -8,10 +8,10 @@ import '../../utils/halpers/helper_function.dart';
 Widget CommonCard(String text, BuildContext context) {
   final dark = THelperFunction.isDarkMode(context);
   return Padding(
-    padding: EdgeInsets.only(left:5.w,top: 15.h),
+    padding: EdgeInsets.only(left:4.w,top: 15.h),
     child: Card(
       elevation:1,shadowColor:dark? TColors.white : TColors.black,
-      child: Container(height: 60.h, width: 130.h,
+      child: Container(height: 60.h, width: 125.h,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.sp), color:dark? TColors.dark:Colors.grey.shade200),
         child: Row(
           mainAxisAlignment:MainAxisAlignment.spaceEvenly ,
