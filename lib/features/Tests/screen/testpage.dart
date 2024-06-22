@@ -62,6 +62,7 @@ class _TestpageState extends State<Testpage> {
           selectedAnswers.clear();
           for (int i = 0; i < snapshot.docs.length; i++) {
             selectedAnswers.add('');
+
           }
           _timerController.startTimer(duration);
         });
