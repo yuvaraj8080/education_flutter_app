@@ -25,6 +25,7 @@ class TColors {
 //  background Container Colors
   static const Color lightContainer = Color(0xFFF6F6F6);
   static const Color white = Colors.white;
+  static const Color green=Color(0xff0B8800);
 
 // buttons Colors
   static const Color buttonPrimary = Colors.red;

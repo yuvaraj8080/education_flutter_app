@@ -16,28 +16,12 @@ class Utils {
     );
   }
 
-  Widget ElevatedButton(String text){
-return
+  Widget ElevatedButton(String text,Color buttonColor){
+  return
    Container(
    height:50,
-   width: 100,
-   decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: Color(0xff09203f),
-   boxShadow:[
-    BoxShadow(
-      color: Colors.white,
-      offset: Offset(4, 4) ,
-      blurRadius: 12,
-      spreadRadius: 1,
-    ),
-      BoxShadow(
-      color: Colors.grey.shade600,
-      offset: Offset(-4, -4) ,
-      blurRadius: 12,
-      spreadRadius: 1,
-    ),
-
-
-   ]
+   width: 200,
+   decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),color: buttonColor,
    
 
    ),

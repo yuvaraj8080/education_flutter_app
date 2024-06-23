@@ -1,37 +1,48 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_job_app/constants/colors.dart';
+
+import 'package:flutter_job_app/features/Tests/controllers/time_controller.dart';
 import 'package:flutter_job_app/features/Tests/models/Utils.dart';
-
-
 import 'package:flutter_job_app/features/Tests/models/database.dart';
 import 'package:flutter_job_app/features/Tests/models/testpageWidgets.dart';
 import 'package:flutter_job_app/features/Tests/screen/scorecard.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:get/get.dart';
+
+import '../../../common/Login_Widgets/TSection_Heading.dart';
 
 class Testpage extends StatefulWidget {
-  final String subject;
+  final String batchName;
+  final String weekNumber;
+  final String topic;
 
-  const Testpage({super.key, required this.subject});
+  const Testpage(
+      {super.key, required this.batchName, required this.weekNumber,required this.topic});
 
   @override
   State<Testpage> createState() => _TestpageState();
 }
 
 class _TestpageState extends State<Testpage> {
-  //for radio button
+  QuerySnapshot? querySnapshot;
+  TimerController _timerController = Get.put(TimerController(onFinish: () {}));
   bool _dataLoaded = false;
-  String selectedvalue = '';
   List<String> selectedAnswers = [];
-  int totalMarksScored = 0; // Store total marks
+  int totalMarksScored = 0;
+  int _totalQuestions = 0;
+  bool _canNavigate = false;
 
   Stream<QuerySnapshot>? questionStream;
-  final databaseService DatabaseService = databaseService(); // Assuming you created the instance
+  final DatabaseService databaseService = DatabaseService();
 
   @override
   void initState() {
     super.initState();
-    getQuestions().then((_) {
+    _timerController = Get.put(TimerController(onFinish: () {}));
+    getQuestions().then((_) async {
       setState(() {
         _dataLoaded = true;
       });
@@ -39,9 +50,12 @@ class _TestpageState extends State<Testpage> {
   }
 
   Future<void> getQuestions() async {
-    // Call the instance method using the instance variable
-    questionStream = await DatabaseService.getSubjectQuestions(widget.subject);
+    questionStream = await databaseService.getSubjectQuestions(
+        widget.batchName, widget.weekNumber);
 
+    DocumentSnapshot weekDoc = await databaseService.getWeekDocument(
+        widget.batchName, widget.weekNumber);
+    int duration = int.parse(weekDoc["duration"]);
     if (mounted) {
       questionStream!.listen((snapshot) {
         setState(() {
@@ -50,335 +64,214 @@ class _TestpageState extends State<Testpage> {
             selectedAnswers.add('');
 
           }
+          _timerController.startTimer(duration);
         });
       });
     }
   }
 
-  bool show = false;
+  void resetScoreForQuestion(
+      int index, String newAnswer, String correctOption) {
+    if (selectedAnswers[index] == correctOption) {
+      totalMarksScored--;
+    }
+    selectedAnswers[index] = newAnswer;
+
+    if (newAnswer == correctOption) {
+      totalMarksScored++;
+    }
+  }
+
   PageController controller = PageController();
 
-  Widget buildAllQuestions() {
-    return StreamBuilder<QuerySnapshot>(
-      stream: questionStream,
-      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}'); // Display error message
-        }
+  Widget buildQuestion(DocumentSnapshot ds, int index, int totalQuestions) {
+    String correctOption = ds["Correct Option"];
+    List<String> options = [
+      ds["Option1"],
+      ds["Option2"],
+      ds["Option3"],
+      ds["Option4"]
+    ];
+    String selectedAnswer = selectedAnswers[index];
 
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            return const Center(
-                child: CircularProgressIndicator()); // Show loading indicator
-          default:
-            return PageView.builder(
-                // ... your PageView implementation using snapshot.data!.docs
-                controller: controller,
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (context, index) {
-                  DocumentSnapshot ds = snapshot.data!.docs[index];
-                  String correctOption = ds["Correct Option"];
-                  List<String> options = [
-                    ds["Option1"],
-                    ds["Option2"],
-                    ds["Option3"],
-                    ds["Option4"]
-                  ];
-                  String selectedAnswer = '';
-                  if (index < selectedAnswers.length) {
-                    selectedAnswer = selectedAnswers[index];
-                  }
-                  void resetScoreForQuestion(int index,String newAnswer) {
-                    if (selectedAnswers[index] == correctOption) {
-                      totalMarksScored--;
-                    }
-                    selectedAnswers[index] = newAnswer;
-                  }
+    return Column(
+      children: [
 
-                  return Column(
-                    children: [
-                      Column(
-                        children: [
-                          //Question Image
-                          Question(ds["Image"]),
-                          //option 1
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            height: 50,
-                            width: 300,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: const Offset(0, 4),
-                                    blurRadius: 2,
-                                    spreadRadius: 1,
-                                    color: Colors.grey.shade300,
-                                  )
-                                ]),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    options[0],
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                                Radio(
-                                  key: ValueKey(options[0]),
-                                  value: options[0],
-                                  groupValue: selectedAnswers[index],
-                                  onChanged: (currentvalue) {
-                                    setState(() {
-                                      // Update selected answer for this question
-                                      resetScoreForQuestion(index, currentvalue!);
-
-                                      // Check if selected value matches correct option and update totalMarksScored
-                                      if (currentvalue == correctOption) {
-                                        totalMarksScored++;
-                                      } 
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          ),
-
-                          //option 2
-
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            height: 50,
-                            width: 300,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: const Offset(0, 4),
-                                    blurRadius: 2,
-                                    spreadRadius: 1,
-                                    color: Colors.grey.shade300,
-                                  )
-                                ]),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    options[1],
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                                Radio(
-                                  key: ValueKey(options[1]),
-                                  value: options[1],
-                                  groupValue: selectedAnswers[index],
-                                  onChanged: (currentvalue) {
-                                    setState(() {
-                                      // Update selected answer for this question
-                                     resetScoreForQuestion(index, currentvalue!);
-
-                                      // Check if selected value matches correct option and update totalMarksScored
-                                      if (currentvalue == correctOption) {
-                                        totalMarksScored++;
-                                      } 
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          ),
-
-                          //option3
-
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            height: 50,
-                            width: 300,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: const Offset(0, 4),
-                                    blurRadius: 2,
-                                    spreadRadius: 1,
-                                    color: Colors.grey.shade300,
-                                  )
-                                ]),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    options[2],
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                                Radio(
-                                  key: ValueKey(options[2]),
-                                  value: options[2],
-                                  groupValue: selectedAnswers[index],
-                                  onChanged: (currentvalue) {
-                                    setState(() {
-                                      // Update selected answer for this question
-                                      resetScoreForQuestion(index, currentvalue!);
-
-                                      // Check if selected value matches correct option and update totalMarksScored
-                                      if (currentvalue == correctOption) {
-                                        totalMarksScored++;
-                                      } 
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          ),
-
-                          //Option4
-
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            height: 50,
-                            width: 300,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: const Offset(0, 4),
-                                    blurRadius: 2,
-                                    spreadRadius: 1,
-                                    color: Colors.grey.shade300,
-                                  )
-                                ]),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    options[3],
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                ),
-                                Radio(
-                                  key: ValueKey(options[3]),
-                                  value: options[3],
-                                  groupValue: selectedAnswers[index],
-                                  onChanged: (currentvalue) {
-                                    setState(() {
-                                      // Update selected answer for this question
-                                     resetScoreForQuestion(index, currentvalue!);
-
-                                      // Check if selected value matches correct option and update totalMarksScored
-                                      if (currentvalue == correctOption) {
-                                        totalMarksScored++;
-                                      } 
-                                    });
-                                  },
-                                )
-                              ],
-                            ),
-                          ),
-
-                          // Next question button
-
-                          GestureDetector(
-                              onTap: () {
-                                setState(() {});
-                                if (index == snapshot.data!.docs.length - 1) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Scorecard(
-                                        totalMarksScored: totalMarksScored,
-                                        totalQuestions:
-                                            snapshot.data!.docs.length,
-                                      ),
-                                    ),
-                                  );
-                                } else {
-                                  controller.nextPage(
-                                      duration: Duration(milliseconds: 200),
-                                      curve: Curves.easeIn);
-                                }
-                              },
-                              child: index == snapshot.data!.docs.length
-                                  ? Utils().ElevatedButton("Submit")
-                                  : Utils().ElevatedButton("Submit"))
-                        ],
-                      )
-                    ],
-                  );
-                });
-        }
-      },
+        Testbanner(context, widget.weekNumber, widget.topic) ,
+        SizedBox(height: 10.h,),
+        Obx(() =>  Padding(
+          padding:  EdgeInsets.only(right: 20.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TSectionHeading(context, ' ${_timerController.duration} remaining',size: 14.sp),
+            ],
+          ),
+        ),),//' ${_timerController.duration} remaining'
+        Padding(
+          padding: EdgeInsets.all(10.w),
+          child: Row(
+            children: [
+              TSectionHeading(context,'Q ',size:24.sp  ),
+              Question(ds["Image"]),
+            ],
+          ),
+        ),
+        ...options.map((option) {
+          return Container(
+            margin: const EdgeInsets.only(bottom: 10),
+            height: 50,
+            width: 300,
+            
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Radio(
+                  activeColor: TColors.black,
+                  key: ValueKey(option),
+                  value: option,
+                  groupValue: selectedAnswer,
+                  onChanged: (currentValue) {
+                    setState(() {
+                      resetScoreForQuestion(
+                          index, currentValue!, correctOption);
+                    });
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    option,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+                
+              ],
+            ),
+          );
+        }).toList(),
+        GestureDetector(
+          onTap: () async{
+            setState(() {});
+            if (index == totalQuestions - 1) {
+              _timerController.stopTimer();
+               QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Tests').doc(widget.batchName).collection("weeks").doc(widget.weekNumber).collection("Question set").get();
+              if (querySnapshot != null) {
+                Get.off(Scorecard(
+                  totalMarksScored: totalMarksScored,
+                  totalQuestions: _totalQuestions,
+                  questions: querySnapshot!.docs,
+                  selectedAnswers: selectedAnswers,
+                  weeknumber: widget.weekNumber,
+                  topicname: widget.topic,
+                ));
+              } else {
+                print("querySnapshot is null");
+              }
+            } else {
+              controller.nextPage(
+                duration: Duration(milliseconds: 200),
+                curve: Curves.easeIn,
+              );
+            }
+          },
+          child: index == totalQuestions - 1
+              ? Utils().ElevatedButton("Submit",TColors.redtext)
+              : Utils().ElevatedButton("Proceed To Next Question",TColors.green),
+        ),
+         
+         underlinedText("view attempted questions") 
+        
+      ],
     );
   }
 
-  // Widget buildScorecard() {
-  //   return Column(
-  //     children: [
-  //       Text('Your Score: $totalMarksScored/${widget.questionStream.docs.length}'),
-  //       Text('Your Answers:'),
-  //       ListView.builder(
-  //         shrinkWrap: true,
-  //         itemCount: selectedAnswers.length,
-  //         itemBuilder: (context, index) {
-  //           return Text(
-  //             'Question ${index + 1}: ${selectedAnswers[index]}',
-  //           );
-  //         },
-  //       ),
-  //     ],
-  //   );
-  // }
 
-  // Widget buildSummary(
-  //     DocumentSnapshot ds, AsyncSnapshot<QuerySnapshot> snapshot) {
-  //   if (snapshot.hasData) {
-  //     // Data available, display summary
-  //     return Column(
-  //       children: [
-  //         Text('Your Answers:', style: TextStyle(fontSize: 18)),
-  //         ListView.builder(
-  //           shrinkWrap: true,
-  //           itemCount: selectedAnswers.length,
-  //           itemBuilder: (context, index) {
-  //             return Text(
-  //               'Question ${index + 1}: ${selectedAnswers[index]}',
-  //             );
-  //           },
-  //         ),
-  //         Text(
-  //           'Total Marks Scored: $totalMarksScored',
-  //           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-  //         ),
-  //       ],
-  //     );
-  //   } else {
-  //     return const Text('Loading...'); // Display placeholder while waiting
-  //   }
-  // }
+
+
+   Future<bool> _onWillPop() async {
+    _timerController.stopTimer();
+    Get.find<TimerController>().dispose();
+    return await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Are you sure you want to exit the test?'),
+        content: Text('Your progress will not be saved.And your marks will be recorded as zero'),
+        actions: <Widget>[
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('No'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              
+              Navigator.of(context).pop(true);
+            },
+            child: Text('Yes'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+void dispose() {
+  _timerController.stopTimer();
+  Get.find<TimerController>().dispose();
+  super.dispose();
+}
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.subject),
-      ),
-      body: buildAllQuestions(), // Use the separate method for readability
-    );
+    return _dataLoaded
+        ? WillPopScope(
+          onWillPop: _onWillPop,
+          child: Scaffold(
+              appBar: AppBar(
+                title: Text(widget.batchName),
+                automaticallyImplyLeading: false, 
+              ),
+              body: StreamBuilder<QuerySnapshot>(
+                stream: questionStream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text(
+                        'Error: ${snapshot.error}'); // Display error message
+                  }
+          
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return const Center(
+                          child:
+                              CircularProgressIndicator()); // Show loading indicator
+                    default:
+                      QuerySnapshot querySnapshot = snapshot.data!;
+                      _totalQuestions =
+                          querySnapshot.docs.length; // Update _totalQuestions
+                      _timerController.onFinish = () {
+                        Get.to(() => Scorecard(
+                              totalMarksScored: totalMarksScored,
+                              totalQuestions: _totalQuestions,
+                              questions: querySnapshot.docs,
+                              selectedAnswers: selectedAnswers,
+                              weeknumber: widget.weekNumber,
+                              topicname: widget.topic,
+                            ));
+                      };
+                      return PageView.builder(
+                        controller: controller,
+                        itemCount: querySnapshot.docs.length,
+                        itemBuilder: (context, index) {
+                          DocumentSnapshot ds = querySnapshot.docs[index];
+                          return buildQuestion(
+                              ds, index, querySnapshot.docs.length);
+                        },
+                      );
+                  }
+                },
+              ),
+            ),
+        )
+        : const Center(child: CircularProgressIndicator());
   }
 }
