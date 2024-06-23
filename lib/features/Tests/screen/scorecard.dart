@@ -28,8 +28,6 @@ class Scorecard extends StatelessWidget {
     required this.selectedAnswers,
     required this.weeknumber,
     required this.topicname,
-    
-
   });
 
   @override
@@ -56,7 +54,7 @@ class Scorecard extends StatelessWidget {
             SizedBox(height: 20.h,),
             GestureDetector(onTap: () => Get.to(()=>AnswerKeyPage(questions: questions, selectedAnswers: selectedAnswers)),child: underlinedText("view answer key")),
            SizedBox(height: 30.h,),
-           
+
             GestureDetector(onTap: () => Get.off(()=>NavigationMenu()),child: Utils().ElevatedButton('Back To Home',TColors.black)),
             
           ]    
