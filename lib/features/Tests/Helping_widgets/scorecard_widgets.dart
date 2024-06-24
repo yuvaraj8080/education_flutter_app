@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/constants/colors.dart';
 
-Widget scoreTable(String Weeknumber, int correctAnswer, int totalquestion) {
+Widget scoreTable(String Weeknumber, int correctAnswer, int totalquestion,int skippedquestions,int wrongAnswers) {
   return Padding(
     padding: const EdgeInsets.all(16.0),
     child: Container(
@@ -32,6 +32,26 @@ Widget scoreTable(String Weeknumber, int correctAnswer, int totalquestion) {
               ),
               TableCell(
                 child: Center(child: Text('$correctAnswer')),
+              ),
+            ],
+          ),
+          TableRow(
+            children: [
+              TableCell(
+                child: Center(child: Text('skipped questions')),
+              ),
+              TableCell(
+                child: Center(child: Text('$skippedquestions')),
+              ),
+            ],
+          ),
+           TableRow(
+            children: [
+              TableCell(
+                child: Center(child: Text('wrong answers')),
+              ),
+              TableCell(
+                child: Center(child: Text('$wrongAnswers')),
               ),
             ],
           ),
