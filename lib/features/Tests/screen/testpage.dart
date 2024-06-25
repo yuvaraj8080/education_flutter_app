@@ -5,6 +5,7 @@ import 'package:flutter_job_app/features/Tests/controllers/time_controller.dart'
 import 'package:flutter_job_app/features/Tests/models/Utils.dart';
 import 'package:flutter_job_app/features/Tests/models/database.dart';
 import 'package:flutter_job_app/features/Tests/Helping_widgets/testpageWidgets.dart';
+import 'package:flutter_job_app/features/Tests/screen/questionStatus.dart';
 import 'package:flutter_job_app/features/Tests/screen/scorecard.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -80,8 +81,7 @@ class _TestpageState extends State<Testpage> {
 
     if (newAnswer == correctOption) {
       totalMarksScored++;
-    }
-    if (selectedAnswers.isNotEmpty && selectedAnswers != correctOption && selectedAnswers[index]!='') {
+    } else if (newAnswer != correctOption && newAnswer != '') {
       totalWrongAnswers++;
     }
   }
@@ -206,7 +206,22 @@ class _TestpageState extends State<Testpage> {
                   .ElevatedButton("Proceed To Next Question", TColors.green),
         ),
 
-        underlinedText("view attempted questions")
+        GestureDetector(
+          onTap: () async {
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                opaque: false,
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    QuestionStatusPage(
+                  selectedAnswers: selectedAnswers,
+                  totalQuestions: _totalQuestions,
+                ),
+              ),
+            );
+          },
+          child: underlinedText("view attempted questions"),
+        )
       ],
     );
   }

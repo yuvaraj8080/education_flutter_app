@@ -91,3 +91,13 @@ Widget scoreTable(String Weeknumber, int correctAnswer, int totalquestion,int sk
     ),
   );
 }
+
+
+Widget card(){
+ return Card(
+  child: Row(
+    children: [],
+  ),
+
+ );
+}
