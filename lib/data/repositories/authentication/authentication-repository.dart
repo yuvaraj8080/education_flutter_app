@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_job_app/features/Home/screens/Home_Screen.dart';
 import 'package:flutter_job_app/utils/loaders/snackbar_loader.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
@@ -39,7 +38,9 @@ class AuthenticationRepository extends GetxController{
    ///----FUNCTION TO SHOW RELEVANT SCREEN
   screenRedirect() async {
     final user = _auth.currentUser;
-    if (user != null) {
+    if (user != null ) {
+
+
 
       /// CURRENT USER IS AUTHORIZED THEN PASS TO THE BOTTOM NEVIGATION SCREEN
       Get.offAll(() => NavigationMenu());
