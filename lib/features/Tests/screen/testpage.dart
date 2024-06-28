@@ -4,19 +4,23 @@ import 'package:flutter_job_app/constants/colors.dart';
 import 'package:flutter_job_app/features/Tests/controllers/time_controller.dart';
 import 'package:flutter_job_app/features/Tests/models/Utils.dart';
 import 'package:flutter_job_app/features/Tests/models/database.dart';
-import 'package:flutter_job_app/features/Tests/models/testpageWidgets.dart';
+import 'package:flutter_job_app/features/Tests/Helping_widgets/testpageWidgets.dart';
+import 'package:flutter_job_app/features/Tests/screen/questionStatus.dart';
 import 'package:flutter_job_app/features/Tests/screen/scorecard.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../common/Login_Widgets/TSection_Heading.dart';
 
 class Testpage extends StatefulWidget {
-  final String batchName;
-  final String weekNumber;
-  final String topic;
+  final String batchName; //fetches batch name from previous page
+  final String weekNumber; //similar to above
+  final String topic; //similar to above
 
   const Testpage(
-      {super.key, required this.batchName, required this.weekNumber,required this.topic});
+      {super.key,
+      required this.batchName,
+      required this.weekNumber,
+      required this.topic});
 
   @override
   State<Testpage> createState() => _TestpageState();
@@ -24,33 +28,35 @@ class Testpage extends StatefulWidget {
 
 class _TestpageState extends State<Testpage> {
   QuerySnapshot? querySnapshot;
-  TimerController _timerController = Get.put(TimerController(onFinish: () {}));
+  late TimerController _timerController;
   bool _dataLoaded = false;
   List<String> selectedAnswers = [];
   int totalMarksScored = 0;
   int _totalQuestions = 0;
-  bool _canNavigate = false;
+  int totalWrongAnswers = 0;
 
-  Stream<QuerySnapshot>? questionStream;
-  final DatabaseService databaseService = DatabaseService();
+  Stream<QuerySnapshot>? questionStream; //initializing Stream
+  final DatabaseService databaseService =
+      DatabaseService(); //create an database service object
 
   @override
   void initState() {
     super.initState();
-    _timerController = Get.put(TimerController(onFinish: () {}));
+    _timerController =
+        (TimerController(onFinish: () {})); //initializinng timercontroller
     getQuestions().then((_) async {
       setState(() {
         _dataLoaded = true;
-      });
+      }); //it sets the dataloaded when all questions are available
     });
   }
 
   Future<void> getQuestions() async {
     questionStream = await databaseService.getSubjectQuestions(
-        widget.batchName, widget.weekNumber);
+        widget.batchName, widget.weekNumber); //gets thhe list of questions
 
     DocumentSnapshot weekDoc = await databaseService.getWeekDocument(
-        widget.batchName, widget.weekNumber);
+        widget.batchName, widget.weekNumber); //gets the test details
     int duration = int.parse(weekDoc["duration"]);
     if (mounted) {
       questionStream!.listen((snapshot) {
@@ -58,14 +64,14 @@ class _TestpageState extends State<Testpage> {
           selectedAnswers.clear();
           for (int i = 0; i < snapshot.docs.length; i++) {
             selectedAnswers.add('');
-
-          }
-          _timerController.startTimer(duration);
+          } // addeds an empty string at each question index to tracck the selected answers
+          _timerController.startTimer(duration); //startinng the timer
         });
       });
     }
   }
 
+  //this part adds the selected answer to thhe selected annswer array,also increment the marks if it matches with correct optionn
   void resetScoreForQuestion(
       int index, String newAnswer, String correctOption) {
     if (selectedAnswers[index] == correctOption) {
@@ -75,10 +81,14 @@ class _TestpageState extends State<Testpage> {
 
     if (newAnswer == correctOption) {
       totalMarksScored++;
+    } else if (newAnswer != correctOption && newAnswer != '') {
+      totalWrongAnswers++;
     }
   }
 
   PageController controller = PageController();
+
+  //this widget is for displaying the question and options
 
   Widget buildQuestion(DocumentSnapshot ds, int index, int totalQuestions) {
     String correctOption = ds["Correct Option"];
@@ -92,33 +102,44 @@ class _TestpageState extends State<Testpage> {
 
     return Column(
       children: [
+        // Test name banner
+        Testbanner(context, widget.weekNumber, widget.topic),
+        SizedBox(
+          height: 10.h,
+        ),
 
-        Testbanner(context, widget.weekNumber, widget.topic) ,
-        SizedBox(height: 10.h,),
-        Obx(() =>  Padding(
-          padding:  EdgeInsets.only(right: 20.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TSectionHeading(context, ' ${_timerController.duration} remaining',size: 14.sp),
-            ],
+        // this part is for displaying remaininng time
+        Obx(
+          () => Padding(
+            padding: EdgeInsets.only(right: 20.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TSectionHeading(
+                    context, ' ${_timerController.timerDisplay} remaining',
+                    size: 14.sp),
+              ],
+            ),
           ),
-        ),),//' ${_timerController.duration} remaining'
+        ),
+
+        // displaying questionn image
         Padding(
           padding: EdgeInsets.all(10.w),
           child: Row(
             children: [
-              TSectionHeading(context,'Q ',size:24.sp  ),
+              TSectionHeading(context, 'Q ', size: 24.sp),
               Question(ds["Image"]),
             ],
           ),
         ),
+
+        //this part is for displaying options
         ...options.map((option) {
           return Container(
             margin: const EdgeInsets.only(bottom: 10),
             height: 50,
             width: 300,
-            
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -141,22 +162,30 @@ class _TestpageState extends State<Testpage> {
                     style: TextStyle(color: Colors.black),
                   ),
                 ),
-                
               ],
             ),
           );
         }).toList(),
+
+        //this  part is for navigation  to next question as well as scorecard
         GestureDetector(
-          onTap: () async{
+          onTap: () async {
             setState(() {});
             if (index == totalQuestions - 1) {
               _timerController.stopTimer();
-               QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('Tests').doc(widget.batchName).collection("weeks").doc(widget.weekNumber).collection("Question set").get();
+              QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+                  .collection('Tests')
+                  .doc(widget.batchName)
+                  .collection("weeks")
+                  .doc(widget.weekNumber)
+                  .collection("Question set")
+                  .get();
               if (querySnapshot != null) {
                 Get.off(Scorecard(
                   totalMarksScored: totalMarksScored,
                   totalQuestions: _totalQuestions,
-                  questions: querySnapshot!.docs,
+                  totalWrongAnswers: totalWrongAnswers,
+                  questions: querySnapshot.docs,
                   selectedAnswers: selectedAnswers,
                   weeknumber: widget.weekNumber,
                   topicname: widget.topic,
@@ -172,27 +201,39 @@ class _TestpageState extends State<Testpage> {
             }
           },
           child: index == totalQuestions - 1
-              ? Utils().ElevatedButton("Submit",TColors.redtext)
-              : Utils().ElevatedButton("Proceed To Next Question",TColors.green),
+              ? Utils().ElevatedButton("Submit", TColors.redtext)
+              : Utils()
+                  .ElevatedButton("Proceed To Next Question", TColors.green),
         ),
-         
-         underlinedText("view attempted questions") 
-        
+
+        GestureDetector(
+          onTap: () async {
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                opaque: false,
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    QuestionStatusPage(
+                  selectedAnswers: selectedAnswers,
+                  totalQuestions: _totalQuestions,
+                ),
+              ),
+            );
+          },
+          child: underlinedText("view attempted questions"),
+        )
       ],
     );
   }
 
-
-
-
-   Future<bool> _onWillPop() async {
-    _timerController.stopTimer();
-    Get.find<TimerController>().dispose();
+  //This part  insure a confirm dialogue box when user tries to exit the test in between
+  Future<bool> _onWillPop() async {
     return await showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text('Are you sure you want to exit the test?'),
-        content: Text('Your progress will not be saved.And your marks will be recorded as zero'),
+        content: Text(
+            'Your progress will not be saved.And your marks will be recorded as zero'),
         actions: <Widget>[
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(false),
@@ -200,7 +241,8 @@ class _TestpageState extends State<Testpage> {
           ),
           ElevatedButton(
             onPressed: () {
-              
+              _timerController.stopTimer();
+              _timerController.dispose();
               Navigator.of(context).pop(true);
             },
             child: Text('Yes'),
@@ -211,21 +253,22 @@ class _TestpageState extends State<Testpage> {
   }
 
   @override
-void dispose() {
-  _timerController.stopTimer();
-  Get.find<TimerController>().dispose();
-  super.dispose();
-}
+  void dispose() {
+    _timerController.stopTimer();
+    _timerController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return _dataLoaded
         ? WillPopScope(
-          onWillPop: _onWillPop,
-          child: Scaffold(
+            onWillPop: _onWillPop,
+            child: Scaffold(
               appBar: AppBar(
                 title: Text(widget.batchName),
-                automaticallyImplyLeading: false, 
+                automaticallyImplyLeading: false,
               ),
               body: StreamBuilder<QuerySnapshot>(
                 stream: questionStream,
@@ -234,7 +277,7 @@ void dispose() {
                     return Text(
                         'Error: ${snapshot.error}'); // Display error message
                   }
-          
+
                   switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
                       return const Center(
@@ -248,6 +291,7 @@ void dispose() {
                         Get.to(() => Scorecard(
                               totalMarksScored: totalMarksScored,
                               totalQuestions: _totalQuestions,
+                              totalWrongAnswers: totalWrongAnswers,
                               questions: querySnapshot.docs,
                               selectedAnswers: selectedAnswers,
                               weeknumber: widget.weekNumber,
@@ -267,7 +311,7 @@ void dispose() {
                 },
               ),
             ),
-        )
+          )
         : const Center(child: CircularProgressIndicator());
   }
 }
