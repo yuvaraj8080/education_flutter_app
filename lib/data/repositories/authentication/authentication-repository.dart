@@ -40,8 +40,6 @@ class AuthenticationRepository extends GetxController{
     final user = _auth.currentUser;
     if (user != null ) {
 
-
-
       /// CURRENT USER IS AUTHORIZED THEN PASS TO THE BOTTOM NEVIGATION SCREEN
       Get.offAll(() => NavigationMenu());
 
@@ -129,29 +127,6 @@ class AuthenticationRepository extends GetxController{
        throw "Something went wrong, Please try again";
      }
    }
-
-
-  ///[EMAIL AUTHENTICATION ] - REGISTER
-  Future<UserCredential>registerWithEmailAndPassword(String email,String password)async{
-     try{
-       return await _auth.createUserWithEmailAndPassword(email:email, password:password);
-     }
-     on FirebaseAuthException catch (e){
-       throw TFirebaseAuthException(e.code).message;
-     }
-     on FirebaseException catch (e){
-       throw TFirebaseException(e.code).message;
-     }
-     on FormatException catch (_){
-       throw const TFormException();
-     }
-     on PlatformException catch (e){
-       throw TPlatformException(e.code).message;
-     }
-     catch(e){
-       throw "Something went wrong, Please try again";
-     }
-  }
 
   /// [EMAIL VERIFICATION] - MAIL VERIFICATION
   Future<void> sendEmailVerification() async{

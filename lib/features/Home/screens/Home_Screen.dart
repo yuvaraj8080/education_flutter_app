@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
+  import 'package:flutter/material.dart';
 import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
 import 'package:flutter_job_app/common/widgets_login/images/t_Rounded_image.dart';
 import 'package:flutter_job_app/constants/sizes.dart';
+import 'package:flutter_job_app/features/personalization/controllers/user_controller.dart';
+import 'package:flutter_job_app/features/personalization/screens/profile.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../common/Login_Widgets/Online_Test_Section.dart';
 import '../../../common/Login_Widgets/TOnlineLectureSection.dart';
@@ -14,6 +17,8 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(UserController());
+    final user = controller.user.value;
     return Scaffold(
       /// ==== APP BAR HARE===
       appBar:TAppBar(showBackArrow: false,
@@ -21,8 +26,11 @@ class HomeScreen extends StatelessWidget {
           Row(children:[
             IconButton(onPressed:(){}, icon:Icon(Iconsax.notification,size:30,)),
             SizedBox(width:TSizes.size8),
-            TRoundedImage(imageUlr:'assets/images/ChemisphereLogo.png',fit: BoxFit.cover,
-                width:30,height:30, isNetworkImage:false,onPressed:(){}
+            TRoundedImage(
+              onPressed:()=> Get.to(()=> ProfileScreen()),
+              isNetworkImage:user.profilePicture.isNotEmpty ? true : false,
+              fit:BoxFit.cover,height:35,width:35,
+              imageUlr: user.profilePicture.isNotEmpty ? user.profilePicture : 'assets/images/user.png',
             )
           ])
         ],

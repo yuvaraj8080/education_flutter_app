@@ -46,47 +46,6 @@ class UserController extends GetxController{
     }
   }
 
-
-  /// SAVE USER RECORD FROM ANY REGISTRATION PROVIDER
-Future<void> saveUserRecord(UserCredential? userCredential) async{
-  try{
-
-    //FIRST UPDATE RX USER AND THEN CHECK USER DATA IS ALREADY STORED , IF NOT STORED NEW DATA
-    await fetchUserRecord();
-
-    // IF NO RECORD ALREADY STORED
-    if(user.value.id.isEmpty){
-      if(userCredential != null){
-        //CONVERT NAME TO FIRST AND LAST NAME
-        final nameParts = UserModel.nameParts(userCredential.user!.displayName ?? '');
-        final username = UserModel.generateUsername(userCredential.user!.displayName ?? '');
-
-        // map data
-        final user = UserModel(
-            id:userCredential.user!.uid,
-            firstName:nameParts[0],
-            lastName: nameParts.length > 1 ? nameParts.sublist(1).join("") : '',
-            username: username,
-            email:userCredential.user!.email ?? '',
-            location: userCredential.user!.phoneNumber?? '',
-            profilePicture:userCredential.user!.photoURL??''
-        );
-
-        // SAVE USER DATA
-        await userRepository.saveUserRecord(user);
-
-      }
-
-    }
-
-  }
-  catch(e){
-    TLoaders.warningSnackBar(title: "Date not saved",
-    message:"Something went wrong while saving your information, you can re-save your data in your profile.");
-   }
-  }
-
-
   /// DELETE ACCOUNT WARNING
   void deleteAccountWarningPopup(){
     Get.defaultDialog(
@@ -113,13 +72,6 @@ Future<void> saveUserRecord(UserCredential? userCredential) async{
       final auth = AuthenticationRepository.instance;
       final provider = auth.authUser!.providerData.map((e) => e.providerId).first;
       if(provider.isNotEmpty){
-        /// Re-Verify AUTH EMAIL
-        // if(provider == "google.com"){
-        //   await auth.signInWithGoogle();
-        //   await auth.deleteAccount();
-        //   TFullScreenLoader.stopLoading();
-        //   Get.offAll(()=> const LoginScreen());
-        // }
        if(provider == "password"){
           TFullScreenLoader.stopLoading();
           Get.to(()=>const ReAuthLoginForm());
