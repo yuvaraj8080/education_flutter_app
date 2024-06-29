@@ -5,6 +5,7 @@ import 'package:flutter_job_app/constants/colors.dart';
 import 'package:flutter_job_app/constants/sizes.dart';
 import 'package:flutter_job_app/features/personalization/controllers/user_controller.dart';
 import 'package:flutter_job_app/features/personalization/screens/profile.dart';
+import 'package:flutter_job_app/utils/halpers/enums.dart';
 import 'package:flutter_job_app/utils/halpers/helper_function.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -48,7 +49,8 @@ class HomeScreen extends StatelessWidget {
             children: [
 
               /// SECTION HEADING
-              TSectionHeading(context,"Whats new? 👀"),
+              // if(user.batch == Batch.JEE11)
+                TSectionHeading(context,"Whats new? 👀"),
 
               /// HOME SCREEN BANNER
               TSectionBanners(),
