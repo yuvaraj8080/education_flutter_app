@@ -1,9 +1,11 @@
   import 'package:flutter/material.dart';
 import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
 import 'package:flutter_job_app/common/widgets_login/images/t_Rounded_image.dart';
+import 'package:flutter_job_app/constants/colors.dart';
 import 'package:flutter_job_app/constants/sizes.dart';
 import 'package:flutter_job_app/features/personalization/controllers/user_controller.dart';
 import 'package:flutter_job_app/features/personalization/screens/profile.dart';
+import 'package:flutter_job_app/utils/halpers/helper_function.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -21,18 +23,23 @@ class HomeScreen extends StatelessWidget {
     final user = controller.user.value;
     return Scaffold(
       /// ==== APP BAR HARE===
-      appBar:TAppBar(showBackArrow: false,
+      appBar:TAppBar(showBackArrow: false,color:THelperFunction.isDarkMode(context)
+          ?TColors.dark : Colors.grey.shade200,
+        title:Image.asset("assets/images/ChemisphereFlash.png",width:130,height:30),
         actions:[
-          Row(children:[
-            IconButton(onPressed:(){}, icon:Icon(Iconsax.notification,size:30,)),
-            SizedBox(width:TSizes.size8),
-            TRoundedImage(
-              onPressed:()=> Get.to(()=> ProfileScreen()),
-              isNetworkImage:user.profilePicture.isNotEmpty ? true : false,
-              fit:BoxFit.cover,height:35,width:35,
-              imageUlr: user.profilePicture.isNotEmpty ? user.profilePicture : 'assets/images/user.png',
-            )
-          ])
+          Padding(
+            padding: const EdgeInsets.only(right:20),
+            child: Row(children:[
+              IconButton(onPressed:(){}, icon:Icon(Iconsax.notification,size:30,)),
+              SizedBox(width:TSizes.size8),
+
+              TRoundedImage(
+                onPressed:()=> Get.to(()=> ProfileScreen()),
+                isNetworkImage:user.profilePicture.isNotEmpty ? true : false,fit:BoxFit.cover,height:30,width:30,
+                imageUlr: user.profilePicture.isNotEmpty ? user.profilePicture : 'assets/images/user.png',
+              )
+            ]),
+          )
         ],
       ),
         body: Padding(

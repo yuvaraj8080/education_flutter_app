@@ -67,7 +67,7 @@ class UserModel{
         id: document.id,
         firstName: data["FirstName"] ?? '',
         lastName: data["LastName"] ?? '',
-        studentId: data["UserName"] ?? '',
+        studentId: data["StudentId"] ?? '',
         email: data["Email"] ?? '',
         phoneNumber: data["PhoneNumber"] ?? '',
         profilePicture: data["ProfilePicture"] ?? '',
