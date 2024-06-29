@@ -18,7 +18,7 @@ void main() async{
 
 
   /// PREVENT ON THE SCREEN SHOT AND SCREEN RECORDING IN THIS APP
-  // await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
 
 
   ///----INITIALIZATION FIREBASE AND AUTHENTICATION REPOSITORY----

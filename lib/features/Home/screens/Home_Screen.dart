@@ -32,7 +32,6 @@ class HomeScreen extends StatelessWidget {
             child: Row(children:[
               IconButton(onPressed:(){}, icon:Icon(Iconsax.notification,size:30,)),
               SizedBox(width:TSizes.size8),
-
               TRoundedImage(
                 onPressed:()=> Get.to(()=> ProfileScreen()),
                 isNetworkImage:user.profilePicture.isNotEmpty ? true : false,fit:BoxFit.cover,height:30,width:30,

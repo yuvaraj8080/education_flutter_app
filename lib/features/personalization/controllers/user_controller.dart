@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../data/repositories/authentication/authentication-repository.dart';
 import '../../../data/repositories/user/user_repository.dart';
-import '../../../utils/User_Model/user_model.dart';
+import '../../authentication/models/user_model.dart';
 import '../../../utils/loaders/snackbar_loader.dart';
 import '../../../utils/popups/full_screen_loader.dart';
 
