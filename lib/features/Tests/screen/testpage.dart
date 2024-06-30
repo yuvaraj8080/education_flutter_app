@@ -2,9 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/constants/colors.dart';
 import 'package:flutter_job_app/features/Tests/controllers/time_controller.dart';
+import 'package:flutter_job_app/features/Tests/models/Testsingleton.dart';
+
 import 'package:flutter_job_app/features/Tests/models/Utils.dart';
 import 'package:flutter_job_app/features/Tests/models/database.dart';
 import 'package:flutter_job_app/features/Tests/Helping_widgets/testpageWidgets.dart';
+
+import 'package:flutter_job_app/features/Tests/models/testresult.dart';
+import 'package:flutter_job_app/features/Tests/screen/Numericaltestpage.dart';
+import 'package:flutter_job_app/features/Tests/screen/chooseSection.dart';
 import 'package:flutter_job_app/features/Tests/screen/questionStatus.dart';
 import 'package:flutter_job_app/features/Tests/screen/scorecard.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,13 +20,17 @@ import '../../../common/Login_Widgets/TSection_Heading.dart';
 class Testpage extends StatefulWidget {
   final String batchName; //fetches batch name from previous page
   final String weekNumber; //similar to above
-  final String topic; //similar to above
-
-  const Testpage(
-      {super.key,
-      required this.batchName,
-      required this.weekNumber,
-      required this.topic});
+  final String topic;
+  final String section; //similar to above
+  final int duration;
+  Testpage({
+    super.key,
+    required this.batchName,
+    required this.weekNumber,
+    required this.topic,
+    required this.section,
+    required this.duration
+  });
 
   @override
   State<Testpage> createState() => _TestpageState();
@@ -28,11 +38,12 @@ class Testpage extends StatefulWidget {
 
 class _TestpageState extends State<Testpage> {
   QuerySnapshot? querySnapshot;
-  late TimerController _timerController;
+  final TimerController _timerController = Get.find<TimerController>();
   bool _dataLoaded = false;
-  List<String> selectedAnswers = [];
-  int totalMarksScored = 0;
-  int _totalQuestions = 0;
+  int totalQuestions=0;
+  final TestResultSingleton _testResultSingleton =
+      TestResultSingleton.getInstance();
+
   int totalWrongAnswers = 0;
 
   Stream<QuerySnapshot>? questionStream; //initializing Stream
@@ -42,8 +53,8 @@ class _TestpageState extends State<Testpage> {
   @override
   void initState() {
     super.initState();
-    _timerController =
-        (TimerController(onFinish: () {})); //initializinng timercontroller
+    // widget.timerController =
+    //(TimerController(onFinish: () {})); //initializinng timercontroller
     getQuestions().then((_) async {
       setState(() {
         _dataLoaded = true;
@@ -52,20 +63,28 @@ class _TestpageState extends State<Testpage> {
   }
 
   Future<void> getQuestions() async {
-    questionStream = await databaseService.getSubjectQuestions(
-        widget.batchName, widget.weekNumber); //gets thhe list of questions
-
+    questionStream = await databaseService.getSubjectQuestions(widget.batchName,
+        widget.weekNumber, widget.section); //gets thhe list of questions
+    QuerySnapshot<Object?> snapshot = await questionStream!.first;
+    print(
+        'Before update: _testResult.totalQuestions = ${_testResultSingleton.testResult.totalQuestions}');
+    _testResultSingleton.testResult.totalQuestions += snapshot.docs.length;
+    print(
+        'After update: _testResult.totalQuestions = ${_testResultSingleton.testResult.totalQuestions}');
     DocumentSnapshot weekDoc = await databaseService.getWeekDocument(
-        widget.batchName, widget.weekNumber); //gets the test details
-    int duration = int.parse(weekDoc["duration"]);
+        widget.batchName,
+        widget.weekNumber,
+        widget.section); //gets the test details
+    totalQuestions=snapshot.docs.length;
+    int duration = weekDoc["duration"];
     if (mounted) {
       questionStream!.listen((snapshot) {
         setState(() {
-          selectedAnswers.clear();
+          _testResultSingleton.testResult.mcqAnswers.clear();
           for (int i = 0; i < snapshot.docs.length; i++) {
-            selectedAnswers.add('');
+           _testResultSingleton.testResult.mcqAnswers.add('');
           } // addeds an empty string at each question index to tracck the selected answers
-          _timerController.startTimer(duration); //startinng the timer
+          //widget.timerController.startTimer(duration); //startinng the timer
         });
       });
     }
@@ -74,15 +93,25 @@ class _TestpageState extends State<Testpage> {
   //this part adds the selected answer to thhe selected annswer array,also increment the marks if it matches with correct optionn
   void resetScoreForQuestion(
       int index, String newAnswer, String correctOption) {
-    if (selectedAnswers[index] == correctOption) {
-      totalMarksScored--;
+    if (_testResultSingleton.testResult.mcqAnswers[index] == correctOption) {
+      // If the previous answer was correct, decrement the correct count
+      _testResultSingleton.testResult.totalCorrectAnswers--;
+    } else if (_testResultSingleton.testResult.mcqAnswers[index] != '' &&
+        _testResultSingleton.testResult.mcqAnswers[index] != correctOption) {
+      // If the previous answer was wrong, decrement the wrong count
+      _testResultSingleton.testResult.totalWrongAnswers--;
     }
-    selectedAnswers[index] = newAnswer;
+    
+
+
+    _testResultSingleton.testResult.mcqAnswers[index] = newAnswer;
 
     if (newAnswer == correctOption) {
-      totalMarksScored++;
-    } else if (newAnswer != correctOption && newAnswer != '') {
-      totalWrongAnswers++;
+      // If the new answer is correct, increment the correct count
+      _testResultSingleton.testResult.totalCorrectAnswers++;
+    } else if (newAnswer != '' && newAnswer != correctOption) {
+      // If the new answer is wrong, increment the wrong count
+      _testResultSingleton.testResult.totalWrongAnswers++;
     }
   }
 
@@ -98,7 +127,7 @@ class _TestpageState extends State<Testpage> {
       ds["Option3"],
       ds["Option4"]
     ];
-    String selectedAnswer = selectedAnswers[index];
+    String selectedAnswer = _testResultSingleton.testResult.mcqAnswers[index];
 
     return Column(
       children: [
@@ -128,7 +157,7 @@ class _TestpageState extends State<Testpage> {
           padding: EdgeInsets.all(10.w),
           child: Row(
             children: [
-              TSectionHeading(context, 'Q ', size: 24.sp),
+              TSectionHeading(context, 'Q${index+1} ', size: 24.sp),
               Question(ds["Image"]),
             ],
           ),
@@ -172,28 +201,11 @@ class _TestpageState extends State<Testpage> {
           onTap: () async {
             setState(() {});
             if (index == totalQuestions - 1) {
-              _timerController.stopTimer();
-              QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-                  .collection('Tests')
-                  .doc(widget.batchName)
-                  .collection("weeks")
-                  .doc(widget.weekNumber)
-                  .collection("Question set")
-                  .get();
-              if (querySnapshot != null) {
-                Get.off(Scorecard(
-                  totalMarksScored: totalMarksScored,
-                  totalQuestions: _totalQuestions,
-                  totalWrongAnswers: totalWrongAnswers,
-                  questions: querySnapshot.docs,
-                  selectedAnswers: selectedAnswers,
-                  weeknumber: widget.weekNumber,
-                  topicname: widget.topic,
-                ));
-              } else {
-                print("querySnapshot is null");
-              }
+          
+            print(_testResultSingleton.testResult.mcqAnswers);
+             Navigator.of(context).pop();
             } else {
+              
               controller.nextPage(
                 duration: Duration(milliseconds: 200),
                 curve: Curves.easeIn,
@@ -208,108 +220,106 @@ class _TestpageState extends State<Testpage> {
 
         GestureDetector(
           onTap: () async {
+            print("mcqanswers length:${_testResultSingleton.testResult.mcqAnswers.length}");
             Navigator.push(
               context,
               PageRouteBuilder(
                 opaque: false,
                 pageBuilder: (context, animation, secondaryAnimation) =>
                     QuestionStatusPage(
-                  selectedAnswers: selectedAnswers,
-                  totalQuestions: _totalQuestions,
+                  selectedAnswers: _testResultSingleton.testResult.mcqAnswers,
+                  totalQuestions:
+                     totalQuestions,
                 ),
               ),
             );
           },
           child: underlinedText("view attempted questions"),
-        )
+        ),
+        
+       
       ],
     );
   }
+   void submitTest() {
+  print(_testResultSingleton.testResult.mcqAnswers);
+  print(_testResultSingleton.testResult.numericalAnswers); 
+  int totalSkippedMcqQuestions = _testResultSingleton.testResult.mcqAnswers.where((answer) => answer == '').length;
+  int totalSkippedNumericalQuestions = _testResultSingleton.testResult.numericalAnswers.where((answer) => answer == '').length;
+  int totalSkippedQuestions = totalSkippedMcqQuestions + totalSkippedNumericalQuestions;
 
-  //This part  insure a confirm dialogue box when user tries to exit the test in between
-  Future<bool> _onWillPop() async {
-    return await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Are you sure you want to exit the test?'),
-        content: Text(
-            'Your progress will not be saved.And your marks will be recorded as zero'),
-        actions: <Widget>[
-          ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text('No'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              _timerController.stopTimer();
-              _timerController.dispose();
-              Navigator.of(context).pop(true);
-            },
-            child: Text('Yes'),
-          ),
-        ],
-      ),
-    );
-  }
+  _testResultSingleton.testResult.totalSkippedQuestions = totalSkippedQuestions;
+  print( _testResultSingleton.testResult.totalSkippedQuestions );
+
+ 
+}
+
+
 
   @override
   void dispose() {
-    _timerController.stopTimer();
-    _timerController.dispose();
-
+    //_timerController.stopTimer();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return _dataLoaded
-        ? WillPopScope(
-            onWillPop: _onWillPop,
-            child: Scaffold(
-              appBar: AppBar(
-                title: Text(widget.batchName),
-                automaticallyImplyLeading: false,
-              ),
-              body: StreamBuilder<QuerySnapshot>(
-                stream: questionStream,
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text(
-                        'Error: ${snapshot.error}'); // Display error message
-                  }
+        ? Scaffold(
+            appBar: AppBar(
+              title: Text(widget.batchName),
+              automaticallyImplyLeading: false,
+            ),
+            body: StreamBuilder<QuerySnapshot>(
+              stream: questionStream,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text(
+                      'Error: ${snapshot.error}'); // Display error message
+                }
 
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return const Center(
-                          child:
-                              CircularProgressIndicator()); // Show loading indicator
-                    default:
-                      QuerySnapshot querySnapshot = snapshot.data!;
-                      _totalQuestions =
-                          querySnapshot.docs.length; // Update _totalQuestions
-                      _timerController.onFinish = () {
-                        Get.to(() => Scorecard(
-                              totalMarksScored: totalMarksScored,
-                              totalQuestions: _totalQuestions,
-                              totalWrongAnswers: totalWrongAnswers,
-                              questions: querySnapshot.docs,
-                              selectedAnswers: selectedAnswers,
-                              weeknumber: widget.weekNumber,
-                              topicname: widget.topic,
-                            ));
-                      };
-                      return PageView.builder(
-                        controller: controller,
-                        itemCount: querySnapshot.docs.length,
-                        itemBuilder: (context, index) {
-                          DocumentSnapshot ds = querySnapshot.docs[index];
-                          return buildQuestion(
-                              ds, index, querySnapshot.docs.length);
-                        },
-                      );
-                  }
-                },
-              ),
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return const Center(
+                        child:
+                            CircularProgressIndicator()); // Show loading indicator
+                  default:
+                    QuerySnapshot querySnapshot =
+                        snapshot.data!;
+                    _timerController.onFinish = () async{
+                     QuerySnapshot numericalquerySnapshot = await FirebaseFirestore.instance
+                    .collection('Tests')
+                    .doc(widget.batchName)
+                    .collection("weeks")
+                    .doc(widget.weekNumber)
+                    .collection("section")
+                    .doc('Numericalquestions')
+                    .collection('QuestionSet')
+                    .get();
+                    submitTest();
+                      Get.to(() => Scorecard(
+                            numericalquestions: numericalquerySnapshot.docs,
+                            questionsSkipped: _testResultSingleton
+                                .testResult.totalSkippedQuestions,
+                            testScore: _testResultSingleton.testResult,
+                            mcqquestions: querySnapshot.docs,
+                            mcqAnswers: _testResultSingleton.testResult.mcqAnswers,
+                            numericalAnswers: _testResultSingleton.testResult.numericalAnswers,
+                            weeknumber: widget.weekNumber,
+                            topicname: widget.topic,
+                          ));
+                    };
+                    return PageView.builder(
+                      controller: controller,
+                      itemCount: querySnapshot.docs.length,
+                      itemBuilder: (context, index) {
+                        DocumentSnapshot ds = querySnapshot.docs[index];
+                        return buildQuestion(
+                            ds, index, querySnapshot.docs.length);
+                      },
+                    );
+                }
+              },
             ),
           )
         : const Center(child: CircularProgressIndicator());

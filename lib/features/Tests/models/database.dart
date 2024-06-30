@@ -7,9 +7,9 @@ class DatabaseService {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> addQuestion(Map<String, dynamic> question, String batchName,String weeknumber) async {
+  Future<void> addQuestion(Map<String, dynamic> question, String batchName,String weeknumber,String sectionName) async {
     try {
-     final docRef= await _firestore.collection("Tests").doc(batchName).collection("weeks").doc(weeknumber).collection("Question set").doc();
+     final docRef= await _firestore.collection("Tests").doc(batchName).collection("weeks").doc(weeknumber).collection("section").doc(sectionName).collection("QuestionSet").doc();
       return docRef.set(question);
      
     } catch (error) {
@@ -17,9 +17,9 @@ class DatabaseService {
     }
   }
 
-  Future<Stream<QuerySnapshot>> getSubjectQuestions(String batchName,String weeknumber) async {
+  Future<Stream<QuerySnapshot>> getSubjectQuestions(String batchName,String weeknumber,String sectionName) async {
     try {
-      final questionsCollection = _firestore.collection("Tests").doc(batchName).collection("weeks").doc(weeknumber).collection("Question set");
+      final questionsCollection = _firestore.collection("Tests").doc(batchName).collection("weeks").doc(weeknumber).collection("section").doc(sectionName).collection("QuestionSet");
       return questionsCollection.snapshots();
     } catch (error) {
      
@@ -29,13 +29,13 @@ class DatabaseService {
   }
 
 
- Future<void> createWeek(String batchName, String weekNumber, String topic, String description, String duration) async {
+ Future<void> createWeek(String batchName, String weekNumber, String topic, String description) async {
   if (batchName.isEmpty || weekNumber.isEmpty) {
     print('Error creating week: Batch name or week number is empty');
     return;
   }
 
-  if (topic.isEmpty || description.isEmpty || duration.isEmpty) {
+  if (topic.isEmpty || description.isEmpty) {
     print('Error creating week: Topic, description, or duration is empty');
     return;
   }
@@ -46,7 +46,7 @@ class DatabaseService {
       await weekRef.set({
         'topic': topic,
         'description': description,
-        'duration': duration,
+        
       });
     } else {
       print('Error creating week: Week reference is null');
@@ -55,6 +55,26 @@ class DatabaseService {
     print('Error creating week: $e');
   }
 }
+Future<void> createSection(String batchName, String weekNumber, String section, int numberOfquestions,int duration) async {
+  
+
+  try {
+    final sectionRef = _firestore.collection('Tests').doc(batchName).collection('weeks').doc(weekNumber).collection("section").doc(section);
+    if (sectionRef!= null) {
+      await sectionRef.set({
+        'numberOfquestions':numberOfquestions,
+        'duration':duration
+        
+      });
+    } else {
+      print('Error creating week: Week reference is null');
+    }
+  } catch (e) {
+    print('Error creating week: $e');
+  }
+}
+
+
 
 
 Future<List<Week>> getWeeks(String batchName) async {
@@ -71,7 +91,8 @@ Future<List<Week>> getWeeks(String batchName) async {
         weekNumber: doc.id,
         topic: doc['topic'] ?? '',
         description: doc['description'] ?? '',
-        duration: doc['duration'] ?? '',
+        duration: doc['duration']??0,
+       
       );
     }).toList();
 
@@ -83,12 +104,12 @@ Future<List<Week>> getWeeks(String batchName) async {
 }
 
 
-Future<DocumentSnapshot> getWeekDocument(String batchName, String weekNumber) async {
+Future<DocumentSnapshot> getWeekDocument(String batchName, String weekNumber,String sectionName) async {
   return FirebaseFirestore.instance
      .collection("Tests")
      .doc(batchName)
      .collection("weeks")
-     .doc(weekNumber.toString())
+     .doc(weekNumber)    
      .get();
 }
 

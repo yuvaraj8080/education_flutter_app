@@ -7,11 +7,11 @@ import 'package:get/get.dart';
 
 import '../../../common/Login_Widgets/TSection_Heading.dart';
 
-class AnswerKeyPage extends StatelessWidget {
+class MCQAnswerKeyPage extends StatelessWidget {
   final List<DocumentSnapshot> questions;
   final List<String> selectedAnswers;
 
-  const AnswerKeyPage(
+  const MCQAnswerKeyPage(
       {Key? key, required this.questions, required this.selectedAnswers})
       : super(key: key);
 
@@ -51,7 +51,7 @@ class AnswerKeyPage extends StatelessWidget {
           padding: EdgeInsets.all(10.w),
           child: Row(
             children: [
-              TSectionHeading(context, 'Q ', size: 24.sp),
+              TSectionHeading(context, 'Q${index+1} ', size: 24.sp),
               Question(ds["Image"]),
             ],
           ),
