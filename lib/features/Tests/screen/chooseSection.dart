@@ -13,10 +13,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ChooseSection extends StatefulWidget {
-  String batchName;
-  String weekNumber;
-  String topic;
-  int duration;
+ final String batchName;
+ final String weekNumber;
+ final String topic;
+ final int duration;
 
   ChooseSection(
       {super.key,
@@ -175,10 +175,6 @@ class _ChooseSectionState extends State<ChooseSection> {
       
                     submitTest();
 
-
-                if (mcqquerySnapshot != null && numericalquerySnapshot !=null) {
-                  
-                  
                   Get.off(Scorecard(
                     questionsSkipped:
                         _testResultSingleton.testResult.totalSkippedQuestions,
@@ -190,10 +186,8 @@ class _ChooseSectionState extends State<ChooseSection> {
                     weeknumber: widget.weekNumber,
                     topicname: widget.topic,
                   ));
-               } 
-               else {
-                  print("querySnapshot is null");
-                }
+                
+               
               },
               child: Utils().ElevatedButton("Submit", TColors.redtext))
           ],

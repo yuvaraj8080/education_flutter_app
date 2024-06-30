@@ -6,13 +6,13 @@ import 'package:flutter_job_app/features/Tests/models/Week.dart';
 import 'package:flutter_job_app/features/Tests/Helping_widgets/create_test_widgets.dart';
 import 'package:flutter_job_app/features/Tests/models/database.dart';
 import 'package:flutter_job_app/features/Tests/screen/chooseSection.dart';
-import 'package:flutter_job_app/features/Tests/screen/testpage.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class TestListPage extends StatefulWidget {
-  String batchName;
-   TestListPage({super.key,required this.batchName});
+ final String batchName;
+  TestListPage({super.key,required this.batchName});
 
 
   @override

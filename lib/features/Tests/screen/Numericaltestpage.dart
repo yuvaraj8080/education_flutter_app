@@ -7,10 +7,8 @@ import 'package:flutter_job_app/features/Tests/controllers/time_controller.dart'
 import 'package:flutter_job_app/features/Tests/models/Testsingleton.dart';
 import 'package:flutter_job_app/features/Tests/models/Utils.dart';
 import 'package:flutter_job_app/features/Tests/models/database.dart';
-import 'package:flutter_job_app/features/Tests/models/testresult.dart';
-import 'package:flutter_job_app/features/Tests/screen/chooseSection.dart';
 import 'package:flutter_job_app/features/Tests/screen/questionStatus.dart';
-import 'package:flutter_job_app/features/Tests/screen/scorecard.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -70,11 +68,11 @@ class _NumericalTestPageState extends State<NumericalTestPage> {
     _testResultSingleton.testResult.totalQuestions += snapshot.docs.length;
     print(
         'After update: _testResult.totalQuestions = ${_testResultSingleton.testResult.totalQuestions}');
-    DocumentSnapshot weekDoc = await databaseService.getWeekDocument(
-        widget.batchName, widget.weekNumber, widget.section);
+    // DocumentSnapshot weekDoc = await databaseService.getWeekDocument(
+    //     widget.batchName, widget.weekNumber, widget.section);
     totalQuestions=snapshot.docs.length;    
 
-    int duration = weekDoc["duration"];
+    //int duration = weekDoc["duration"];
     if (mounted) {
       questionStream!.listen((snapshot) {
         setState(() {
@@ -89,26 +87,29 @@ class _NumericalTestPageState extends State<NumericalTestPage> {
   }
 
   void resetScoreForQuestion(
-      int index, String newAnswer, String correctAnswer) {
-    if ( _testResultSingleton.testResult.numericalAnswers[index] == correctAnswer) {
-      // If the previous answer was correct, decrement the correct count
-      _testResultSingleton.testResult.totalCorrectAnswers--;
-    } else if ( _testResultSingleton.testResult.numericalAnswers[index] != '' &&
-         _testResultSingleton.testResult.numericalAnswers[index] != correctAnswer) {
-      // If the previous answer was wrong, decrement the wrong count
-      _testResultSingleton.testResult.totalWrongAnswers--;
-    }
-
-    _testResultSingleton.testResult.numericalAnswers[index] = newAnswer;
-
-    if (newAnswer == correctAnswer) {
-      // If the new answer is correct, increment the correct count
-      _testResultSingleton.testResult.totalCorrectAnswers++;
-    } else if (newAnswer != '' && newAnswer != correctAnswer) {
-      // If the new answer is wrong, increment the wrong count
-      _testResultSingleton.testResult.totalWrongAnswers++;
-    }
+    int index, String newAnswer, String correctAnswer) {
+  if (_testResultSingleton.testResult.numericalAnswers[index] == correctAnswer) {
+    // If the previous answer was correct, decrement the correct count
+    _testResultSingleton.testResult.totalCorrectAnswers--;
+  } else if (_testResultSingleton.testResult.numericalAnswers[index]!= '' &&
+      _testResultSingleton.testResult.numericalAnswers[index]!= correctAnswer) {
+    // If the previous answer was wrong, decrement the wrong count
+    _testResultSingleton.testResult.totalWrongAnswers--;
   }
+
+  // Round the new answer to the nearest integer
+   int roundedNewAnswer = double.parse(newAnswer).round();
+
+  _testResultSingleton.testResult.numericalAnswers[index] = roundedNewAnswer.toString();
+
+  if (roundedNewAnswer.toString() == correctAnswer) {
+    // If the new answer is correct, increment the correct count
+    _testResultSingleton.testResult.totalCorrectAnswers++;
+  } else if (newAnswer!= '' && roundedNewAnswer.toString()!= correctAnswer) {
+    // If the new answer is wrong, increment the wrong count
+    _testResultSingleton.testResult.totalWrongAnswers++;
+  }
+}
 
   PageController controller = PageController();
 

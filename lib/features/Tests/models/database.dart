@@ -1,7 +1,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_job_app/features/Tests/models/Week.dart';
-import 'package:get/get.dart';
+
 
 class DatabaseService {
 
@@ -42,15 +42,13 @@ class DatabaseService {
 
   try {
     final weekRef = _firestore.collection('Tests').doc(batchName).collection('weeks').doc(weekNumber);
-    if (weekRef!= null) {
+    
       await weekRef.set({
         'topic': topic,
         'description': description,
         
       });
-    } else {
-      print('Error creating week: Week reference is null');
-    }
+    
   } catch (e) {
     print('Error creating week: $e');
   }
@@ -60,15 +58,13 @@ Future<void> createSection(String batchName, String weekNumber, String section, 
 
   try {
     final sectionRef = _firestore.collection('Tests').doc(batchName).collection('weeks').doc(weekNumber).collection("section").doc(section);
-    if (sectionRef!= null) {
+    
       await sectionRef.set({
         'numberOfquestions':numberOfquestions,
         'duration':duration
         
       });
-    } else {
-      print('Error creating week: Week reference is null');
-    }
+   
   } catch (e) {
     print('Error creating week: $e');
   }
