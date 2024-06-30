@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job_app/constants/colors.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../common/widgets_login/appBar/appbar.dart';
@@ -6,7 +7,6 @@ import '../../../common/widgets_login/images/t_circular_image.dart';
 import '../../../constants/section_heading.dart';
 import '../../../utils/shimmer_circular_Indicator/shimmer.dart';
 import '../controllers/user_controller.dart';
-import '../widgets/change_name.dart';
 import '../widgets/profile_menu.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -15,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(UserController());
     return Scaffold(
-      appBar:const TAppBar(showBackArrow:true,title:Text("Profile")),
+      appBar:const TAppBar(showBackArrow:false,title:Text("Profile")),
 
       ///------BODY-------
       body:SingleChildScrollView(
@@ -29,14 +29,14 @@ class ProfileScreen extends StatelessWidget {
               child:Column(
                   children:[
                     Obx(() {
-                      final networkImage = controller.user.value.profilePicture;
-                      final image = networkImage.isNotEmpty? networkImage :"assets/user/UserImge.png";
+                      final user = controller.user.value.profilePicture;
+                      final image = user.isNotEmpty? user :"assets/images/user.png";
                       return controller.imageUploading.value
                       ? const TShimmerEffect(width:80, height: 80)
-                      :TCircularImage(image:image,width:100,height:100,isNetworkImage:networkImage.isNotEmpty);
+                      :TCircularImage(image:image,width:100,height:100,isNetworkImage:user.isNotEmpty ? true : false);
 
                     }),
-                TextButton(onPressed:() => controller.uploadUserProfilePicture(), child:const Text("Change Profile Picture"))
+                OutlinedButton(onPressed:() => controller.uploadUserProfilePicture(), child: Text("Change Profile Picture",style:Theme.of(context).textTheme.titleSmall))
               ])
             ),
 
@@ -46,23 +46,21 @@ class ProfileScreen extends StatelessWidget {
             const TSectionHeading(title:"Profile Inforamation",showActionButton:false),
             const SizedBox(height:8),
 
-            TProfileMenu(title:"Name",value:controller.user.value.fullName,onPressed:()=>Get.to(()=>const ChangeName())),
-            TProfileMenu(title:"Username",value:controller.user.value.username,onPressed:(){}),
+            TProfileMenu(title:"Name",value:controller.user.value.fullName,onPressed:(){}),
+            TProfileMenu(title:"StudentID",value:controller.user.value.studentId,onPressed:(){}),
 
              ///-----HEADING PERSONAL INFORMATION-------
 
             const TSectionHeading(title:"Personal Information",showActionButton:false),
             const SizedBox(height:8),
 
-            TProfileMenu(title:"User ID", value:controller.user.value.id,icon:Iconsax.copy,onPressed:(){}),
+            TProfileMenu(title:"Batch", value:controller.user.value.batch,icon:Iconsax.copy,onPressed:(){}),
             TProfileMenu(title:"E-Mail", value:controller.user.value.email,onPressed:(){}),
-            TProfileMenu(title:"Location:", value:controller.user.value.location,onPressed:(){}),
-            TProfileMenu(title:"Gender",value:"Male",onPressed:(){}),
-            TProfileMenu(title:"DOB", value:"21/07/2003",onPressed:(){}),
+            TProfileMenu(title:"Mobile", value:controller.user.value.phoneNumber,onPressed:(){}),
             const Divider(),
             const SizedBox(height:10),
             Center(child: TextButton(
-              onPressed:() => controller.deleteAccountWarningPopup(),child:const Text("Close Account",style:TextStyle(color:Colors.red)),
+              onPressed:() => controller.deleteAccountWarningPopup(),child:Text("Logout",style:Theme.of(context).textTheme.titleMedium!.copyWith(color:TColors.primaryColor)),
             ))
           ]
         )

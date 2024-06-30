@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../utils/validators/validator.dart';
-import '../../controllers/forget_password_controller.dart';
+import '../../controllers/login/forget_password_controller.dart';
 class ForgetPassword extends StatelessWidget {
   const ForgetPassword({super.key});
 

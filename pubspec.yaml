@@ -43,6 +43,7 @@ dependencies:
   rename_app:
   fluttertoast:
   flutter_screenutil: ^5.9.3
+  flutter_windowmanager:
   data_table_2: ^2.5.15
  
 
