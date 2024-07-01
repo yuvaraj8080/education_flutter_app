@@ -30,14 +30,13 @@ class ChooseSection extends StatefulWidget {
 }
 
 class _ChooseSectionState extends State<ChooseSection> {
-  late TimerController _timerController;
+   final TimerController _timerController = Get.put(TimerController(onFinish: () {}));
   final TestResultSingleton _testResultSingleton =
       TestResultSingleton.getInstance();
   @override
   void initState() {
     // TODO: implement initState
      
-    _timerController=  Get.find<TimerController>();
     _timerController.startTimer(widget.duration);
     super.initState();
   }

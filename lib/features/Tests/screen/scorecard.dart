@@ -7,7 +7,7 @@ import 'package:flutter_job_app/features/Tests/models/Testsingleton.dart';
 import 'package:flutter_job_app/features/Tests/models/Utils.dart';
 import 'package:flutter_job_app/features/Tests/Helping_widgets/scorecard_widgets.dart';
 import 'package:flutter_job_app/features/Tests/Helping_widgets/testpageWidgets.dart';
-import 'package:flutter_job_app/features/Tests/models/score.dart';
+
 import 'package:flutter_job_app/features/Tests/models/testresult.dart';
 
 import 'package:flutter_job_app/features/Tests/screen/MCQAnswerkey.dart';
@@ -22,9 +22,9 @@ class Scorecard extends StatefulWidget {
 
   final List<DocumentSnapshot> mcqquestions;
   final List<DocumentSnapshot> numericalquestions;
-  final List<String> mcqAnswers;
-  final List<String> numericalAnswers;
-  final int questionsSkipped;
+   List<String> mcqAnswers;
+   List<String> numericalAnswers;
+   int questionsSkipped;
   final String weeknumber;
   final String topicname;
 
@@ -49,8 +49,25 @@ class _ScorecardState extends State<Scorecard> {
   void initState() {
     Get.delete<TimerController>();
     _testResultSingleton = TestResultSingleton.getInstance();
-
+    _updateSectionAnswers();
     super.initState();
+  }
+  void _updateSectionAnswers() {
+    // Check if MCQAnswers is empty
+    if (widget.mcqAnswers.isEmpty) {
+      int numMCQQuestions = widget.mcqquestions.length;
+      widget.mcqAnswers = List.filled(numMCQQuestions, '');
+       widget.questionsSkipped += numMCQQuestions;
+       widget.testScore.totalQuestions+=numMCQQuestions;
+    }
+
+    // Check if NumericalAnswers is empty
+    if ( widget.numericalAnswers.isEmpty) {
+      int numNumericalQuestions = widget.numericalquestions.length;
+      widget.numericalAnswers = List.filled(numNumericalQuestions, '');
+      widget.questionsSkipped += numNumericalQuestions;
+      widget.testScore.totalQuestions+=numNumericalQuestions;
+    }
   }
 
   @override
@@ -68,32 +85,33 @@ class _ScorecardState extends State<Scorecard> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
         ),
-        backgroundColor: TColors.green,
+        //backgroundColor: TColors.green,
         body: widget.mcqquestions != null && widget.mcqAnswers != null
             ? Center(
                 child: Column(children: [
                   TSectionHeading(context, widget.weeknumber,
-                      size: 16.h, textColor: TColors.primaryBackground),
+                      size: 16.h, textColor: TColors.black),
                   SizedBox(
                     height: 30.h,
                   ),
                   TSectionHeading(context, widget.topicname,
-                      size: 24.h, textColor: TColors.primaryBackground),
+                      size: 24.h, textColor: TColors.black),
                   SizedBox(
                     height: 10.h,
                   ),
                   TSectionHeading(
                       context, 'You have successfully submitted the test',
-                      size: 14.h, textColor: TColors.primaryBackground),
+                      size: 14.h, textColor: TColors.black),
                   SizedBox(
                     height: 30.h,
                   ),
-                  scoreTable(
-                      widget.weeknumber,
-                      widget.testScore.totalCorrectAnswers,
-                      widget.testScore.totalQuestions,
-                      widget.questionsSkipped,
-                      widget.testScore.totalWrongAnswers),
+                  // scoreTable(
+                  //     widget.weeknumber,
+                  //     widget.testScore.totalCorrectAnswers,
+                  //     widget.testScore.totalQuestions,
+                  //     widget.questionsSkipped,
+                  //     widget.testScore.totalWrongAnswers),
+                  card(context,widget.testScore.totalQuestions,  widget.testScore.totalCorrectAnswers,  widget.questionsSkipped,  widget.testScore.totalWrongAnswers),
                   SizedBox(
                     height: 20.h,
                   ),

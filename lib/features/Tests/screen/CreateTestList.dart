@@ -31,7 +31,7 @@ class _TestListPageState extends State<TestListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final TimerController timerController = Get.put(TimerController(onFinish: () {}));
+   // final TimerController timerController = Get.put(TimerController(onFinish: () {}));
     return Scaffold(
       appBar: AppBar(
         
