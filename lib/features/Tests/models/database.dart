@@ -104,8 +104,9 @@ class DatabaseService {
             topic: doc['topic'] ?? '',
             description: doc['description'] ?? '',
             duration: doc['duration'] ?? 0,
-            createdAt: doc['createdAt'] ?? '',
-            isCompleted: doc['isCompleted'] ?? false);
+            createdAt: doc['createdAt'] ?? ''
+        );
+            
       }).toList();
 
       return weeks;
@@ -127,10 +128,7 @@ class DatabaseService {
 
   
 
-  Future<void> updateWeekCompletion(String batchName, String weekNumber, bool isCompleted) async {
-    final weeksRef = _firestore.collection('batches').doc(batchName).collection('weeks');
-    await weeksRef.doc(weekNumber).update({'isCompleted': isCompleted});
-  }
+ 
    Future<void> submitCompletedTest(String studentID, CompletedTest completedTest) async {
     final completedTestsRef = _firestore.collection('completed_tests').doc(studentID).collection('tests');
     await completedTestsRef.add(completedTest.toMap());

@@ -6,7 +6,7 @@ class Week {
   final String description;
   final int duration;
   final Timestamp createdAt;
-  final bool isCompleted;
+  
 
-  Week({required this.weekNumber, required this.topic, required this.description,required this.duration,required this.createdAt,required this.isCompleted});
+  Week({required this.weekNumber, required this.topic, required this.description,required this.duration,required this.createdAt});
 }
