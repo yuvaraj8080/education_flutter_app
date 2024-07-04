@@ -1,41 +1,45 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/common/Login_Widgets/TSection_Heading.dart';
-import 'package:flutter_job_app/features/Tests/controllers/time_controller.dart';
+
+
 import 'package:flutter_job_app/features/Tests/models/Week.dart';
 import 'package:flutter_job_app/features/Tests/Helping_widgets/create_test_widgets.dart';
 import 'package:flutter_job_app/features/Tests/models/database.dart';
 import 'package:flutter_job_app/features/Tests/screen/chooseSection.dart';
+import 'package:flutter_job_app/features/Tests/screen/completedScorecard.dart';
+import 'package:flutter_job_app/features/personalization/controllers/user_controller.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class TestListPage extends StatefulWidget {
- final String batchName;
-  TestListPage({super.key,required this.batchName});
-
+  
+  TestListPage({super.key});
 
   @override
   _TestListPageState createState() => _TestListPageState();
 }
+
 class _TestListPageState extends State<TestListPage> {
   final DatabaseService _databaseService = DatabaseService();
   Future<List<Week>>? weeksFuture;
-
+  Stream<QuerySnapshot<Object?>>? completedTestsStream;
+   final controller = Get.put(UserController());
+   late String _batch;
   @override
   void initState() {
     super.initState();
-    weeksFuture = _databaseService.getWeeks(widget.batchName);
-   // final TimerController timerController = Get.put(TimerController(onFinish: () {}));
+    _batch=controller.user.value.batch;
+    weeksFuture = _databaseService.getWeeks(_batch);
+    completedTestsStream = _databaseService
+        .getCompletedTests(); // Get completed tests for the current student
   }
 
   @override
   Widget build(BuildContext context) {
-   // final TimerController timerController = Get.put(TimerController(onFinish: () {}));
     return Scaffold(
-      appBar: AppBar(
-        
-      ),
+      appBar: AppBar(),
       body: FutureBuilder<List<Week>>(
         key: Key('weeks_future_builder'),
         future: weeksFuture,
@@ -49,18 +53,123 @@ class _TestListPageState extends State<TestListPage> {
               return Text('Loading....');
             default:
               if (snapshot.data != null) {
-                return Column(
-                  children: [
-                    TSectionHeading(context, "Ongoing tests for your batch:",size: 24.sp),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        Week week = snapshot.data![index];
-                        return GestureDetector(onTap: () => Get.to(()=>ChooseSection(batchName: widget.batchName,weekNumber:week.weekNumber,topic: week.topic,duration: week.duration,)/*Testpage(batchName: widget.batchName, weekNumber: week.weekNumber, topic: week.topic)*/),child: ongoingtest(week.weekNumber,week.topic));
-                      },
-                    ),
-                  ],
+                List<Week> weeks = snapshot.data!;
+
+                // Get completed tests for the current student
+                return StreamBuilder<QuerySnapshot>(
+                  stream: completedTestsStream,
+                  builder: (context, completedTestsSnapshot) {
+                    if (completedTestsSnapshot.hasError) {
+                      return Text('Error: ${completedTestsSnapshot.error}');
+                    }
+
+                    switch (completedTestsSnapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return Text('Loading....');
+                      default:
+                        if (completedTestsSnapshot.data != null) {
+                          List<Week> ongoingTests = [];
+                          List<Week> completedTests = [];
+
+                          weeks.forEach((week) {
+                            bool isCompleted = false;
+                            completedTestsSnapshot.data!.docs.forEach((doc) {
+                              if (doc.get('weekNumber') == week.weekNumber) {
+                                isCompleted = true;
+                              }
+                            });
+
+                            if (isCompleted) {
+                              completedTests.add(week);
+                            } else {
+                              ongoingTests.add(week);
+                            }
+                          });
+
+                          return Column(
+                            children: [
+                              TSectionHeading(
+                                  context, "Ongoing tests for your batch:",
+                                  size: 24.sp),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: ongoingTests.length,
+                                itemBuilder: (context, index) {
+                                  Week week = ongoingTests[index];
+                                  return GestureDetector(
+                                    onTap: () => Get.to(() => ChooseSection(
+                                          batchName: _batch,
+                                          weekNumber: week.weekNumber,
+                                          topic: week.topic,
+                                          duration: week.duration,
+                                        )),
+                                    child: ongoingtest(
+                                      week.weekNumber,
+                                      week.topic,
+                                      // createdAt: week.createdAt.toDate().toString(),
+                                    ),
+                                  );
+                                },
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              TSectionHeading(context, "Completed tests :",
+                                  size: 24.sp),
+                              ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: completedTests.length,
+                                itemBuilder: (context, index) {
+                                  Week week = completedTests[index];
+                                  int totalQuestions =
+                                      0; // Initialize totalQuestions
+                                  int totalCorrectAnswers =
+                                      0; // Initialize totalCorrectAnswers
+                                  int totalWrongAnswers =
+                                      0; // Initialize totalWrongAnswers
+                                  int totalSkippedQuestions =
+                                      0; // Initialize totalSkippedQuestions
+
+                                  // Get the completed test document from Firestore
+                                  completedTestsSnapshot.data!.docs
+                                      .forEach((doc) {
+                                    if (doc.get('weekNumber') ==
+                                        week.weekNumber) {
+                                      totalQuestions =
+                                          doc.get('totalQuestions');
+                                      totalCorrectAnswers =
+                                          doc.get('totalCorrectAnswers');
+                                      totalWrongAnswers =
+                                          doc.get('totalWrongAnswers');
+                                      totalSkippedQuestions =
+                                          doc.get('totalSkippedQuestions');
+                                    }
+                                  });
+                                  return GestureDetector(
+                                    onTap: () => Get.to(completedScorecard(
+                                        totalCorrectAnswers:
+                                            totalCorrectAnswers,
+                                        totalquestionsSkipped:
+                                            totalSkippedQuestions,
+                                        totalWrongAnswers: totalWrongAnswers,
+                                        totalQuestions: totalQuestions,
+                                        weeknumber: week.weekNumber,
+                                        topicname: week.topic)),
+                                    child: completedtest(
+                                      week.weekNumber,
+                                      week.topic,
+                                      // createdAt: week.createdAt.toDate().toString(),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Text('No Tests found');
+                        }
+                    }
+                  },
                 );
               } else {
                 return Text('No Tests found');

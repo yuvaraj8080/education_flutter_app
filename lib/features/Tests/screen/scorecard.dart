@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_job_app/common/Login_Widgets/TSection_Heading.dart';
 import 'package:flutter_job_app/constants/colors.dart';
 import 'package:flutter_job_app/features/Tests/controllers/time_controller.dart';
+import 'package:flutter_job_app/features/Tests/models/CompletedTest.dart';
 import 'package:flutter_job_app/features/Tests/models/Testsingleton.dart';
 import 'package:flutter_job_app/features/Tests/models/Utils.dart';
 import 'package:flutter_job_app/features/Tests/Helping_widgets/scorecard_widgets.dart';
 import 'package:flutter_job_app/features/Tests/Helping_widgets/testpageWidgets.dart';
+import 'package:flutter_job_app/features/Tests/models/database.dart';
 
 import 'package:flutter_job_app/features/Tests/models/testresult.dart';
 
 import 'package:flutter_job_app/features/Tests/screen/MCQAnswerkey.dart';
 import 'package:flutter_job_app/features/Tests/screen/NumericalAnswerKey.dart';
+import 'package:flutter_job_app/features/personalization/controllers/user_controller.dart';
 import 'package:flutter_job_app/navigation_menu.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,6 +48,7 @@ class Scorecard extends StatefulWidget {
 
 class _ScorecardState extends State<Scorecard> {
   late TestResultSingleton _testResultSingleton;
+  final controller = Get.put(UserController());
   @override
   void initState() {
     Get.delete<TimerController>();
@@ -52,7 +56,7 @@ class _ScorecardState extends State<Scorecard> {
     _updateSectionAnswers();
     super.initState();
   }
-  void _updateSectionAnswers() {
+  void _updateSectionAnswers()async {
     // Check if MCQAnswers is empty
     if (widget.mcqAnswers.isEmpty) {
       int numMCQQuestions = widget.mcqquestions.length;
@@ -68,6 +72,20 @@ class _ScorecardState extends State<Scorecard> {
       widget.questionsSkipped += numNumericalQuestions;
       widget.testScore.totalQuestions+=numNumericalQuestions;
     }
+     CompletedTest completedTest = CompletedTest(
+      weekNumber: widget.weeknumber,
+      topic: widget.topicname,
+      totalCorrectAnswers:  widget.testScore.totalCorrectAnswers,
+      totalQuestions:widget.testScore.totalQuestions ,
+      totalWrongAnswers: widget.testScore.totalWrongAnswers,
+      totalSkippedQuestions:  widget.questionsSkipped,
+    );
+
+    // Get the current student ID
+    String studentID = controller.user.value.studentId; // Replace with your method to get the student ID
+
+    // Add the completed test to Firestore
+    await DatabaseService().submitCompletedTest(studentID, completedTest);
   }
 
   @override
@@ -105,12 +123,7 @@ class _ScorecardState extends State<Scorecard> {
                   SizedBox(
                     height: 30.h,
                   ),
-                  // scoreTable(
-                  //     widget.weeknumber,
-                  //     widget.testScore.totalCorrectAnswers,
-                  //     widget.testScore.totalQuestions,
-                  //     widget.questionsSkipped,
-                  //     widget.testScore.totalWrongAnswers),
+                 
                   card(context,widget.testScore.totalQuestions,  widget.testScore.totalCorrectAnswers,  widget.questionsSkipped,  widget.testScore.totalWrongAnswers),
                   SizedBox(
                     height: 20.h,

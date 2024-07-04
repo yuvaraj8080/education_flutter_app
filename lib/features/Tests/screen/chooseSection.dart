@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_job_app/common/Login_Widgets/TSection_Heading.dart';
 import 'package:flutter_job_app/constants/colors.dart';
 import 'package:flutter_job_app/features/Tests/controllers/time_controller.dart';
+
 import 'package:flutter_job_app/features/Tests/models/Testsingleton.dart';
 
 import 'package:flutter_job_app/features/Tests/models/Utils.dart';
@@ -40,16 +41,14 @@ class _ChooseSectionState extends State<ChooseSection> {
     _timerController.startTimer(widget.duration);
     super.initState();
   }
-  void submitTest() {
-  print(_testResultSingleton.testResult.mcqAnswers);
-  print(_testResultSingleton.testResult.numericalAnswers); 
+  void submitTest() async{
+
   int totalSkippedMcqQuestions = _testResultSingleton.testResult.mcqAnswers.where((answer) => answer == '').length;
   int totalSkippedNumericalQuestions = _testResultSingleton.testResult.numericalAnswers.where((answer) => answer == '').length;
   int totalSkippedQuestions = totalSkippedMcqQuestions + totalSkippedNumericalQuestions;
 
   _testResultSingleton.testResult.totalSkippedQuestions = totalSkippedQuestions;
-  print( _testResultSingleton.testResult.totalSkippedQuestions );
-
+ 
  
 }
 
