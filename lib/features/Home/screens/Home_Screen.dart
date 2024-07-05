@@ -1,4 +1,5 @@
-  import 'package:flutter/material.dart';
+  import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
 import 'package:flutter_job_app/common/widgets_login/images/t_Rounded_image.dart';
 import 'package:flutter_job_app/constants/colors.dart';
@@ -18,7 +19,7 @@ import 'widget/Section_Banner.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     final controller = Get.put(UserController());
     final user = controller.user.value;
     return Scaffold(
@@ -33,8 +34,9 @@ class HomeScreen extends StatelessWidget {
               IconButton(onPressed:(){}, icon:Icon(Iconsax.notification,size:30,)),
               SizedBox(width:TSizes.size8),
               TRoundedImage(
+                borderColor:Colors.red,
                 onPressed:()=> Get.to(()=> ProfileScreen()),
-                isNetworkImage:user.profilePicture.isNotEmpty ? true : false,fit:BoxFit.cover,height:30,width:30,
+                isNetworkImage:user.profilePicture.isNotEmpty ? true : false,fit:BoxFit.cover,height:35,width:35,
                 imageUlr: user.profilePicture.isNotEmpty ? user.profilePicture : 'assets/images/user.png',
               )
             ]),

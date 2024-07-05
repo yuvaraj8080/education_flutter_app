@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_job_app/utils/loaders/snackbar_loader.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../features/authentication/screens/Login/login.dart';
 import '../../../features/authentication/screens/onBoarding/onboarding.dart';
 import '../../../navigation_menu.dart';
@@ -11,38 +11,38 @@ import '../../../utils/exceptions/firebase_auth_exceptions.dart';
 import '../../../utils/exceptions/firebase_exceptions.dart';
 import '../../../utils/exceptions/format_exceptions.dart';
 import '../../../utils/exceptions/platform_exceptions.dart';
+import '../../../utils/loaders/snackbar_loader.dart';
 import '../user/user_repository.dart';
 
-class AuthenticationRepository extends GetxController{
+
+
+class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
 
   ///---VARIABLES----
   var verificationId = "".obs;
   final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
-
+  final _firestore = FirebaseFirestore.instance;
 
   // GET AUTHENTICATED USER DATA
   User? get authUser => _auth.currentUser;
 
-
   /// CALLED FROM MAIN DART ON APP LAUNCH
-   @override
-  void onReady(){
-     //REMOVE THE NATIVE SPLASH SCREEN
-     FlutterNativeSplash.remove();
-     //REDIRECT TO THE APPROPRITE SCREEN
-     screenRedirect();
-   }
+  @override
+  void onReady() {
+    // REMOVE THE NATIVE SPLASH SCREEN
+    FlutterNativeSplash.remove();
+    // REDIRECT TO THE APPROPRIATE SCREEN
+    screenRedirect();
+  }
 
-   ///----FUNCTION TO SHOW RELEVANT SCREEN
+  ///----FUNCTION TO SHOW RELEVANT SCREEN
   screenRedirect() async {
     final user = _auth.currentUser;
-    if (user != null ) {
-
-      /// CURRENT USER IS AUTHORIZED THEN PASS TO THE BOTTOM NEVIGATION SCREEN
+    if (user != null) {
+      /// CURRENT USER IS AUTHORIZED THEN PASS TO THE BOTTOM NAVIGATION SCREEN
       Get.offAll(() => NavigationMenu());
-
     } else {
       // No user is signed in
       deviceStorage.writeIfNull("IsFirstTime", true);
@@ -107,26 +107,33 @@ class AuthenticationRepository extends GetxController{
 
   ///-------------EMAIL & PASSWORD SIGN-IN--------------------
   /// [EMAIL AUTHENTICATION ] - LOGIN
-   Future<UserCredential> loginWithEmailAndPassword(String email, String password)async{
-     try{
-       return await _auth.signInWithEmailAndPassword(email: email, password: password);
-     }
-     on FirebaseAuthException catch (e){
-       throw TFirebaseAuthException(e.code).message;
-     }
-     on FirebaseException catch (e){
-       throw TFirebaseException(e.code).message;
-     }
-     on FormatException catch (_){
-       throw const TFormException();
-     }
-     on PlatformException catch (e){
-       throw TPlatformException(e.code).message;
-     }
-     catch(e){
-       throw "Something went wrong, Please try again";
-     }
-   }
+  /// EMAIL & PASSWORD SIGN-IN - LOGIN
+  Future<UserCredential> loginWithEmailAndPassword(String email, String password) async {
+    try {
+      // Check if the email is already logged in
+      DocumentSnapshot userDoc = await _firestore.collection('loggedInUsers').doc(email).get();
+      if (userDoc.exists) {
+        throw "This email is already logged in.";
+      }
+
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+
+      // Mark the user as logged in
+      await _firestore.collection('loggedInUsers').doc(email).set({'isLoggedIn': true});
+
+      return userCredential;
+    } on FirebaseAuthException catch (e) {
+      throw TFirebaseAuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 
   /// [EMAIL VERIFICATION] - MAIL VERIFICATION
   Future<void> sendEmailVerification() async{
@@ -142,7 +149,7 @@ class AuthenticationRepository extends GetxController{
     on FormatException catch (_){
       throw const TFormException();
     }
-    on PlatformException catch (e){ 
+    on PlatformException catch (e){
       throw TPlatformException(e.code).message;
     }
     catch(e){
@@ -211,6 +218,11 @@ class AuthenticationRepository extends GetxController{
 
   Future <void> logout() async {
      try{
+       // Mark the user as logged out
+       if (authUser != null) {
+         await _firestore.collection('loggedInUsers').doc(authUser!.email).delete();
+       }
+
        await FirebaseAuth.instance.signOut();
        Get.offAll(()=> const LoginScreen());
      }
