@@ -23,7 +23,7 @@ void main() async{
 
   ///----INITIALIZATION FIREBASE AND AUTHENTICATION REPOSITORY----
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then(
-        (FirebaseApp value) => Get.put(AuthenticationRepository()),
+        (FirebaseApp value) => Get.put(Authent,icationRepository()),
   );
 
   ///FLUTTER APP CHECKER
