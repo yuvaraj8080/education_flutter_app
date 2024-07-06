@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../../../../common/NetworkManager/network_manager.dart';
 import '../../../../../constants/image_string.dart';
 import '../../../../../data/repositories/authentication/authentication-repository.dart';
+import '../../../../../navigation_menu.dart';
 import '../../../../../utils/loaders/snackbar_loader.dart';
 import '../../../../../utils/popups/full_screen_loader.dart';
 import '../../../../Home/screens/Home_Screen.dart';
@@ -75,7 +76,7 @@ class PhoneAuthenticationController extends GetxController {
 
       //  REMOVE LOADER
 
-      isVerified ? Get.offAll(const HomeScreen()) : Get.back();
+      isVerified ? Get.offAll(const NavigationMenu()) : Get.back();
     }
     catch(e){
       TLoaders.errorSnackBar(title:"Oh",message:e.toString());
