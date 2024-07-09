@@ -9,7 +9,7 @@ class UrlController extends GetxController {
   Future<void> launchLink(Uri url) async {
     if (!await launchUrl(
       url,
-      mode: LaunchMode.externalApplication,
+      mode: LaunchMode.inAppBrowserView,
     )) {
       throw Exception('Could not launch $url');
     }

@@ -14,6 +14,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../../common/Login_Widgets/Online_Test_Section.dart';
 import '../../../common/Login_Widgets/TOnlineLectureSection.dart';
 import '../../../common/Login_Widgets/TSection_Heading.dart';
+import 'PYQS/PYQS_Screen.dart';
 import 'widget/Section_Banner.dart';
 
 
@@ -71,11 +72,13 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 10.h),
               TOnlineTestSection(firstName: 'Past tests', lastName: 'Notes',
                   secondTap: ()=> Get.to(()=> NotesScreen()),
+                  firstTap: () {},
               ),
 
               /// PYQ AND MY SCORES HARE
               TOnlineTestSection(firstName: 'PYQS', lastName: 'My Scores',
-              secondTap:(){},
+                secondTap:(){},
+                firstTap: () => Get.to(()=> PYQScreen()),
               ),
 
             ],
