@@ -86,84 +86,86 @@ class _TestListPageState extends State<TestListPage> {
                             }
                           });
 
-                          return Column(
-                            children: [
-                              TSectionHeading(
-                                  context, "Ongoing tests for your batch:",
-                                  size: 24.sp),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: ongoingTests.length,
-                                itemBuilder: (context, index) {
-                                  Week week = ongoingTests[index];
-                                  return GestureDetector(
-                                    onTap: () => Get.to(() => ChooseSection(
-                                          batchName: _batch,
-                                          weekNumber: week.weekNumber,
-                                          topic: week.topic,
-                                          duration: week.duration,
-                                        )),
-                                    child: ongoingtest(
-                                      week.weekNumber,
-                                      week.topic,
-                                      // createdAt: week.createdAt.toDate().toString(),
-                                    ),
-                                  );
-                                },
-                              ),
-                              SizedBox(
-                                height: 20.h,
-                              ),
-                              TSectionHeading(context, "Completed tests :",
-                                  size: 24.sp),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: completedTests.length,
-                                itemBuilder: (context, index) {
-                                  Week week = completedTests[index];
-                                  int totalQuestions =
-                                      0; // Initialize totalQuestions
-                                  int totalCorrectAnswers =
-                                      0; // Initialize totalCorrectAnswers
-                                  int totalWrongAnswers =
-                                      0; // Initialize totalWrongAnswers
-                                  int totalSkippedQuestions =
-                                      0; // Initialize totalSkippedQuestions
+                          return SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                TSectionHeading(
+                                    context, "Ongoing tests for your batch:",
+                                    size: 24.sp),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: ongoingTests.length,
+                                  itemBuilder: (context, index) {
+                                    Week week = ongoingTests[index];
+                                    return GestureDetector(
+                                      onTap: () => Get.to(() => ChooseSection(
+                                            batchName: _batch,
+                                            weekNumber: week.weekNumber,
+                                            topic: week.topic,
+                                            duration: week.duration,
+                                          )),
+                                      child: ongoingtest(
+                                        week.weekNumber,
+                                        week.topic,
+                                        // createdAt: week.createdAt.toDate().toString(),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                SizedBox(
+                                  height: 20.h,
+                                ),
+                                TSectionHeading(context, "Completed tests :",
+                                    size: 24.sp),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: completedTests.length,
+                                  itemBuilder: (context, index) {
+                                    Week week = completedTests[index];
+                                    int totalQuestions =
+                                        0; // Initialize totalQuestions
+                                    int totalCorrectAnswers =
+                                        0; // Initialize totalCorrectAnswers
+                                    int totalWrongAnswers =
+                                        0; // Initialize totalWrongAnswers
+                                    int totalSkippedQuestions =
+                                        0; // Initialize totalSkippedQuestions
 
-                                  // Get the completed test document from Firestore
-                                  completedTestsSnapshot.data!.docs
-                                      .forEach((doc) {
-                                    if (doc.get('weekNumber') ==
-                                        week.weekNumber) {
-                                      totalQuestions =
-                                          doc.get('totalQuestions');
-                                      totalCorrectAnswers =
-                                          doc.get('totalCorrectAnswers');
-                                      totalWrongAnswers =
-                                          doc.get('totalWrongAnswers');
-                                      totalSkippedQuestions =
-                                          doc.get('totalSkippedQuestions');
-                                    }
-                                  });
-                                  return GestureDetector(
-                                    onTap: () => Get.to(completedScorecard(
-                                        totalCorrectAnswers:
-                                            totalCorrectAnswers,
-                                        totalquestionsSkipped:
-                                            totalSkippedQuestions,
-                                        totalWrongAnswers: totalWrongAnswers,
-                                        totalQuestions: totalQuestions,
-                                        weeknumber: week.weekNumber,
-                                        topicname: week.topic)),
-                                    child: completedtest(
-                                      week.weekNumber,
-                                      week.topic,
-                                      // createdAt: week.createdAt.toDate().toString(),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ],
+                                    // Get the completed test document from Firestore
+                                    completedTestsSnapshot.data!.docs
+                                        .forEach((doc) {
+                                      if (doc.get('weekNumber') ==
+                                          week.weekNumber) {
+                                        totalQuestions =
+                                            doc.get('totalQuestions');
+                                        totalCorrectAnswers =
+                                            doc.get('totalCorrectAnswers');
+                                        totalWrongAnswers =
+                                            doc.get('totalWrongAnswers');
+                                        totalSkippedQuestions =
+                                            doc.get('totalSkippedQuestions');
+                                      }
+                                    });
+                                    return GestureDetector(
+                                      onTap: () => Get.to(completedScorecard(
+                                          totalCorrectAnswers:
+                                              totalCorrectAnswers,
+                                          totalquestionsSkipped:
+                                              totalSkippedQuestions,
+                                          totalWrongAnswers: totalWrongAnswers,
+                                          totalQuestions: totalQuestions,
+                                          weeknumber: week.weekNumber,
+                                          topicname: week.topic)),
+                                      child: completedtest(
+                                        week.weekNumber,
+                                        week.topic,
+                                        // createdAt: week.createdAt.toDate().toString(),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           );
                         } else {
                           return Text('No Tests found');
