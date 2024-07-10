@@ -126,9 +126,6 @@ class DatabaseService {
         .get();
   }
 
-  
-
- 
    Future<void> submitCompletedTest(String studentID, CompletedTest completedTest) async {
     final completedTestsRef = _firestore.collection('completed_tests').doc(studentID).collection('tests');
     await completedTestsRef.add(completedTest.toMap());

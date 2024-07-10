@@ -5,6 +5,7 @@ import 'package:flutter_job_app/constants/colors.dart';
 
 import 'package:flutter_job_app/features/Tests/models/Utils.dart';
 import 'package:flutter_job_app/features/Tests/Helping_widgets/scorecard_widgets.dart';
+import 'package:flutter_job_app/features/personalization/controllers/user_controller.dart';
 
 
 import 'package:flutter_job_app/navigation_menu.dart';
@@ -20,6 +21,7 @@ class completedScorecard extends StatefulWidget {
 
   final String weeknumber;
   final String topicname;
+  final String Timetaken;
 
   completedScorecard({
     
@@ -29,6 +31,7 @@ class completedScorecard extends StatefulWidget {
     required this.totalQuestions, 
     required this.weeknumber,
     required this.topicname,
+    required this.Timetaken
   });
 
   @override
@@ -36,10 +39,13 @@ class completedScorecard extends StatefulWidget {
 }
 
 class _completedScorecardState extends State<completedScorecard> {
-  
+  final controller = Get.put(UserController());
+  late  String studentID;
+  late String batchName;
   @override
   void initState() {
-    
+     studentID = controller.user.value.studentId; 
+     batchName=controller.user.value.batch;
     super.initState();
   }
   @override
@@ -70,15 +76,15 @@ class _completedScorecardState extends State<completedScorecard> {
                     height: 30.h,
                   ),
                  
-                  card(context,widget.totalQuestions,  widget.totalCorrectAnswers,  widget.totalquestionsSkipped,  widget.totalWrongAnswers),
+                  card(context,widget.totalQuestions,  widget.totalCorrectAnswers,  widget.totalquestionsSkipped,  widget.totalWrongAnswers,studentID,batchName,widget.Timetaken),
                   SizedBox(
                     height: 20.h,
                   ),
                 
                   GestureDetector(
-                      onTap: () => Get.off(() => NavigationMenu()),
+                      onTap: () => Get.back(),
                       child: Utils()
-                          .ElevatedButton('Back To Home', TColors.black)),
+                          .ElevatedButton('Back', TColors.black)),
                 ]),
               )
         );

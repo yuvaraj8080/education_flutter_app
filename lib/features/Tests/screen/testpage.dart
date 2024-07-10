@@ -8,9 +8,6 @@ import 'package:flutter_job_app/features/Tests/models/Utils.dart';
 import 'package:flutter_job_app/features/Tests/models/database.dart';
 import 'package:flutter_job_app/features/Tests/Helping_widgets/testpageWidgets.dart';
 
-import 'package:flutter_job_app/features/Tests/models/testresult.dart';
-import 'package:flutter_job_app/features/Tests/screen/Numericaltestpage.dart';
-import 'package:flutter_job_app/features/Tests/screen/chooseSection.dart';
 import 'package:flutter_job_app/features/Tests/screen/questionStatus.dart';
 import 'package:flutter_job_app/features/Tests/screen/scorecard.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,14 +20,13 @@ class Testpage extends StatefulWidget {
   final String topic;
   final String section; //similar to above
   final int duration;
-  Testpage({
-    super.key,
-    required this.batchName,
-    required this.weekNumber,
-    required this.topic,
-    required this.section,
-    required this.duration
-  });
+  Testpage(
+      {super.key,
+      required this.batchName,
+      required this.weekNumber,
+      required this.topic,
+      required this.section,
+      required this.duration});
 
   @override
   State<Testpage> createState() => _TestpageState();
@@ -40,7 +36,7 @@ class _TestpageState extends State<Testpage> {
   QuerySnapshot? querySnapshot;
   final TimerController _timerController = Get.find<TimerController>();
   bool _dataLoaded = false;
-  int totalQuestions=0;
+  int totalQuestions = 0;
   final TestResultSingleton _testResultSingleton =
       TestResultSingleton.getInstance();
 
@@ -75,14 +71,14 @@ class _TestpageState extends State<Testpage> {
         widget.batchName,
         widget.weekNumber,
         widget.section); //gets the test details
-    totalQuestions=snapshot.docs.length;
+    totalQuestions = snapshot.docs.length;
     int duration = weekDoc["duration"];
     if (mounted) {
       questionStream!.listen((snapshot) {
         setState(() {
           _testResultSingleton.testResult.mcqAnswers.clear();
           for (int i = 0; i < snapshot.docs.length; i++) {
-           _testResultSingleton.testResult.mcqAnswers.add('');
+            _testResultSingleton.testResult.mcqAnswers.add('');
           } // addeds an empty string at each question index to tracck the selected answers
           //widget.timerController.startTimer(duration); //startinng the timer
         });
@@ -101,8 +97,6 @@ class _TestpageState extends State<Testpage> {
       // If the previous answer was wrong, decrement the wrong count
       _testResultSingleton.testResult.totalWrongAnswers--;
     }
-    
-
 
     _testResultSingleton.testResult.mcqAnswers[index] = newAnswer;
 
@@ -157,7 +151,7 @@ class _TestpageState extends State<Testpage> {
           padding: EdgeInsets.all(10.w),
           child: Row(
             children: [
-              TSectionHeading(context, 'Q${index+1} ', size: 24.sp),
+              TSectionHeading(context, 'Q${index + 1} ', size: 24.sp),
               Question(ds["Image"]),
             ],
           ),
@@ -198,29 +192,42 @@ class _TestpageState extends State<Testpage> {
 
         //this  part is for navigation  to next question as well as scorecard
         GestureDetector(
-          onTap: () async {
-            setState(() {});
-            if (index == totalQuestions - 1) {
-          
-            print(_testResultSingleton.testResult.mcqAnswers);
-             Navigator.of(context).pop();
-            } else {
-              
-              controller.nextPage(
-                duration: Duration(milliseconds: 200),
-                curve: Curves.easeIn,
-              );
-            }
-          },
-          child: index == totalQuestions - 1
-              ? Utils().ElevatedButton("Submit", TColors.redtext)
-              : Utils()
-                  .ElevatedButton("Proceed To Next Question", TColors.green),
+          onTap: null, // Remove the onTap callback
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  if (index > 0) {
+                    controller.previousPage(
+                      duration: Duration(milliseconds: 200),
+                      curve: Curves.easeIn,
+                    );
+                  }
+                },
+              ),
+              index == totalQuestions - 1
+                  ? Utils().ElevatedButton("Proced to submit", TColors.redtext)
+                  : Utils().ElevatedButton(
+                      "Proceed To Next Question", TColors.green),
+              IconButton(
+                icon: Icon(Icons.arrow_forward),
+                onPressed: () {
+                  if (index < totalQuestions - 1) {
+                    controller.nextPage(
+                      duration: Duration(milliseconds: 200),
+                      curve: Curves.easeIn,
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
         ),
 
         GestureDetector(
           onTap: () async {
-            print("mcqanswers length:${_testResultSingleton.testResult.mcqAnswers.length}");
             Navigator.push(
               context,
               PageRouteBuilder(
@@ -228,33 +235,34 @@ class _TestpageState extends State<Testpage> {
                 pageBuilder: (context, animation, secondaryAnimation) =>
                     QuestionStatusPage(
                   selectedAnswers: _testResultSingleton.testResult.mcqAnswers,
-                  totalQuestions:
-                     totalQuestions,
+                  totalQuestions: totalQuestions,
                 ),
               ),
             );
           },
           child: underlinedText("view attempted questions"),
         ),
-        
-       
       ],
     );
   }
-   void submitTest() {
-  print(_testResultSingleton.testResult.mcqAnswers);
-  print(_testResultSingleton.testResult.numericalAnswers); 
-  int totalSkippedMcqQuestions = _testResultSingleton.testResult.mcqAnswers.where((answer) => answer == '').length;
-  int totalSkippedNumericalQuestions = _testResultSingleton.testResult.numericalAnswers.where((answer) => answer == '').length;
-  int totalSkippedQuestions = totalSkippedMcqQuestions + totalSkippedNumericalQuestions;
 
-  _testResultSingleton.testResult.totalSkippedQuestions = totalSkippedQuestions;
-  print( _testResultSingleton.testResult.totalSkippedQuestions );
+  void submitTest() {
+    print(_testResultSingleton.testResult.mcqAnswers);
+    print(_testResultSingleton.testResult.numericalAnswers);
+    int totalSkippedMcqQuestions = _testResultSingleton.testResult.mcqAnswers
+        .where((answer) => answer == '')
+        .length;
+    int totalSkippedNumericalQuestions = _testResultSingleton
+        .testResult.numericalAnswers
+        .where((answer) => answer == '')
+        .length;
+    int totalSkippedQuestions =
+        totalSkippedMcqQuestions + totalSkippedNumericalQuestions;
 
- 
-}
-
-
+    _testResultSingleton.testResult.totalSkippedQuestions =
+        totalSkippedQuestions;
+    print(_testResultSingleton.testResult.totalSkippedQuestions);
+  }
 
   @override
   void dispose() {
@@ -284,27 +292,31 @@ class _TestpageState extends State<Testpage> {
                         child:
                             CircularProgressIndicator()); // Show loading indicator
                   default:
-                    QuerySnapshot querySnapshot =
-                        snapshot.data!;
-                    _timerController.onFinish = () async{
-                     QuerySnapshot numericalquerySnapshot = await FirebaseFirestore.instance
-                    .collection('Tests')
-                    .doc(widget.batchName)
-                    .collection("weeks")
-                    .doc(widget.weekNumber)
-                    .collection("section")
-                    .doc('Numericalquestions')
-                    .collection('QuestionSet')
-                    .get();
-                    submitTest();
+                    QuerySnapshot querySnapshot = snapshot.data!;
+                    _timerController.onFinish = () async {
+                      QuerySnapshot numericalquerySnapshot =
+                          await FirebaseFirestore.instance
+                              .collection('Tests')
+                              .doc(widget.batchName)
+                              .collection("weeks")
+                              .doc(widget.weekNumber)
+                              .collection("section")
+                              .doc('Numericalquestions')
+                              .collection('QuestionSet')
+                              .get();
+                      submitTest();
+                      String elapsedTime = _timerController.getElapsedTime();
                       Get.to(() => Scorecard(
+                            Timetaken: elapsedTime,
                             numericalquestions: numericalquerySnapshot.docs,
                             questionsSkipped: _testResultSingleton
                                 .testResult.totalSkippedQuestions,
                             testScore: _testResultSingleton.testResult,
                             mcqquestions: querySnapshot.docs,
-                            mcqAnswers: _testResultSingleton.testResult.mcqAnswers,
-                            numericalAnswers: _testResultSingleton.testResult.numericalAnswers,
+                            mcqAnswers:
+                                _testResultSingleton.testResult.mcqAnswers,
+                            numericalAnswers: _testResultSingleton
+                                .testResult.numericalAnswers,
                             weeknumber: widget.weekNumber,
                             topicname: widget.topic,
                           ));

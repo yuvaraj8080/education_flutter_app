@@ -30,8 +30,10 @@ class Scorecard extends StatefulWidget {
    int questionsSkipped;
   final String weeknumber;
   final String topicname;
+  final String Timetaken;
 
   Scorecard({
+    required this.Timetaken,
     required this.numericalAnswers,
     required this.numericalquestions,
     required this.testScore,
@@ -49,8 +51,15 @@ class Scorecard extends StatefulWidget {
 class _ScorecardState extends State<Scorecard> {
   late TestResultSingleton _testResultSingleton;
   final controller = Get.put(UserController());
+  late  String studentID;
+  late String batchName;
+
+  
   @override
   void initState() {
+     studentID = controller.user.value.studentId; // Replace with your method to get the student ID
+     batchName=controller.user.value.batch;
+  
     Get.delete<TimerController>();
     _testResultSingleton = TestResultSingleton.getInstance();
     _updateSectionAnswers();
@@ -79,11 +88,11 @@ class _ScorecardState extends State<Scorecard> {
       totalQuestions:widget.testScore.totalQuestions ,
       totalWrongAnswers: widget.testScore.totalWrongAnswers,
       totalSkippedQuestions:  widget.questionsSkipped,
+      Timetaken: widget.Timetaken
     );
 
     // Get the current student ID
-    String studentID = controller.user.value.studentId; // Replace with your method to get the student ID
-
+    
     // Add the completed test to Firestore
     await DatabaseService().submitCompletedTest(studentID, completedTest);
   }
@@ -124,7 +133,7 @@ class _ScorecardState extends State<Scorecard> {
                     height: 30.h,
                   ),
                  
-                  card(context,widget.testScore.totalQuestions,  widget.testScore.totalCorrectAnswers,  widget.questionsSkipped,  widget.testScore.totalWrongAnswers),
+                  card(context,widget.testScore.totalQuestions,  widget.testScore.totalCorrectAnswers,  widget.questionsSkipped,  widget.testScore.totalWrongAnswers,studentID,batchName,widget.Timetaken),
                   SizedBox(
                     height: 20.h,
                   ),
