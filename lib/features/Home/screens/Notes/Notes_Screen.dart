@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
+import 'package:flutter_job_app/features/Home/screens/Notes/widgets/PdfView_Screen.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../constants/colors.dart';
@@ -29,7 +31,7 @@ class NotesScreen extends StatelessWidget {
               title: Text("Chemistry-Organic.jpg",style:Theme.of(context).textTheme.titleLarge!.copyWith(overflow:TextOverflow.ellipsis)),
               subtitle: Text("Aldehyde_ketone.jpg",style:Theme.of(context).textTheme.bodySmall!.copyWith(overflow:TextOverflow.ellipsis)),
               trailing:Icon(Iconsax.document_download),
-              onTap: (){},
+              onTap: ()=> Get.to(()=>PdfViewScreen(pdfUrl:'https://drive.google.com/file/d/1dPMF6OZvx1JF85sCcr1hYeDRJIkP2WDK/view?usp=drive_link',)),
             ),),
            );
         },
