@@ -96,11 +96,13 @@ Widget scoreTable(String Weeknumber, int correctAnswer, int totalquestion,
 }
 
 Widget card(BuildContext context, int totalQuestions, int correctAnswers,
-    int skippedQuestions, int wrongAnswers) {
+    int skippedQuestions, int wrongAnswers,String studentID,String batch,String Timetaken) {
+    int totalscore=(correctAnswers*4)-wrongAnswers;   
  double _calculateProgressValue() {
-  double score = correctAnswers.toDouble();
+  //int totalscore=(correctAnswers*4)-wrongAnswers;
+  double score = totalscore.toDouble();
   double totalquestions = totalQuestions.toDouble();
-  double progress = score / totalquestions;
+  double progress = score / (totalquestions*4.0);
 
   // Map the progress value to a value between 0 and 1
   progress = progress.clamp(0.0, 1.0);
@@ -122,11 +124,13 @@ Widget card(BuildContext context, int totalQuestions, int correctAnswers,
               children: [
                 SizedBox(height: 10,),
                 TSectionHeading(context, "Batch: ",size: 14.sp,textColor: TColors.black.withOpacity(0.5)),
-                TSectionHeading(context, "JEE 11TH",size: 14.sp),
+                TSectionHeading(context, batch,size: 14.sp),
                 TSectionHeading(context, "Student ID: ",size: 14.sp,textColor: TColors.black.withOpacity(0.5)),
-                TSectionHeading(context, "N100",size: 14.sp),
+                TSectionHeading(context, studentID,size: 14.sp),
                 TSectionHeading(context, "Total Questions:",size: 14.sp,textColor: TColors.black.withOpacity(0.5)),
                 TSectionHeading(context, " $totalQuestions",size: 14.sp),
+                TSectionHeading(context, "Total Timetaken:",size: 14.sp,textColor: TColors.black.withOpacity(0.5)),
+                TSectionHeading(context, Timetaken,size: 14.sp),
                 SizedBox(height: 10,),
                 Row(
                   children: [
@@ -210,7 +214,7 @@ Widget card(BuildContext context, int totalQuestions, int correctAnswers,
                     ),
                   ),
                     Text(
-                      '${correctAnswers} / ${totalQuestions}',
+                      '${totalscore} / ${totalQuestions*4}',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,

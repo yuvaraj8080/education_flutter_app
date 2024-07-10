@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/features/Batches/Batches_Screen.dart';
 import 'package:flutter_job_app/features/Home/screens/Home_Screen.dart';
-import 'package:flutter_job_app/features/Tests/screen/CreateTestList.dart';
+import 'package:flutter_job_app/features/Tests/screen/OngoingTest.dart';
 import 'package:flutter_job_app/features/Tests/screen/category_page.dart';
 import 'package:flutter_job_app/features/personalization/screens/profile.dart';
 import 'package:flutter_job_app/utils/halpers/helper_function.dart';
@@ -47,7 +47,7 @@ class NavigationController extends GetxController {
 
     const HomeScreen(),
     const BatchesScreen(),
-    TestListPage(),
+    OngoingTestPage(),
     ProfileScreen()
 
   ];

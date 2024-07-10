@@ -14,12 +14,13 @@ class PdfViewScreen extends StatefulWidget {
 }
 
 class _PdfViewScreenState extends State<PdfViewScreen> {
+
   String _filePath = '';
   bool _isReady = false;
   String _errorMessage = '';
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
         title: Text('PDF Viewer'),

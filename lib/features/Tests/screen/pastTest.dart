@@ -6,22 +6,22 @@ import 'package:flutter_job_app/common/Login_Widgets/TSection_Heading.dart';
 import 'package:flutter_job_app/features/Tests/models/Week.dart';
 import 'package:flutter_job_app/features/Tests/Helping_widgets/create_test_widgets.dart';
 import 'package:flutter_job_app/features/Tests/models/database.dart';
-import 'package:flutter_job_app/features/Tests/screen/chooseSection.dart';
+
 import 'package:flutter_job_app/features/Tests/screen/completedScorecard.dart';
 import 'package:flutter_job_app/features/personalization/controllers/user_controller.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class TestListPage extends StatefulWidget {
+class PasttestPage extends StatefulWidget {
   
-  TestListPage({super.key});
+  PasttestPage({super.key});
 
   @override
-  _TestListPageState createState() => _TestListPageState();
+  _PasttestPageState createState() => _PasttestPageState();
 }
 
-class _TestListPageState extends State<TestListPage> {
+class _PasttestPageState extends State<PasttestPage> {
   final DatabaseService _databaseService = DatabaseService();
   Future<List<Week>>? weeksFuture;
   Stream<QuerySnapshot<Object?>>? completedTestsStream;
@@ -89,32 +89,7 @@ class _TestListPageState extends State<TestListPage> {
                           return SingleChildScrollView(
                             child: Column(
                               children: [
-                                TSectionHeading(
-                                    context, "Ongoing tests for your batch:",
-                                    size: 24.sp),
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: ongoingTests.length,
-                                  itemBuilder: (context, index) {
-                                    Week week = ongoingTests[index];
-                                    return GestureDetector(
-                                      onTap: () => Get.to(() => ChooseSection(
-                                            batchName: _batch,
-                                            weekNumber: week.weekNumber,
-                                            topic: week.topic,
-                                            duration: week.duration,
-                                          )),
-                                      child: ongoingtest(
-                                        week.weekNumber,
-                                        week.topic,
-                                        // createdAt: week.createdAt.toDate().toString(),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                SizedBox(
-                                  height: 20.h,
-                                ),
+                               
                                 TSectionHeading(context, "Completed tests :",
                                     size: 24.sp),
                                 ListView.builder(
@@ -130,7 +105,7 @@ class _TestListPageState extends State<TestListPage> {
                                         0; // Initialize totalWrongAnswers
                                     int totalSkippedQuestions =
                                         0; // Initialize totalSkippedQuestions
-
+                                    String Timetaken='';
                                     // Get the completed test document from Firestore
                                     completedTestsSnapshot.data!.docs
                                         .forEach((doc) {
@@ -144,10 +119,12 @@ class _TestListPageState extends State<TestListPage> {
                                             doc.get('totalWrongAnswers');
                                         totalSkippedQuestions =
                                             doc.get('totalSkippedQuestions');
+                                        Timetaken=doc.get('Timetaken');    
                                       }
                                     });
                                     return GestureDetector(
                                       onTap: () => Get.to(completedScorecard(
+                                          Timetaken: Timetaken,
                                           totalCorrectAnswers:
                                               totalCorrectAnswers,
                                           totalquestionsSkipped:

@@ -48,6 +48,7 @@ class _ChooseSectionState extends State<ChooseSection> {
   int totalSkippedQuestions = totalSkippedMcqQuestions + totalSkippedNumericalQuestions;
 
   _testResultSingleton.testResult.totalSkippedQuestions = totalSkippedQuestions;
+  
  
  
 }
@@ -171,9 +172,12 @@ class _ChooseSectionState extends State<ChooseSection> {
                     .collection('QuestionSet')
                     .get();
       
-                    submitTest();
+                  submitTest();
+
+                  String elapsedTime = _timerController.getElapsedTime();  //this  records the time taken by the student 
 
                   Get.off(Scorecard(
+                    Timetaken: elapsedTime,
                     questionsSkipped:
                         _testResultSingleton.testResult.totalSkippedQuestions,
                     testScore: _testResultSingleton.testResult,
