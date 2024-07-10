@@ -1,4 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+    </queries>
     <application
         android:label="flutter_job_app"
         android:name="${applicationName}"
@@ -17,26 +23,14 @@
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
-                android:resource="@style/NormalTheme"
-                />
+                android:resource="@style/NormalTheme"/>
+            <meta-data
+                android:name="flutterEmbedding"
+                android:value="2"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <!-- Required to query activities that can process text, see:
-             https://developer.android.com/training/package-visibility?hl=en and
-             https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
-
-             In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
-        <queries>
-            <intent>
-                <action android:name="android.intent.action.PROCESS_TEXT"/>
-                <data android:mimeType="text/plain"/>
-            </intent>
-        </queries>
-        <!-- Add the following lines to request permission to read and write files -->
-        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     </application>
 </manifest>

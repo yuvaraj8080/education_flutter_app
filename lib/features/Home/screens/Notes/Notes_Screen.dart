@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
-import 'package:flutter_job_app/features/Home/screens/Notes/widgets/PdfView_Screen.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 import '../../../../constants/colors.dart';
 import '../../../../utils/halpers/helper_function.dart';
+import '../../controller/Url_Launcher_Controller.dart';
 
 class NotesScreen extends StatelessWidget {
   const NotesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final urlController = Get.put(UrlController());
     final dark = THelperFunction.isDarkMode(context);
     return  Scaffold(
       appBar:TAppBar(title:Text("Study Material",style:Theme.of(context).textTheme.headlineSmall),
@@ -31,7 +32,7 @@ class NotesScreen extends StatelessWidget {
               title: Text("Chemistry-Organic.jpg",style:Theme.of(context).textTheme.titleLarge!.copyWith(overflow:TextOverflow.ellipsis)),
               subtitle: Text("Aldehyde_ketone.jpg",style:Theme.of(context).textTheme.bodySmall!.copyWith(overflow:TextOverflow.ellipsis)),
               trailing:Icon(Iconsax.document_download),
-              onTap: ()=> Get.to(()=>PdfViewScreen(pdfUrl:'https://drive.google.com/file/d/1dPMF6OZvx1JF85sCcr1hYeDRJIkP2WDK/view?usp=drive_link',)),
+              onTap:()=>urlController.launchLink(Uri.parse("https://drive.google.com/file/d/1dPMF6OZvx1JF85sCcr1hYeDRJIkP2WDK/view?usp=drive_link")),
             ),),
            );
         },
