@@ -24,6 +24,7 @@ dependencies:
   get:
   intl:
   shimmer:
+  pdfx:
   get_storage:
   iconsax:
   firebase_app_check:
