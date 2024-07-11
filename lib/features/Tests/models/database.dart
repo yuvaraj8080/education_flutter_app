@@ -132,9 +132,31 @@ class DatabaseService {
   }
 
    final controller = Get.put(UserController());
+   
   Stream<QuerySnapshot> getCompletedTests() {
     String studentID = controller.user.value.studentId; 
     return _firestore.collection('completed_tests').doc(studentID).collection('tests').snapshots();
+  }
+
+   Future<int> fetchRemainingTestsCount() async {
+    String studentID= Get.find<UserController>().user.value.studentId;
+    String batchName= Get.find<UserController>().user.value.batch;
+     print('Student ID: $studentID'); 
+    final weeksCollection = FirebaseFirestore.instance.collection('Tests').doc(batchName).collection('weeks');
+    final completedTestsCollection = FirebaseFirestore.instance.collection('completed_tests').doc(studentID).collection('tests');
+
+    final weeksSnapshot = await weeksCollection.get();
+    final completedTestsSnapshot = await completedTestsCollection.get();
+
+    int totalTests = weeksSnapshot.docs.length;
+    print('total test ${totalTests}');
+  
+    int completedTestsCount = completedTestsSnapshot.docs.length;
+     print('completed test ${completedTestsCount}');
+
+    int remainingTestsCount = totalTests - completedTestsCount;
+
+    return remainingTestsCount;
   }
 
 }

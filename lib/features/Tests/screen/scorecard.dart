@@ -25,9 +25,9 @@ class Scorecard extends StatefulWidget {
 
   final List<DocumentSnapshot> mcqquestions;
   final List<DocumentSnapshot> numericalquestions;
-   List<String> mcqAnswers;
-   List<String> numericalAnswers;
-   int questionsSkipped;
+  List<String> mcqAnswers;
+  List<String> numericalAnswers;
+  int questionsSkipped;
   final String weeknumber;
   final String topicname;
   final String Timetaken;
@@ -51,48 +51,48 @@ class Scorecard extends StatefulWidget {
 class _ScorecardState extends State<Scorecard> {
   late TestResultSingleton _testResultSingleton;
   final controller = Get.put(UserController());
-  late  String studentID;
+  late String studentID;
   late String batchName;
 
-  
   @override
   void initState() {
-     studentID = controller.user.value.studentId; // Replace with your method to get the student ID
-     batchName=controller.user.value.batch;
-  
+    studentID = controller
+        .user.value.studentId; // Replace with your method to get the student ID
+    batchName = controller.user.value.batch;
+
     Get.delete<TimerController>();
     _testResultSingleton = TestResultSingleton.getInstance();
     _updateSectionAnswers();
     super.initState();
   }
-  void _updateSectionAnswers()async {
+
+  void _updateSectionAnswers() async {
     // Check if MCQAnswers is empty
     if (widget.mcqAnswers.isEmpty) {
       int numMCQQuestions = widget.mcqquestions.length;
       widget.mcqAnswers = List.filled(numMCQQuestions, '');
-       widget.questionsSkipped += numMCQQuestions;
-       widget.testScore.totalQuestions+=numMCQQuestions;
+      widget.questionsSkipped += numMCQQuestions;
+      widget.testScore.totalQuestions += numMCQQuestions;
     }
 
     // Check if NumericalAnswers is empty
-    if ( widget.numericalAnswers.isEmpty) {
+    if (widget.numericalAnswers.isEmpty) {
       int numNumericalQuestions = widget.numericalquestions.length;
       widget.numericalAnswers = List.filled(numNumericalQuestions, '');
       widget.questionsSkipped += numNumericalQuestions;
-      widget.testScore.totalQuestions+=numNumericalQuestions;
+      widget.testScore.totalQuestions += numNumericalQuestions;
     }
-     CompletedTest completedTest = CompletedTest(
-      weekNumber: widget.weeknumber,
-      topic: widget.topicname,
-      totalCorrectAnswers:  widget.testScore.totalCorrectAnswers,
-      totalQuestions:widget.testScore.totalQuestions ,
-      totalWrongAnswers: widget.testScore.totalWrongAnswers,
-      totalSkippedQuestions:  widget.questionsSkipped,
-      Timetaken: widget.Timetaken
-    );
+    CompletedTest completedTest = CompletedTest(
+        weekNumber: widget.weeknumber,
+        topic: widget.topicname,
+        totalCorrectAnswers: widget.testScore.totalCorrectAnswers,
+        totalQuestions: widget.testScore.totalQuestions,
+        totalWrongAnswers: widget.testScore.totalWrongAnswers,
+        totalSkippedQuestions: widget.questionsSkipped,
+        Timetaken: widget.Timetaken);
 
     // Get the current student ID
-    
+
     // Add the completed test to Firestore
     await DatabaseService().submitCompletedTest(studentID, completedTest);
   }
@@ -106,8 +106,6 @@ class _ScorecardState extends State<Scorecard> {
 
   @override
   Widget build(BuildContext context) {
- 
-
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -132,8 +130,15 @@ class _ScorecardState extends State<Scorecard> {
                   SizedBox(
                     height: 30.h,
                   ),
-                 
-                  card(context,widget.testScore.totalQuestions,  widget.testScore.totalCorrectAnswers,  widget.questionsSkipped,  widget.testScore.totalWrongAnswers,studentID,batchName,widget.Timetaken),
+                  card(
+                      context,
+                      widget.testScore.totalQuestions,
+                      widget.testScore.totalCorrectAnswers,
+                      widget.questionsSkipped,
+                      widget.testScore.totalWrongAnswers,
+                      studentID,
+                      batchName,
+                      widget.Timetaken),
                   SizedBox(
                     height: 20.h,
                   ),
@@ -142,19 +147,22 @@ class _ScorecardState extends State<Scorecard> {
                           questions: widget.mcqquestions,
                           selectedAnswers: widget.mcqAnswers)),
                       child: underlinedText("view answer key for MCQs")),
-                   SizedBox(
+                  SizedBox(
                     height: 15.h,
                   ),
-                   GestureDetector(
+                  GestureDetector(
                       onTap: () => Get.to(() => NumericalAnswerKeyPage(
                           questions: widget.numericalquestions,
                           selectedAnswers: widget.numericalAnswers)),
-                      child: underlinedText("view answer key for Numericals")),    
+                      child: underlinedText("view answer key for Numericals")),
                   SizedBox(
                     height: 30.h,
                   ),
                   GestureDetector(
-                      onTap: () => Get.off(() => NavigationMenu()),
+                      onTap: () {
+                          Get.find<NavigationController>().navigateToHome();
+                        //Get.off(() => NavigationMenu());
+                      },
                       child: Utils()
                           .ElevatedButton('Back To Home', TColors.black)),
                 ]),

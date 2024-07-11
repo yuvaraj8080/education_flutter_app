@@ -208,9 +208,12 @@ class _TestpageState extends State<Testpage> {
                 },
               ),
               index == totalQuestions - 1
-                  ? Utils().ElevatedButton("Proced to submit", TColors.redtext)
-                  : Utils().ElevatedButton(
-                      "Proceed To Next Question", TColors.green),
+                  ? SizedBox()
+                  : GestureDetector(
+                    onTap: () => Get.back(),
+                    child: Utils().ElevatedButton(
+                        "Proceed To Next Question", TColors.green),
+                  ),
               IconButton(
                 icon: Icon(Icons.arrow_forward),
                 onPressed: () {

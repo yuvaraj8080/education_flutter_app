@@ -49,7 +49,7 @@ class _ChooseSectionState extends State<ChooseSection> {
 
   _testResultSingleton.testResult.totalSkippedQuestions = totalSkippedQuestions;
   
- 
+  
  
 }
 
