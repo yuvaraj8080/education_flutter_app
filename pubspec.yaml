@@ -24,13 +24,12 @@ dependencies:
   get:
   intl:
   shimmer:
-  syncfusion_flutter_pdfviewer:
-  flutter_pdfview:
   get_storage:
+  flutter_cached_pdfview:
   iconsax:
-  http:
   firebase_app_check:
-  flutter_plugin_android_lifecycle: ^2.0.20
+  http:
+  path_provider:
   lottie:
   flutter_native_splash:
   cached_network_image:
