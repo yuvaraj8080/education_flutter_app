@@ -24,8 +24,11 @@ dependencies:
   get:
   intl:
   shimmer:
+  syncfusion_flutter_pdfviewer:
+  flutter_pdfview:
   get_storage:
   iconsax:
+  http:
   firebase_app_check:
   flutter_plugin_android_lifecycle: ^2.0.20
   lottie:
