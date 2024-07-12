@@ -20,7 +20,7 @@ class NotesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: TAppBar(
-        title: Text("Study Material", style: Theme.of(context).textTheme.headlineSmall),
+        title: Text("PYQs Section", style: Theme.of(context).textTheme.headlineSmall),
         showBackArrow: true,
         color: dark ? TColors.dark : Colors.grey.shade200,
       ),
@@ -42,8 +42,8 @@ class NotesScreen extends StatelessWidget {
                   color: dark ? TColors.dark : Colors.grey.shade200,
                   child: ListTile(
                     leading: Icon(Icons.picture_as_pdf,size: 30),
-                    title: Text(file.title, style: Theme.of(context).textTheme.titleLarge!.copyWith(overflow: TextOverflow.ellipsis)),
-                    subtitle: Text(file.subtitle, style: Theme.of(context).textTheme.bodySmall!.copyWith(overflow: TextOverflow.ellipsis)),
+                    title: Text(file.title, style: Theme.of(context).textTheme.titleSmall!.copyWith(overflow: TextOverflow.ellipsis)),
+                    subtitle: Text(file.subtitle, style: Theme.of(context).textTheme.labelMedium!.copyWith(overflow: TextOverflow.ellipsis)),
                     trailing: Icon(Iconsax.arrow_right4),
                     onTap: () => urlController.launchLink(Uri.parse(file.fileUrl)),
                   ),

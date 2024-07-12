@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/features/Home/screens/Files/controller/file_controller.dart';
+import 'package:flutter_job_app/utils/shimmer_circular_Indicator/shimmer.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -19,13 +20,13 @@ class PYQScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: TAppBar(
-        title: Text("PYQS Material", style: Theme.of(context).textTheme.headlineSmall),
+        title: Text("Notes Section", style: Theme.of(context).textTheme.titleMedium),
         showBackArrow: true,
         color: dark? TColors.dark : Colors.grey.shade200,
       ),
       body: Obx(() {
         if (pyqController.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
+          return TShimmerEffect(width:double.infinity, height: double.infinity);
         } else if (pyqController.pyqsFiles.isEmpty) {
           return Center(child: Text('No PYQs Available'));
         } else {
@@ -41,9 +42,9 @@ class PYQScreen extends StatelessWidget {
                   color: dark? TColors.dark : Colors.grey.shade200,
                   child: ListTile(
                     leading: Icon(Icons.picture_as_pdf,size: 30),
-                    title: Text(pyq.title, style: Theme.of(context).textTheme.titleLarge!.copyWith(overflow: TextOverflow.ellipsis)),
-                    subtitle: Text(pyq.subtitle, style: Theme.of(context).textTheme.bodySmall!.copyWith(overflow: TextOverflow.ellipsis)),
-                    trailing: Icon(Iconsax.document_download),
+                    title: Text(pyq.title, style: Theme.of(context).textTheme.titleSmall!.copyWith(overflow: TextOverflow.ellipsis)),
+                    subtitle: Text(pyq.subtitle, style: Theme.of(context).textTheme.labelMedium!.copyWith(overflow: TextOverflow.ellipsis)),
+                    trailing: Icon(Iconsax.arrow_right),
                     onTap: () => urlController.launchLink(Uri.parse(pyq.fileUrl)),
                   ),
                 ),
