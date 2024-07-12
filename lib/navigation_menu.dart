@@ -43,8 +43,8 @@ class NavigationMenu extends StatelessWidget {
                       GetX<NavigationController>(
                         builder: (controller) {
                           return   controller.remainingTestsCount.value!=0? Positioned(
-                            top: 0,
-                            right: 0,
+                            top:-7,
+                            right:-1,
                             child: Container(
                               padding: EdgeInsets.all(2),
                               decoration: BoxDecoration(
@@ -55,10 +55,10 @@ class NavigationMenu extends StatelessWidget {
                               child: Text(
                                 '${controller.remainingTestsCount.value}',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 10),
+                                    color: Colors.white, fontSize:16),
                               ),
                             ),
-                          ):Icon(Icons.telegram);
+                          ):Icon(Icons.telegram_sharp);
                         },
                       ),
                     ],
