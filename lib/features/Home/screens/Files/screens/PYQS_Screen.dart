@@ -3,9 +3,11 @@ import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../constants/colors.dart';
-import '../../../../utils/halpers/helper_function.dart';
-import '../../controller/Url_Launcher_Controller.dart';
+import '../../../../../constants/colors.dart';
+import '../../../../../utils/halpers/helper_function.dart';
+import '../../../controller/Url_Launcher_Controller.dart';
+
+
 
 class PYQScreen extends StatelessWidget {
   const PYQScreen({super.key});

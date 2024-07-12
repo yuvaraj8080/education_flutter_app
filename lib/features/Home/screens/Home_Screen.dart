@@ -4,7 +4,6 @@ import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
 import 'package:flutter_job_app/common/widgets_login/images/t_Rounded_image.dart';
 import 'package:flutter_job_app/constants/colors.dart';
 import 'package:flutter_job_app/constants/sizes.dart';
-import 'package:flutter_job_app/features/Home/screens/Notes/Notes_Screen.dart';
 import 'package:flutter_job_app/features/Tests/screen/pastTest.dart';
 import 'package:flutter_job_app/features/personalization/controllers/user_controller.dart';
 import 'package:flutter_job_app/features/personalization/screens/profile.dart';
@@ -15,7 +14,8 @@ import 'package:iconsax/iconsax.dart';
 import '../../../common/Login_Widgets/Online_Test_Section.dart';
 import '../../../common/Login_Widgets/TOnlineLectureSection.dart';
 import '../../../common/Login_Widgets/TSection_Heading.dart';
-import 'PYQS/PYQS_Screen.dart';
+import 'Files/screens/Notes_Screen.dart';
+import 'Files/screens/PYQS_Screen.dart';
 import 'widget/Section_Banner.dart';
 
 

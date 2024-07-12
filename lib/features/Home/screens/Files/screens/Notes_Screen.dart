@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../constants/colors.dart';
-import '../../../../utils/halpers/helper_function.dart';
+import '../../../../../constants/colors.dart';
+import '../../../../../utils/halpers/helper_function.dart';
 
 class NotesScreen extends StatelessWidget {
   const NotesScreen({super.key});
