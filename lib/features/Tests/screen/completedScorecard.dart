@@ -42,10 +42,12 @@ class _completedScorecardState extends State<completedScorecard> {
   final controller = Get.put(UserController());
   late  String studentID;
   late String batchName;
+  late String name;
   @override
   void initState() {
      studentID = controller.user.value.studentId; 
      batchName=controller.user.value.batch;
+     name=controller.user.value.fullName;
     super.initState();
   }
   @override
@@ -60,10 +62,15 @@ class _completedScorecardState extends State<completedScorecard> {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
+          title: Text('RESULT'),
+          centerTitle: true,
         ),
         //backgroundColor: TColors.green,
         body: Center(
                 child: Column(children: [
+                  SizedBox(
+                    height: 30.h,
+                  ),
                   TSectionHeading(context, widget.weeknumber,
                       size: 16.h, textColor: TColors.black),
                   SizedBox(
@@ -76,7 +83,7 @@ class _completedScorecardState extends State<completedScorecard> {
                     height: 30.h,
                   ),
                  
-                  card(context,widget.totalQuestions,  widget.totalCorrectAnswers,  widget.totalquestionsSkipped,  widget.totalWrongAnswers,studentID,batchName,widget.Timetaken),
+                  card(context,widget.totalQuestions,  widget.totalCorrectAnswers,  widget.totalquestionsSkipped,  widget.totalWrongAnswers,studentID,batchName,name,widget.Timetaken),
                   SizedBox(
                     height: 20.h,
                   ),

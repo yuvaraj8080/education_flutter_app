@@ -53,12 +53,14 @@ class _ScorecardState extends State<Scorecard> {
   final controller = Get.put(UserController());
   late String studentID;
   late String batchName;
+  late String name;
 
   @override
   void initState() {
     studentID = controller
         .user.value.studentId; // Replace with your method to get the student ID
     batchName = controller.user.value.batch;
+    name=controller.user.value.fullName;
 
     Get.delete<TimerController>();
     _testResultSingleton = TestResultSingleton.getInstance();
@@ -109,15 +111,20 @@ class _ScorecardState extends State<Scorecard> {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
+          title: Text('RESULT'),
+          centerTitle: true,
         ),
         //backgroundColor: TColors.green,
         body: widget.mcqquestions != null && widget.mcqAnswers != null
             ? Center(
                 child: Column(children: [
+                   SizedBox(
+                    height: 24.h,
+                  ),
                   TSectionHeading(context, widget.weeknumber,
                       size: 16.h, textColor: TColors.black),
                   SizedBox(
-                    height: 30.h,
+                    height: 24.h,
                   ),
                   TSectionHeading(context, widget.topicname,
                       size: 24.h, textColor: TColors.black),
@@ -138,7 +145,9 @@ class _ScorecardState extends State<Scorecard> {
                       widget.testScore.totalWrongAnswers,
                       studentID,
                       batchName,
-                      widget.Timetaken),
+                      name,
+                      widget.Timetaken
+                      ),
                   SizedBox(
                     height: 20.h,
                   ),
@@ -148,7 +157,7 @@ class _ScorecardState extends State<Scorecard> {
                           selectedAnswers: widget.mcqAnswers)),
                       child: underlinedText("view answer key for MCQs")),
                   SizedBox(
-                    height: 15.h,
+                    height: 8.h,
                   ),
                   GestureDetector(
                       onTap: () => Get.to(() => NumericalAnswerKeyPage(
