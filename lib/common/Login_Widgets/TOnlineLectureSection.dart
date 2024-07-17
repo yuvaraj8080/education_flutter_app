@@ -41,7 +41,7 @@ Widget TOnlineLectureSection(BuildContext context) {
           Padding(
             padding: EdgeInsets.only(right: 10.w),
             child: InkWell(
-              onTap:()=> urlController.launchLink(Uri.parse(liveClassController.currentLink)),
+              onTap:()=> urlController.launchLink(Uri.parse(liveClassController.currentLink as String)),
                 child: Image.asset(TImages.liveClass, height:60.h,)),
           )
         ],
