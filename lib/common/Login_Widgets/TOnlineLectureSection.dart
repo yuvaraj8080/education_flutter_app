@@ -6,11 +6,14 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import '../../constants/colors.dart';
 import '../../constants/image_string.dart';
+import '../../features/Home/controller/live_class_controller.dart';
 
 Widget TOnlineLectureSection(BuildContext context) {
 
   final dark = THelperFunction.isDarkMode(context);
   final urlController = Get.put(UrlController());
+  final liveClassController = Get.put(LiveClassController());
+
 
   return Padding(
     padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 20),
@@ -38,7 +41,7 @@ Widget TOnlineLectureSection(BuildContext context) {
           Padding(
             padding: EdgeInsets.only(right: 10.w),
             child: InkWell(
-              onTap:()=> urlController.launchLink(Uri.parse('https://www.linkedin.com/in/yuvaraj-dekhane-473064297/')),
+              onTap:()=> urlController.launchLink(Uri.parse(liveClassController.currentLink)),
                 child: Image.asset(TImages.liveClass, height:60.h,)),
           )
         ],
