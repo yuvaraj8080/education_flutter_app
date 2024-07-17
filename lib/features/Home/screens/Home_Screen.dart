@@ -58,6 +58,7 @@ class HomeScreen extends StatelessWidget {
                 TSectionHeading(context,"Whats new? 👀"),
 
               /// HOME SCREEN BANNER
+              SizedBox(height:5.h),
               TSectionBanners(),
 
               /// HOME SCREEN HEADING
