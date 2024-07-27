@@ -51,7 +51,7 @@ Widget TOnlineLectureSection(BuildContext context) {
                 await liveClassController.refreshLink();
                 urlController.launchLink(Uri.parse(liveClassController.latestLink));
               },
-              child: Image.asset(TImages.liveClass, height: 60.h),
+              child: Image.asset(TImages.liveClass, height: 60.h,width:60),
             ),
           ),
         ],
