@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:badges/badges.dart' as badges;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -89,29 +91,36 @@ class NavigationController extends GetxController {
     OngoingTestPage(),
     ProfileScreen()
   ];
-
+  late StreamSubscription _remainingTestsCountSubscription;
   @override
   void onInit() {
    
     super.onInit();
    Get.find<UserController>().user.listen((user) {
     if (user != null) {
-      fetchRemainingTestsCount();
+      _listenForRemainingTestsCountChanges();
     }
   });
   }
    void navigateToHome() {
     Get.off(NavigationMenu());
-    fetchRemainingTestsCount();
+   // fetchRemainingTestsCount();
+  }
+  
+  void _listenForRemainingTestsCountChanges() {
+    _remainingTestsCountSubscription = _databaseService.getRemainingTestsCountStream().listen((count) {
+      remainingTestsCount.value = count;
+    });
   }
 
-   void fetchRemainingTestsCount() async {
+
+  //  void fetchRemainingTestsCount() async {
    
    
-    int count = await _databaseService.fetchRemainingTestsCount();
-     print('Remaining tests count: $count'); 
-    remainingTestsCount.value = count;
+  //   int count = await _databaseService.fetchRemainingTestsCount();
+  //    print('Remaining tests count: $count'); 
+  //   remainingTestsCount.value = count;
    
-  }
+  // }
    
 }

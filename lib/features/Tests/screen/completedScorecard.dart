@@ -8,7 +8,6 @@ import 'package:flutter_job_app/features/Tests/Helping_widgets/scorecard_widgets
 import 'package:flutter_job_app/features/personalization/controllers/user_controller.dart';
 
 
-import 'package:flutter_job_app/navigation_menu.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

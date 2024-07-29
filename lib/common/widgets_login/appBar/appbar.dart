@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 class TAppBar extends StatelessWidget implements PreferredSizeWidget{
-  const TAppBar({super.key, this.title,  this.showBackArrow = false, this.leadingIcon, this.actions, this.leadingPressed, this.color});
+  const TAppBar({super.key, this.title,  this.showBackArrow = false, this.leadingIcon, this.actions, this.leadingPressed, this.color,this.centerTitle});
 
   final Widget? title;
   final Color? color;
@@ -10,6 +10,7 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget{
   final IconData? leadingIcon;
   final List<Widget>? actions;
   final VoidCallback? leadingPressed;
+  final bool? centerTitle;
 
 
   @override
@@ -22,6 +23,7 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget{
       title:title,
       actions: actions,
       backgroundColor:color,
+      centerTitle: centerTitle,
     );
   }
 

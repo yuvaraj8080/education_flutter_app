@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job_app/common/Login_Widgets/TSection_Heading.dart';
+
+import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
+import 'package:flutter_job_app/constants/colors.dart';
 
 
 import 'package:flutter_job_app/features/Tests/models/Week.dart';
@@ -9,8 +11,9 @@ import 'package:flutter_job_app/features/Tests/models/database.dart';
 
 import 'package:flutter_job_app/features/Tests/screen/completedScorecard.dart';
 import 'package:flutter_job_app/features/personalization/controllers/user_controller.dart';
+import 'package:flutter_job_app/utils/halpers/helper_function.dart';
 
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:get/get.dart';
 
 class PasttestPage extends StatefulWidget {
@@ -27,6 +30,7 @@ class _PasttestPageState extends State<PasttestPage> {
   Stream<QuerySnapshot<Object?>>? completedTestsStream;
    final controller = Get.put(UserController());
    late String _batch;
+   
   @override
   void initState() {
     super.initState();
@@ -38,8 +42,13 @@ class _PasttestPageState extends State<PasttestPage> {
 
   @override
   Widget build(BuildContext context) {
+    final dark = THelperFunction.isDarkMode(context);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: TAppBar(
+        title: Text("Completed tests:", style: Theme.of(context).textTheme.headlineSmall),
+        showBackArrow: true,
+        color: dark ? TColors.dark : Colors.grey.shade200,
+      ),
       body: FutureBuilder<List<Week>>(
         key: Key('weeks_future_builder'),
         future: weeksFuture,
@@ -90,8 +99,7 @@ class _PasttestPageState extends State<PasttestPage> {
                             child: Column(
                               children: [
                                
-                                TSectionHeading(context, "Completed tests :",
-                                    size: 24.sp),
+                                
                                 ListView.builder(
                                   shrinkWrap: true,
                                   itemCount: completedTests.length,
@@ -136,6 +144,7 @@ class _PasttestPageState extends State<PasttestPage> {
                                       child: completedtest(
                                         week.weekNumber,
                                         week.topic,
+                                        context
                                         // createdAt: week.createdAt.toDate().toString(),
                                       ),
                                     );

@@ -3,6 +3,7 @@ import 'package:flutter_job_app/features/Tests/models/CompletedTest.dart';
 import 'package:flutter_job_app/features/Tests/models/Week.dart';
 import 'package:flutter_job_app/features/personalization/controllers/user_controller.dart';
 import 'package:get/get.dart';
+import 'package:rxdart/rxdart.dart';
 
 class DatabaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -157,6 +158,22 @@ class DatabaseService {
     int remainingTestsCount = totalTests - completedTestsCount;
 
     return remainingTestsCount;
+  }
+
+   Stream<int> getRemainingTestsCountStream() {
+    String studentID = Get.find<UserController>().user.value.studentId;
+    String batchName = Get.find<UserController>().user.value.batch;
+
+    final weeksCollection = _firestore.collection('Tests').doc(batchName).collection('weeks');
+    final completedTestsCollection = _firestore.collection('completed_tests').doc(studentID).collection('tests');
+
+    return CombineLatestStream(
+      [
+        weeksCollection.snapshots().map((snapshot) => snapshot.docs.length),
+        completedTestsCollection.snapshots().map((snapshot) => snapshot.docs.length),
+      ],
+      (values) => values[0] - values[1],
+    );
   }
 
 }

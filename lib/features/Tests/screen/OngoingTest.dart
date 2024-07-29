@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/common/Login_Widgets/TSection_Heading.dart';
+import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
+import 'package:flutter_job_app/constants/colors.dart';
 
 import 'package:flutter_job_app/features/Tests/models/Week.dart';
 import 'package:flutter_job_app/features/Tests/Helping_widgets/create_test_widgets.dart';
@@ -8,6 +10,8 @@ import 'package:flutter_job_app/features/Tests/models/database.dart';
 import 'package:flutter_job_app/features/Tests/screen/chooseSection.dart';
 
 import 'package:flutter_job_app/features/personalization/controllers/user_controller.dart';
+import 'package:flutter_job_app/utils/halpers/helper_function.dart';
+import 'package:flutter_job_app/utils/shimmer_circular_Indicator/shimmer.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -36,8 +40,13 @@ class _OngoingTestPageState extends State<OngoingTestPage> {
 
   @override
   Widget build(BuildContext context) {
+     final dark = THelperFunction.isDarkMode(context);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: TAppBar(
+        title: Text("Completed tests:", style: Theme.of(context).textTheme.headlineSmall),
+        showBackArrow: true,
+        color: dark ? TColors.dark : Colors.grey.shade200,
+      ),
       body: FutureBuilder<List<Week>>(
         key: Key('weeks_future_builder'),
         future: weeksFuture,
@@ -66,7 +75,7 @@ class _OngoingTestPageState extends State<OngoingTestPage> {
 
                     switch (completedTestsSnapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return Text('Loading....');
+                        return TShimmerEffect(width:double.infinity, height:double.infinity);
                       default:
                         if (completedTestsSnapshot.data != null) {
                           List<Week> ongoingTests = [];
@@ -97,9 +106,7 @@ class _OngoingTestPageState extends State<OngoingTestPage> {
                             return SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  TSectionHeading(
-                                      context, "Ongoing tests for your batch:",
-                                      size: 24.sp),
+                              
                                   ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: ongoingTests.length,

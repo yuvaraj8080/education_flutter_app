@@ -21,7 +21,7 @@ class MCQAnswerKeyPage extends StatelessWidget {
         appBar: AppBar(
           title: Text('Answer Key'),
         ),
-        body: questions != null && selectedAnswers != null
+        body: selectedAnswers != null
             ? ListView.builder(
                 itemCount: questions.length,
                 itemBuilder: (context, index) {

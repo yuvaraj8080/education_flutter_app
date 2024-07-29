@@ -48,6 +48,7 @@ dependencies:
   flutter_windowmanager:
   data_table_2: ^2.5.15
   badges: ^3.1.2
+  rxdart: ^0.28.0
  
 
 #  FIREBASE DATABASE PLUGIN

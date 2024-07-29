@@ -56,12 +56,10 @@ Widget card(
                     SizedBox(
                       height: 10,
                     ),
-                    TSectionHeading(context, "Batch: ${batch}",
-                        size: 16.sp, textColor: TColors.black,),
-
                     TSectionHeading(context, "Name: ${name}",
-                        size: 16.sp, textColor: TColors.black,),    
-                    
+                        size: 16.sp, textColor: TColors.black,),
+                    TSectionHeading(context, "Batch: ${batch}",
+                        size: 16.sp, textColor: TColors.black,),                    
                     TSectionHeading(context, "Student ID:${studentID} ",
                         size: 16.sp, textColor: TColors.black),
                    
