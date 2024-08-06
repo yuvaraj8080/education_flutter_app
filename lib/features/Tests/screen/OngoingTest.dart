@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/common/Login_Widgets/TSection_Heading.dart';
+import 'package:flutter_job_app/common/shimmers/box_shimmer.dart';
 import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
 import 'package:flutter_job_app/constants/colors.dart';
 
@@ -43,8 +44,7 @@ class _OngoingTestPageState extends State<OngoingTestPage> {
      final dark = THelperFunction.isDarkMode(context);
     return Scaffold(
       appBar: TAppBar(
-        title: Text("Completed tests:", style: Theme.of(context).textTheme.headlineSmall),
-        showBackArrow: true,
+        title: Text("Ongoing Test", style: Theme.of(context).textTheme.titleLarge,),
         color: dark ? TColors.dark : Colors.grey.shade200,
       ),
       body: FutureBuilder<List<Week>>(
@@ -52,16 +52,15 @@ class _OngoingTestPageState extends State<OngoingTestPage> {
         future: weeksFuture,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
+            return Center(child: Text('Error: ${snapshot.error}'));
           }
 
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return Text('Loading....');
+              return TBoxShimmer();
             default:
               if (snapshot.data == null || snapshot.data!.isEmpty) {
-                return Text(
-                    'No Tests found'); // Show this when no tests are available
+                return Center(child: Text('No Tests found')); // Show this when no tests are available
               } else {
                 List<Week> weeks = snapshot.data!;
 
@@ -106,7 +105,6 @@ class _OngoingTestPageState extends State<OngoingTestPage> {
                             return SingleChildScrollView(
                               child: Column(
                                 children: [
-                              
                                   ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: ongoingTests.length,
@@ -132,7 +130,7 @@ class _OngoingTestPageState extends State<OngoingTestPage> {
                             );
                           }
                         } else {
-                          return Text('No Tests found');
+                          return Center(child: Text('No Tests found'));
                         }
                     }
                   },
