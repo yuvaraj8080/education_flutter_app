@@ -6,7 +6,7 @@
         </intent>
     </queries>
     <application
-        android:label="flutter_job_app"
+        android:label="Chemisphere"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

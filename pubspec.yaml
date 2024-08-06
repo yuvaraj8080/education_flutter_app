@@ -68,14 +68,14 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/ChemisphereLogo.png"
+  image_path: "assets/images/chemisphere.png"
 
 
 
 flutter_native_splash:
   color: "#42a5f5"
   branding_mode: bottom
-  background_image: "assets/images/ChemisphereFlash.png"
+  background_image: "assets/images/chemisphere.png"
 
 #  flutter_lints: ^4.0.0
 
