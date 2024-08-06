@@ -296,34 +296,34 @@ class _TestpageState extends State<Testpage> {
                             CircularProgressIndicator()); // Show loading indicator
                   default:
                     QuerySnapshot querySnapshot = snapshot.data!;
-                    _timerController.onFinish = () async {
-                      QuerySnapshot numericalquerySnapshot =
-                          await FirebaseFirestore.instance
-                              .collection('Tests')
-                              .doc(widget.batchName)
-                              .collection("weeks")
-                              .doc(widget.weekNumber)
-                              .collection("section")
-                              .doc('Numericalquestions')
-                              .collection('QuestionSet')
-                              .get();
-                      submitTest();
-                      String elapsedTime = _timerController.getElapsedTime();
-                      Get.to(() => Scorecard(
-                            Timetaken: elapsedTime,
-                            numericalquestions: numericalquerySnapshot.docs,
-                            questionsSkipped: _testResultSingleton
-                                .testResult.totalSkippedQuestions,
-                            testScore: _testResultSingleton.testResult,
-                            mcqquestions: querySnapshot.docs,
-                            mcqAnswers:
-                                _testResultSingleton.testResult.mcqAnswers,
-                            numericalAnswers: _testResultSingleton
-                                .testResult.numericalAnswers,
-                            weeknumber: widget.weekNumber,
-                            topicname: widget.topic,
-                          ));
-                    };
+                    // _timerController.onFinish = () async {
+                    //   QuerySnapshot numericalquerySnapshot =
+                    //       await FirebaseFirestore.instance
+                    //           .collection('Tests')
+                    //           .doc(widget.batchName)
+                    //           .collection("weeks")
+                    //           .doc(widget.weekNumber)
+                    //           .collection("section")
+                    //           .doc('Numericalquestions')
+                    //           .collection('QuestionSet')
+                    //           .get();
+                    //   submitTest();
+                    //   String elapsedTime = _timerController.getElapsedTime();
+                    //   Get.to(() => Scorecard(
+                    //         Timetaken: elapsedTime,
+                    //         numericalquestions: numericalquerySnapshot.docs,
+                    //         questionsSkipped: _testResultSingleton
+                    //             .testResult.totalSkippedQuestions,
+                    //         testScore: _testResultSingleton.testResult,
+                    //         mcqquestions: querySnapshot.docs,
+                    //         mcqAnswers:
+                    //             _testResultSingleton.testResult.mcqAnswers,
+                    //         numericalAnswers: _testResultSingleton
+                    //             .testResult.numericalAnswers,
+                    //         weeknumber: widget.weekNumber,
+                    //         topicname: widget.topic,
+                    //       ));
+                    // };
                     return PageView.builder(
                       controller: controller,
                       itemCount: querySnapshot.docs.length,

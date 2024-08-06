@@ -11,7 +11,7 @@ Widget Question(String image){
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black),
                 borderRadius: BorderRadius.circular(15),
-                color: Colors.amber
+                color:TColors.black
                 ), 
                child: Image.network(image),        
           );

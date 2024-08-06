@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/common/Login_Widgets/TSection_Heading.dart';
+import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
 import 'package:flutter_job_app/constants/colors.dart';
 import 'package:flutter_job_app/features/Tests/controllers/time_controller.dart';
 import 'package:flutter_job_app/features/Tests/models/CompletedTest.dart';
@@ -109,11 +110,7 @@ class _ScorecardState extends State<Scorecard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text('RESULT'),
-          centerTitle: true,
-        ),
+        appBar: TAppBar(title:Text( widget.weeknumber),centerTitle: true, ),
         //backgroundColor: TColors.green,
         body: widget.mcqquestions != null && widget.mcqAnswers != null
             ? Center(
@@ -121,11 +118,7 @@ class _ScorecardState extends State<Scorecard> {
                    SizedBox(
                     height: 24.h,
                   ),
-                  TSectionHeading(context, widget.weeknumber,
-                      size: 16.h, textColor: TColors.black),
-                  SizedBox(
-                    height: 24.h,
-                  ),
+                 
                   TSectionHeading(context, widget.topicname,
                       size: 24.h, textColor: TColors.black),
                   SizedBox(
