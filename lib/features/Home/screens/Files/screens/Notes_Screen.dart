@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job_app/common/shimmers/box_shimmer.dart';
 import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
 import 'package:flutter_job_app/features/Home/controller/Url_Launcher_Controller.dart';
-import 'package:flutter_job_app/utils/shimmer_circular_Indicator/shimmer.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -20,13 +20,13 @@ class NotesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: TAppBar(
-        title: Text("PYQs Section", style: Theme.of(context).textTheme.headlineSmall),
+        title: Text("NOTES", style: Theme.of(context).textTheme.titleLarge),
         showBackArrow: true,
         color: dark ? TColors.dark : Colors.grey.shade200,
       ),
       body: Obx(() {
         if (fileController.isLoading.value) {
-          return TShimmerEffect(width:double.infinity, height:double.infinity);
+          return TBoxShimmer();
         } else if (fileController.notesFiles.isEmpty) {
           return Center(child: Text('No Notes available'));
         } else {

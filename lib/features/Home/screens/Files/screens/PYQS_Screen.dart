@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_job_app/common/shimmers/box_shimmer.dart';
 import 'package:flutter_job_app/features/Home/screens/Files/controller/file_controller.dart';
 import 'package:flutter_job_app/utils/shimmer_circular_Indicator/shimmer.dart';
 import 'package:get/get.dart';
@@ -20,13 +21,13 @@ class PYQScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: TAppBar(
-        title: Text("Notes Section", style: Theme.of(context).textTheme.titleMedium),
+        title: Text("PYQs", style: Theme.of(context).textTheme.titleLarge),
         showBackArrow: true,
         color: dark? TColors.dark : Colors.grey.shade200,
       ),
       body: Obx(() {
         if (pyqController.isLoading.value) {
-          return TShimmerEffect(width:double.infinity, height: double.infinity);
+          return TBoxShimmer();
         } else if (pyqController.pyqsFiles.isEmpty) {
           return Center(child: Text('No PYQs Available'));
         } else {

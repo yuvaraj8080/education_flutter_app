@@ -130,7 +130,7 @@ class _ScorecardState extends State<Scorecard> {
                   SizedBox(
                     height: 30.h,
                   ),
-                  card(
+                  StudentScoreCard(
                       context,
                       widget.testScore.totalQuestions,
                       widget.testScore.totalCorrectAnswers,

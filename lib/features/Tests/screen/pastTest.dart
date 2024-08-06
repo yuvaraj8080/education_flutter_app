@@ -1,20 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_job_app/common/widgets_login/appBar/appbar.dart';
 import 'package:flutter_job_app/constants/colors.dart';
-
-
 import 'package:flutter_job_app/features/Tests/models/Week.dart';
 import 'package:flutter_job_app/features/Tests/Helping_widgets/create_test_widgets.dart';
 import 'package:flutter_job_app/features/Tests/models/database.dart';
-
 import 'package:flutter_job_app/features/Tests/screen/completedScorecard.dart';
 import 'package:flutter_job_app/features/personalization/controllers/user_controller.dart';
 import 'package:flutter_job_app/utils/halpers/helper_function.dart';
-
-
 import 'package:get/get.dart';
+import '../../../common/shimmers/box_shimmer.dart';
 
 class PasttestPage extends StatefulWidget {
   
@@ -45,7 +40,7 @@ class _PasttestPageState extends State<PasttestPage> {
     final dark = THelperFunction.isDarkMode(context);
     return Scaffold(
       appBar: TAppBar(
-        title: Text("Completed tests:", style: Theme.of(context).textTheme.headlineSmall),
+        title: Text("Completed tests:", style: Theme.of(context).textTheme.titleLarge),
         showBackArrow: true,
         color: dark ? TColors.dark : Colors.grey.shade200,
       ),
@@ -59,7 +54,7 @@ class _PasttestPageState extends State<PasttestPage> {
 
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return Text('Loading....');
+              return TBoxShimmer();
             default:
               if (snapshot.data != null) {
                 List<Week> weeks = snapshot.data!;
@@ -74,7 +69,7 @@ class _PasttestPageState extends State<PasttestPage> {
 
                     switch (completedTestsSnapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return Text('Loading....');
+                        return TBoxShimmer();
                       default:
                         if (completedTestsSnapshot.data != null) {
                           List<Week> ongoingTests = [];
@@ -98,8 +93,8 @@ class _PasttestPageState extends State<PasttestPage> {
                           return SingleChildScrollView(
                             child: Column(
                               children: [
-                               
-                                
+
+
                                 ListView.builder(
                                   shrinkWrap: true,
                                   itemCount: completedTests.length,
@@ -154,13 +149,13 @@ class _PasttestPageState extends State<PasttestPage> {
                             ),
                           );
                         } else {
-                          return Text('No Tests found');
+                          return Center(child: Text('No Tests found'));
                         }
                     }
                   },
                 );
               } else {
-                return Text('No Tests found');
+                return Center(child: Text('No Tests found'));
               }
           }
         },
