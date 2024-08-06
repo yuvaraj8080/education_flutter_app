@@ -21,6 +21,7 @@ class App extends StatelessWidget {
             backgroundColor: TColors.primaryColor,
             body:Center(child: CircularProgressIndicator(color: Colors.white))),
       ),
+
     );
   }
 }
