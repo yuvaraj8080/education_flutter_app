@@ -6,7 +6,7 @@ import '../Login_Widgets/TSection_Heading.dart';
 
 Widget QuetionsCards(BuildContext context, int correctAnswers, int skippedQuestions, int wrongAnswers) {
   return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       SizedBox(width: 20.w),
       Column(

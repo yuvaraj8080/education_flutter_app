@@ -74,7 +74,7 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 10.h),
               TOnlineTestSection(firstName: 'Past tests', lastName: 'Notes',
                   secondTap: ()=> Get.to(()=> NotesScreen()),
-                  firstTap: () =>Get.to(()=> PasttestPage()),
+                  firstTap: () =>Get.to(()=> TestScreen()),
               ),
 
               /// PYQ AND MY SCORES HARE

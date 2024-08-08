@@ -11,15 +11,15 @@ import 'package:flutter_job_app/utils/halpers/helper_function.dart';
 import 'package:get/get.dart';
 import '../../../common/shimmers/box_shimmer.dart';
 
-class PasttestPage extends StatefulWidget {
+class TestScreen extends StatefulWidget {
   
-  PasttestPage({super.key});
+  TestScreen({super.key});
 
   @override
-  _PasttestPageState createState() => _PasttestPageState();
+  _TestScreenState createState() => _TestScreenState();
 }
 
-class _PasttestPageState extends State<PasttestPage> {
+class _TestScreenState extends State<TestScreen> {
   final DatabaseService _databaseService = DatabaseService();
   Future<List<Week>>? weeksFuture;
   Stream<QuerySnapshot<Object?>>? completedTestsStream;

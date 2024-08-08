@@ -42,15 +42,14 @@ class completedScorecard extends StatefulWidget {
 
 class _completedScorecardState extends State<completedScorecard> {
   final controller = Get.put(UserController());
-  late  String studentID;
-  late String batchName;
-  late String name;
+  // late  String studentID;
+  // late String batchName;
+  // late String name;
   @override
   void initState() {
-    final student = controller.user.value;
-     studentID = controller.user.value.studentId;
-     batchName=controller.user.value.batch;
-     name=controller.user.value.fullName;
+     // studentID = controller.user.value.studentId;
+     // batchName=controller.user.value.batch;
+     // name=controller.user.value.fullName;
     super.initState();
   }
   @override
@@ -62,6 +61,7 @@ class _completedScorecardState extends State<completedScorecard> {
 
   @override
   Widget build(BuildContext context) {
+    final student = controller.user.value;
     return Scaffold(
         appBar: TAppBar(
           title: Text(widget.weeknumber, style: Theme.of(context).textTheme.titleLarge),
@@ -90,9 +90,9 @@ class _completedScorecardState extends State<completedScorecard> {
                         widget.totalCorrectAnswers,
                         widget.totalquestionsSkipped,
                         widget.totalWrongAnswers,
-                        studentID,
-                        batchName,
-                        name,
+                        student.studentId,
+                        student.batch,
+                        student.fullName,
                         widget.
                         Timetaken
                     ),

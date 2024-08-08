@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_job_app/common/Login_Widgets/TSection_Heading.dart';
 import 'package:flutter_job_app/constants/colors.dart';
 import 'package:flutter_job_app/constants/sizes.dart';
 import 'package:flutter_job_app/utils/halpers/helper_function.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../common/Student_Details/quetions_cards.dart';
 import '../../../common/Student_Details/student_details.dart';
 
@@ -42,7 +40,7 @@ Widget StudentScoreCard(
         crossAxisAlignment:CrossAxisAlignment.start,
         children: [
           SizedBox(height:TSizes.size12),
-          Text("Name: ANUJEET KUNTUNKAR",style:Theme.of(context).textTheme.titleLarge,overflow:TextOverflow.ellipsis),
+          Text("Name: ${name}",style:Theme.of(context).textTheme.titleLarge,overflow:TextOverflow.ellipsis),
           SizedBox(height:TSizes.size12),
 
           Row(
