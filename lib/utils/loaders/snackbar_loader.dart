@@ -11,7 +11,6 @@ class TLoaders {
   static customToast({required message}){
     ScaffoldMessenger.of(Get.context!).showSnackBar(
       SnackBar(elevation:0,
-
           duration:const Duration(seconds:1),
           backgroundColor: Colors.transparent,
           content:Container(
@@ -38,7 +37,7 @@ class TLoaders {
       colorText: TColors.white,
       backgroundColor:Colors.orange,
       snackPosition:SnackPosition.TOP,
-      duration: const Duration(seconds:2),
+      duration: const Duration(seconds:1),
       margin:const EdgeInsets.all(20),
       icon: const Icon(Iconsax.warning_2,color:TColors.white),
     );
@@ -53,7 +52,7 @@ class TLoaders {
       backgroundColor:Colors.red.shade600,
       colorText:Colors.white,
       snackPosition: SnackPosition.TOP,
-      duration:const Duration(seconds:1),
+      duration:const Duration(seconds:2),
       margin:const EdgeInsets.all(20),
       icon:const Icon(Iconsax.warning_2,color:TColors.white),
     );
@@ -68,7 +67,7 @@ class TLoaders {
       backgroundColor:Colors.green.shade600,
       colorText:Colors.white,
       snackPosition: SnackPosition.TOP,
-      duration:const Duration(seconds:3),
+      duration:const Duration(seconds:2),
       margin:const EdgeInsets.all(20),
       icon:const Icon(Icons.done,color:TColors.white),
     );
