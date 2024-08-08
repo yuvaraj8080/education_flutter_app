@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_job_app/features/Home/controller/Url_Launcher_Controller.dart';
 import 'package:flutter_job_app/utils/halpers/helper_function.dart';
+import 'package:flutter_job_app/utils/loaders/snackbar_loader.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -48,6 +49,9 @@ Widget TOnlineLectureSection(BuildContext context) {
             padding: EdgeInsets.only(right: 10.w),
             child: InkWell(
               onTap: () async {
+                if(liveClassController.latestLink.isEmpty){
+                  TLoaders.warningSnackBar(title:"Live Class",message:"No Class Available");
+                }
                 await liveClassController.refreshLink();
                 urlController.launchLink(Uri.parse(liveClassController.latestLink));
               },
