@@ -24,7 +24,10 @@ Widget completedtest(String WeekNumber,String Topic,BuildContext context){
    child: Container(
     height:63.h ,
     width:336.w ,
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.sp),border: Border.all(color:dark?TColors.light:TColors.black)),
+    decoration: BoxDecoration(
+      color: dark ? TColors.dark : Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(16.sp),border: Border.all(
+        color:dark?TColors.light:TColors.black)),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,

@@ -40,7 +40,7 @@ class _TestScreenState extends State<TestScreen> {
     final dark = THelperFunction.isDarkMode(context);
     return Scaffold(
       appBar: TAppBar(
-        title: Text("Completed tests:", style: Theme.of(context).textTheme.titleLarge),
+        title: Text("Completed Tests", style: Theme.of(context).textTheme.titleLarge),
         showBackArrow: true,
         color: dark ? TColors.dark : Colors.grey.shade200,
       ),
@@ -93,8 +93,6 @@ class _TestScreenState extends State<TestScreen> {
                           return SingleChildScrollView(
                             child: Column(
                               children: [
-
-
                                 ListView.builder(
                                   shrinkWrap: true,
                                   itemCount: completedTests.length,
@@ -122,11 +120,12 @@ class _TestScreenState extends State<TestScreen> {
                                             doc.get('totalWrongAnswers');
                                         totalSkippedQuestions =
                                             doc.get('totalSkippedQuestions');
-                                        Timetaken=doc.get('Timetaken');    
+                                        Timetaken=doc.get('Timetaken');
                                       }
                                     });
                                     return GestureDetector(
-                                      onTap: () => Get.to(completedScorecard(
+                                      onTap: () => Get.to(
+                                          completedScorecard(
                                           Timetaken: Timetaken,
                                           totalCorrectAnswers:
                                               totalCorrectAnswers,

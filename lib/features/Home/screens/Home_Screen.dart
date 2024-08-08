@@ -54,7 +54,6 @@ class HomeScreen extends StatelessWidget {
             children: [
 
               /// SECTION HEADING
-              //[================== if(user.batch == Batch.JEE12) ==================]
                 TSectionHeading(context,"Whats new? 👀"),
 
               /// HOME SCREEN BANNER

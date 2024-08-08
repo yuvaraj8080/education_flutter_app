@@ -36,8 +36,7 @@ class NavigationMenu extends StatelessWidget {
                   controller.selectedIndex.value = index,
               destinations: [
                 NavigationDestination(icon: Icon(Icons.home), label: "Home"),
-                NavigationDestination(
-                    icon: Icon(Icons.people), label: "Batches"),
+                // NavigationDestination(icon: Icon(Icons.people), label: "Batches"),
                 NavigationDestination(
                   icon: Stack(
                     children: [
@@ -87,7 +86,7 @@ class NavigationController extends GetxController {
   final Rx<int> remainingTestsCount = 0.obs;
   final screens = [
     const HomeScreen(),
-    const BatchesScreen(),
+    // const BatchesScreen(),
     OngoingTestPage(),
     ProfileScreen()
   ];

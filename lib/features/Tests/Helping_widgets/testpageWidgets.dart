@@ -48,12 +48,13 @@ Widget Testbanner(BuildContext context,String Weeknumber,String Topic){
 
 Widget underlinedText(String text){
   return  Padding(
-    padding:  EdgeInsets.only(left: 20.w,right: 20.w,top: 10.h),
+    padding:  EdgeInsets.only(left: 20.w,right: 20.w,top: 5.h),
     child: Text(text,
     style:  TextStyle(
      decoration: TextDecoration.underline,
      decorationColor:TColors.black ,
-     fontSize: 16.sp,
+     color:Colors.green,
+     fontSize: 18.sp,
      fontFamily: 'CircularStd',
      fontWeight: FontWeight.w700
     
