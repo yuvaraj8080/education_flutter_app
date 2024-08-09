@@ -1,8 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job_app/features/Home/screens/Home_Screen.dart';
 import '../../app.dart';
-import '../../features/Home/screens/Files/screens/PYQS_Screen.dart';
+import '../../features/Tests/screen/pastTest.dart';
 
 Future<void> initializeNotification() async {
   await AwesomeNotifications().initialize(
@@ -46,11 +45,10 @@ Future<void> initializeNotification() async {
 }
 
 Future<void> onActionReceivedMethod(ReceivedAction recivedAction) async {
-  debugPrint("On Action Recived");
   final payload = recivedAction.payload ?? {};
-  if (payload['navigate'] == 'true') {
+  if (payload['TestResult'] == 'true') {
     App.navigatorKey.currentState?.push(MaterialPageRoute(
-      builder: (_) => PYQScreen(),
+      builder: (_) => TestScreen(),
     ));
   }
 }
@@ -93,10 +91,17 @@ Future<void> showNotification({
       notificationLayout: notificationLayout,
       summary: summary,
       category: category,
-      payload: payload,
+      payload: payload ?? {'TestResult': 'true'}, // Pass your custom payload here
       bigPicture: bigPicture,
     ),
-    actionButtons: actionButtons,
+    actionButtons: actionButtons ??
+        [
+          NotificationActionButton(
+            key: 'OPEN_TEST',
+            label: 'View Test',
+            autoDismissible: true,
+          ),
+        ],
     schedule: scheduled
         ? NotificationInterval(
       interval: interval,

@@ -54,11 +54,11 @@ class HomePage extends StatelessWidget {
                     title: "Action noti",
                     body: "This is a Action",
                     payload: {
-                      "navigate": "true",
+                      "TestResult": "true",
                     },
                     actionButtons: [
                       NotificationActionButton(
-                        key: 'navigate',
+                        key: 'TestResult',
                         label: "PYQs",
                         actionType: ActionType.SilentAction,
                         color: Colors.deepPurple,

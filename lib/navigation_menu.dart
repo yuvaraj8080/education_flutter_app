@@ -1,15 +1,10 @@
 import 'dart:async';
-
 import 'package:badges/badges.dart' as badges;
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_job_app/features/Batches/Batches_Screen.dart';
 import 'package:flutter_job_app/features/Home/screens/Home_Screen.dart';
 import 'package:flutter_job_app/features/Tests/models/database.dart';
 import 'package:flutter_job_app/features/Tests/screen/OngoingTest.dart';
-
 import 'package:flutter_job_app/features/personalization/controllers/user_controller.dart';
 import 'package:flutter_job_app/features/personalization/screens/profile.dart';
 import 'package:flutter_job_app/utils/halpers/helper_function.dart';
