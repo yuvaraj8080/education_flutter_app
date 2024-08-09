@@ -1,6 +1,7 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_job_app/data/notification_services/notification_service.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,9 @@ import 'firebase_options.dart';
 void main() async{
   ///---WIDGET BINDING
   final WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  /// FLUTTER NOTIFICATION SERVICES
+  await initializeNotification();
 
 
   ///----AWAIT SPLASH UNTIL ITEM LOAD----

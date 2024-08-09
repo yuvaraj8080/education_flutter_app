@@ -14,6 +14,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../../common/Login_Widgets/Online_Test_Section.dart';
 import '../../../common/Login_Widgets/TOnlineLectureSection.dart';
 import '../../../common/Login_Widgets/TSection_Heading.dart';
+import '../../../data/notification_services/home_page.dart';
 import 'Files/screens/Notes_Screen.dart';
 import 'Files/screens/PYQS_Screen.dart';
 import 'widget/Section_Banner.dart';
@@ -34,7 +35,7 @@ class HomeScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right:20),
             child: Row(children:[
-              IconButton(onPressed:(){}, icon:Icon(Iconsax.notification,size:30,)),
+              IconButton(onPressed:()=> Get.to(()=> HomePage()), icon:Icon(Iconsax.notification,size:30,)),
               SizedBox(width:TSizes.size8),
               TRoundedImage(
                 borderColor:Colors.red,

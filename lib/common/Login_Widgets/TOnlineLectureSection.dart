@@ -41,7 +41,7 @@ Widget TOnlineLectureSection(BuildContext context) {
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
                 fontFamily: 'CircularStd',
-                color: dark ? TColors.primaryBackground : TColors.redtext,
+                color: TColors.redtext
               ),
             ),
           ),

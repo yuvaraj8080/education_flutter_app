@@ -37,7 +37,7 @@ dependencies:
   carousel_slider:
   image_picker:
   connectivity_plus:
-  image_cropper:
+  awesome_notifications: ^0.9.3+1
   url_launcher:
   flutter_svg:
   permission_handler:
