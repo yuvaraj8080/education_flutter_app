@@ -25,11 +25,9 @@ dependencies:
   intl:
   shimmer:
   get_storage:
-  flutter_cached_pdfview:
   iconsax:
   firebase_app_check:
   http:
-  path_provider:
   lottie:
   flutter_native_splash:
   cached_network_image:
@@ -37,14 +35,12 @@ dependencies:
   carousel_slider:
   image_picker:
   connectivity_plus:
-  awesome_notifications: ^0.9.3+1
+  awesome_notifications:
   url_launcher:
   flutter_svg:
   permission_handler:
   uuid:
-  rename_app:
   fluttertoast:
-  flutter_screenutil: ^5.9.3
   flutter_windowmanager:
   data_table_2: ^2.5.15
   badges: ^3.1.2
